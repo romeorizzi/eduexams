@@ -1,0 +1,23 @@
+# backups
+*~
+*.bak
+
+# LaTex
+*.pdf
+*.aux
+*.log
+*.bbl
+*.toc
+*.fls
+*.fdb_latexmk
+*.blg
+*.vtc
+
+# Byte-compiled / optimized / DLL files
+*.out
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.synctex.gz
+
