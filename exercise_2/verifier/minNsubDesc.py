@@ -22,8 +22,12 @@ def minimoNumSubDESC(seq, studseq, n):
             for i in range(1, len(elem)):
                 j = 0
                 if elem[i - 1] < elem[i]:
-                    print("Hai inserito una sequenza non decrescente")
-                    return
+                    #print("Hai inserito una sequenza non decrescente")
+                    min = elem[i-1]
+                    max = elem[i]
+                    stringa = ("La sequenza che hai inserito non è decrescente in quanto " + str(min) + " < " + str(
+                        max) + " eppure compare prima di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
+                    return stringa
                 else:
                     trovato = 0
                     while j < len(seq) and trovato != 2:
@@ -37,13 +41,13 @@ def minimoNumSubDESC(seq, studseq, n):
 
     for x in check:
         if x == 0:
-            print("Soluzione sbagliata non hai inserito tutti i numeri\n")
-            return
+            #print("Soluzione sbagliata non hai inserito tutti i numeri\n")
+            stringa = ("Hai inserito " + str(studseqint) + " che non coprono tutti i numeri di s: " + str(
+                seq) + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+            return stringa
 
-    print("Bravo/a hai trovato queste " + str(n) + " sottosequenze: " + str(studseqint))
+    #print("Bravo/a hai trovato queste " + str(n) + " sottosequenze: " + str(studseqint))
+    stringa = ("Sottosequenze fornite sono un certificato valido: " + str(
+        studseqint) + "<br>Mi hai convinto che la risposta corretta è >= " + str(n) +" sottosequenze")
+    return stringa
 
-# if __name__ == "__main__":
-#     seq=['34','42','44','49','41','52','63','69','40','60','86','45','66','54','79','81','43','46','38','61','80','48','64','73','47']
-#     studseq=[['34','0','0','0'],['42','41','40','38'],['44','43','0','0'],['49','45','0','0'], ['52','46','0','0'], ['63','60','54','48'], ['69','66','61','47'], ['86','79','64','0'], ['81','80','73','0']]
-#     n=9
-#     minimoNumSubDESC(seq,studseq,n)

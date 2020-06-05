@@ -7,12 +7,15 @@ def lisWithNumber(seq, studseq, n, numToCheck):
         if studseq[i] == numToCheck:
             check = 1
     if check == 0:
-        print("Non hai inserito una sequenza contenente il numero: " + str(numToCheck))
-        return
+        stringa = ("Hai inserito " + str(studseq) + " che non contiene il numero: " + str(numToCheck) + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+        return stringa
     for i in range(1, n):
         if studseq[i - 1] > studseq[i]:
-            print("Non hai inserito una sequenza crescente")
-            return
+            min = studseq[i]
+            max = studseq[i - 1]
+            stringa = ("La sequenza che hai inserito non è crescente in quanto " + str(min) + " < " + str(
+                max) + " eppure compare dopo di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
+            return stringa
 
     i = 0
     j = 0
@@ -23,14 +26,10 @@ def lisWithNumber(seq, studseq, n, numToCheck):
         else:
             j += 1
     if i == n:
-        print("Sottosequenza fornita ammissibile: " + str(studseq))
-        print("Bravo/a hai fornito una sottosequenza ammissibile lunga: " + str(n))
+        stringa = ("Sottosequenza fornita è un certificato valido: " + str(studseq) + "<br>Mi hai convinto che la risposta corretta è >= " + str(n))
+        return stringa
     else:
-        print("Sottosequenza fornita non ammissibile\n")
+        # print("Sottosequenza fornita sbagliata\n")
+        stringa = ("Hai inserito " + str(studseq) + " che non è una sottosequenza di s: " + str(seq) + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+        return stringa
 
-
-if __name__ == "__main__":
-    seq = [34, 42, 44, 49, 41, 52, 63, 69, 40, 60, 86, 45, 66, 54, 79, 81, 43, 46, 38, 61, 80, 48, 64, 73, 47]
-    studseq = [34, 40, 45, 54, 61, 64, 73]
-    n = 7
-    lisWithNumber(seq, studseq, n, 40)

@@ -15,15 +15,12 @@ def nSequenza(seq, studseq, n):
         else:
             j += 1
     if i == n:
-        print("N-sottosequenza fornita ammissibile: " + str(studseq))
-        print("Bravo/a hai fornito una N-sottosequenza ammissibile lunga: " + str(n))
+        #print("N-sottosequenza fornita ammissibile: " + str(studseq))
+        #print("Bravo/a hai fornito una N-sottosequenza ammissibile lunga: " + str(n))
+        stringa = ("N-sottosequenza fornita è un certificato valido: " + str(
+            studseq) + "<br>Mi hai convinto che la risposta corretta è >= " + str(n))
+        return stringa
     else:
-        print("Sottosequenza fornita non ammissibile, controlla il numero di ripensamenti o i numeri inseriti")
-
-
-# if __name__ == "__main__":
-#     seq = ['34', '42', '44', '49', '41', '52', '63', '69', '40', '60', '86', '45', '66', '54', '79', '81', '43', '46',
-#            '38', '61', '80', '48', '64', '73', '47']
-#     studseq = ['34', '42', '44', '49', '52', '63', '69', '79', '81', '43', '46', '38', '48']
-#     n = 13
-#     nSequenza(seq, studseq, n)
+        #print("Sottosequenza fornita non ammissibile, controlla il numero di ripensamenti o i numeri inseriti")
+        stringa = ("Hai inserito " + str(studseq) + " controlla il numero di ripensamenti o i numeri inseriti." + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+        return stringa
