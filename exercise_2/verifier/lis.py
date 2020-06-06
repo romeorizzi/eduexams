@@ -1,13 +1,15 @@
 def lis(seq, studseq, n):
     seq = list(map(int, seq))
     studseq = list(map(int, studseq))
+    wrong=0
     for i in range(1, n):
         if studseq[i - 1] > studseq[i]:
             #print("Non hai inserito una sequenza crescente")
             min=studseq[i]
             max=studseq[i - 1]
-            stringa = ("La sequenza che hai inserito non è crescente in quanto " +str(min)+ " < " +str(max)+ " eppure compare dopo di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
-            return stringa
+            wrong=1
+            #stringa = ("La sequenza che hai inserito non è crescente in quanto " +str(min)+ " < " +str(max)+ " eppure compare dopo di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
+            #return stringa
     i = 0
     j = 0
     while i != n and j != len(seq):
@@ -17,7 +19,11 @@ def lis(seq, studseq, n):
         else:
             j += 1
     if i == n:
-        stringa=("Sottosequenza fornita è un certificato valido: " + str(studseq)+"<br>Mi hai convinto che la risposta corretta è >= " + str(n))
+        if wrong==0:
+            stringa=("Sottosequenza fornita è un certificato valido: " + str(studseq)+"<br>Mi hai convinto che la risposta corretta è >= " + str(n))
+        else:
+            stringa = ("La sequenza che hai inserito non è crescente in quanto " + str(min) + " < " + str(
+                max) + " eppure compare dopo di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
         return stringa
     else:
         #print("Sottosequenza fornita sbagliata\n")
