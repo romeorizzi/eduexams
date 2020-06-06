@@ -22,8 +22,11 @@ def minimoNumSubCRE(seq, studseq, n):
             for i in range(1, len(elem)):
                 j = 0
                 if elem[i - 1] > elem[i]:
-                    print("Hai inserito una sequenza non crescente")
-                    return
+                    min=elem[i]
+                    max=elem[i-1]
+                    stringa = ("La sequenza che hai inserito non è decrescente in quanto " + str(min) + " < " + str(
+                        max) + " eppure compare prima di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
+                    return stringa
                 else:
                     trovato = 0
                     while j < len(seq) and trovato != 2:
@@ -37,8 +40,10 @@ def minimoNumSubCRE(seq, studseq, n):
 
     for x in check:
         if x == 0:
-            print("Soluzione sbagliata non hai inserito tutti i numeri\n")
-            return
-
-    print("Bravo/a hai trovato queste " + str(n) + " sottosequenze: " + str(studseqint))
-
+            stringa = ("Hai inserito " + str(studseqint) + " che non coprono tutti i numeri di s: " + str(
+                seq) + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+            return stringa
+    stringa = ("Sottosequenze fornite sono un certificato valido: " + str(
+        studseqint) + "<br>Mi hai convinto che la risposta corretta è >= " + str(n) +" sottosequenze")
+    return stringa
+    #print("Bravo/a hai trovato queste " + str(n) + " sottosequenze: " + str(studseqint))

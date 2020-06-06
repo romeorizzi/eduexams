@@ -15,8 +15,12 @@ def zSequenza(seq, studseq, n):
         else:
             j += 1
     if i == n:
-        print("N-sottosequenza fornita ammissibile: " + str(studseq))
-        print("Bravo/a hai fornito una N-sottosequenza ammissibile lunga: " + str(n))
+        #print("N-sottosequenza fornita ammissibile: " + str(studseq))
+        #print("Bravo/a hai fornito una N-sottosequenza ammissibile lunga: " + str(n))
+        stringa = ("Z-sequenza fornita è un certificato valido: " + str(
+            studseq) + "<br>Mi hai convinto che la risposta corretta è >= " + str(n))
+        return stringa
     else:
-        print("Sottosequenza fornita non ammissibile, controlla il numero di ripensamenti o i numeri inseriti")
-
+        #print("Sottosequenza fornita non ammissibile, controlla il numero di ripensamenti o i numeri inseriti")
+        stringa = ("Hai inserito " + str(studseq) + " controlla il numero di ripensamenti o i numeri inseriti." + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+        return stringa
