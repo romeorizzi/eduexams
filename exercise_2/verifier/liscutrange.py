@@ -27,10 +27,12 @@ def lis(seq, studseq, n):
         return stringa
     else:
         #print("Sottosequenza fornita sbagliata\n")
-        stringa=("Hai inserito "+str(studseq)+" che non è una sottosequenza di s: "+str(seq)+"<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+        stringa = ("Hai inserito " + str(studseq) + " che non è una sottosequenza di s: " + str(
+            seq) + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
         return stringa
 
 def lisSubwithoutElementInRange(seq,studseq,n,start,stop):
     aux=seq[:]
     del aux[start:stop]
-    lis(aux,studseq,n)
+    res=lis(aux,studseq,n)
+    return res
