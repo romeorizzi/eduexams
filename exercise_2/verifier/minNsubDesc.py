@@ -22,11 +22,10 @@ def minimoNumSubDESC(seq, studseq, n):
             for i in range(1, len(elem)):
                 j = 0
                 if elem[i - 1] < elem[i]:
-                    #print("Hai inserito una sequenza non decrescente")
                     min = elem[i-1]
                     max = elem[i]
-                    stringa = ("La sequenza che hai inserito non è decrescente in quanto " + str(min) + " < " + str(
-                        max) + " eppure compare prima di lui.<br>Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.")
+                    stringa = ("No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.<br>La sequenza che hai inserito non è strettamente decrescente in quanto " + str(min) + " < " + str(
+                        max) + " eppure compare prima di lui.")
                     return stringa
                 else:
                     trovato = 0
@@ -41,13 +40,11 @@ def minimoNumSubDESC(seq, studseq, n):
 
     for x in check:
         if x == 0:
-            #print("Soluzione sbagliata non hai inserito tutti i numeri\n")
-            stringa = ("Hai inserito " + str(studseqint) + " che non coprono tutti i numeri di s: " + str(
-                seq) + "<br>No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.")
+            stringa = ("No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.<br>Hai inserito le seguenti sottosequenze" + str(studseqint) + " che non contengono tutti i numeri di s: " + str(
+                seq) + ".")
             return stringa
 
-    #print("Bravo/a hai trovato queste " + str(n) + " sottosequenze: " + str(studseqint))
-    stringa = ("Sottosequenze fornite sono un certificato valido: " + str(
-        studseqint) + "<br>Mi hai convinto che la risposta corretta è >= " + str(n) +" sottosequenze")
+    stringa = ("Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.<br>Sottosequenze fornite sono un certificato valido: " + str(
+        studseqint) + "<br>Mi hai convinto che il numero minimo di sottosequenze è >= " + str(n) +".")
     return stringa
 
