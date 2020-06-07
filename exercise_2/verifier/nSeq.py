@@ -5,10 +5,10 @@ def nSequenza(seq, studseq, n):
     i = 0
     j = 0
     ripensamento = 0
+    for i in range(1,len(studseq)):
+        if studseq[i] < studseq[i - 1]:
+            ripensamento += 1
     while i != n and j != len(seq):# and ripensamento <= 1:
-        if i > 1:
-            if studseq[i] < studseq[i-1]:
-                ripensamento += 1
         if studseq[i] == seq[j]:
             i += 1
             j += 1
