@@ -1,4 +1,4 @@
-def lis(seq, studseq, n):
+def lis(seq, studseq, n, start,stop):
     seq = list(map(int, seq))
     studseq = list(map(int, studseq))
     wrong=0
@@ -19,22 +19,22 @@ def lis(seq, studseq, n):
         if wrong == 0:
             stringa = (
                         "Si. Totalizzeresti <span style='color:green'>[1 safe pt]</span>, <span style='color:blue'>[9 possible pt]</span>, <span style='color:red'>[0 out of reach pt]</span>.<br>Sottosequenza fornita è un certificato valido: " + str(
-                    studseq) + "<br>Mi hai convinto che la massima lunghezza di una sottosequenza strettamente crescente di s è almeno " + str(
+                    studseq) + "<br>Mi hai convinto che la massima lunghezza di una sottosequenza non decrescente di s': " + str(seq) + " ovvero s senza gli elementi dal "+ str(start+1)+ " al "+str(stop)+" è almeno " + str(
                     n) + ".")
         else:
             stringa = (
-                        "No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.<br>La sequenza che hai inserito non è crescente in quanto " + str(
+                        "No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.<br>La sequenza che hai inserito non è non-decrescente in quanto " + str(
                     min) + " < " + str(
                     max) + " eppure compare dopo di lui.")
         return stringa
     else:
         stringa = (
                     "No. Totalizzeresti <span style='color:green'>[0 safe pt]</span>, <span style='color:blue'>[0 possible pt]</span>, <span style='color:red'>[10 out of reach pt]</span>.<br>Hai inserito " + str(
-                studseq) + " che non è una sottosequenza di s: " + str(seq) + ".")
+                studseq) + " che non è una sottosequenza di s': " + str(seq) + " ovvero s senza gli elementi dal "+ str(start+1)+ " al "+str(stop)+".")
         return stringa
 
 def lisSubwithoutElementInRange(seq,studseq,n,start,stop):
     aux=seq[:]
     del aux[start:stop]
-    res=lis(aux,studseq,n)
+    res=lis(aux,studseq,n,start,stop)
     return res
