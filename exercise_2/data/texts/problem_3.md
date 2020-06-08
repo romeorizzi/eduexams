@@ -1,2 +1,2 @@
-- Trovare la più lunga sottosequenza strettamente crescente che includa l’elemento di valore 40.\
+- Trovare la più lunga sottosequenza non decrescente che includa il nono elemento (elemento di valore 40).\
 Specificare quanto è lunga e fornirla.
