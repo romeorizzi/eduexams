@@ -83,10 +83,10 @@ else:
     #            <button class="button" id="submit'''+n+'''">Submit</button>
     #            </div>'''
     
-    if('submit' in yaml_tools): 
+    if('save' in yaml_tools): 
         #flags_for_js[7] = 'true'
         html_text = html_text + '''<div>
-                <button class="button" id="submit'''+n+'''">Submit</button>
+                <button class="button" id="save'''+n+'''">Save</button>
                 </div>'''
         
         

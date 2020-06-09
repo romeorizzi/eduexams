@@ -29,6 +29,10 @@ dict_be = {}
 dict_n = {}
 
 
+for poly in root.iter('{http://www.yworks.com/xml/yfiles-for-html/2.0/xaml}PolylineEdgeStyle'):
+    for arrow in poly.iter('{http://www.yworks.com/xml/yfiles-for-html/2.0/xaml}Arrow'):
+        arrow_key = poly.attrib.get('{http://www.yworks.com/xml/yfiles-common/markup/3.0}Key')
+
 for node in root.iter('{http://graphml.graphdrawing.org/xmlns}node'):    
     for label in node.iter('{http://www.yworks.com/xml/yfiles-common/3.0}Label.Text'):
         dict_n.update({node.attrib.get('id'):{'label':label.text,'x':0,'y':0}})
@@ -43,11 +47,11 @@ for edge in root.iter('{http://graphml.graphdrawing.org/xmlns}edge'):
     original_edges.append(edge.attrib.get('id'))
     for label in edge.iter('{http://www.yworks.com/xml/yfiles-common/3.0}Label.Text'):
         dict_edges[edge.attrib.get('id')]['label'] = label.text
-    for type in edge.iter('{http://www.yworks.com/xml/yfiles-common/3.0}GraphMLReference'):
-        if(type.attrib.get('ResourceKey') == '6'):
-            dict_edges[edge.attrib.get('id')]['type'] = 'line'
-        else:
+    for tp in edge.iter('{http://www.yworks.com/xml/yfiles-common/3.0}GraphMLReference'):
+        if(tp.attrib.get('ResourceKey') == arrow_key):
             dict_edges[edge.attrib.get('id')]['type'] = 'arrow'
+        else:
+            dict_edges[edge.attrib.get('id')]['type'] = 'line'
     multiple_line.update({edge.attrib.get('id'):[]})
     multiple_line[edge.attrib.get('id')].append(dict_nodes[edge.attrib.get('source')])
     for b in edge.iter('{http://www.yworks.com/xml/yfiles-common/3.0}Bend'):
