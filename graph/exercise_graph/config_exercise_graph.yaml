@@ -22,7 +22,8 @@ exe_1:
   tools:
     - select_color_node 
     - drag_node
-    - submit
+    - choice
+    - save
 
 exe_2:
   text:
@@ -34,7 +35,8 @@ exe_2:
   tools:
     - select_color_node 
     - drag_node
-    - submit
+    - choice
+    - save
 
 exe_3:
   text:
@@ -47,7 +49,7 @@ exe_3:
     - select_color_node
     - drag_node
     - remove_edge
-    - submit
+    - save
 
 exe_4:
   text:
@@ -60,7 +62,7 @@ exe_4:
     - select_color_node 
     - drag_node 
     - remove_edge
-    - submit
+    - save
 
 exe_5:
   text:
@@ -74,7 +76,7 @@ exe_5:
   tools:
     - select_color_node 
     - drag_node 
-    - submit
+    - save
 
 exe_6:
   text:
@@ -88,7 +90,7 @@ exe_6:
     - select_color_node
     - drag_node
     - edit_label
-    - submit
+    - save
 
 exe_7:
   text:
@@ -101,6 +103,6 @@ exe_7:
     - select_color_node
     - drag_node
     - edit_label
-    - submit
+    - save
     
 js_file: '../lib/sigmajs/sigma-graph.js'
