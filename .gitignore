@@ -25,4 +25,6 @@ __pycache__/
 #IDE file
 .idea
 
+.DS_Store
+
 
