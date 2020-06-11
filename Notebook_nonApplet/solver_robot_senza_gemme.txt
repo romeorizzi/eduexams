@@ -1,0 +1,66 @@
+#calcola il numero di percorsi possibili dalla cella (1,1) alla (m,n)
+
+def num_percorsi(env,r,c):
+    m = []
+    for i in range(0,r):
+        m.append([0 for j in range(0,c)])
+    for i in range(0,r):
+        m[i][0]=0
+    for j in range(0,c):
+        m[0][j]=0
+    for i in range(0,r):
+        for j in range(0,c):
+            if i==1 and j==1:
+                m[i][j]=1
+            else:
+                if env[i][j]==1:
+                    m[i][j]=0
+                else:
+                    if env[i-1][j] == 1 and env[i][j-1] == 1:
+                         m[i][j] =0                    
+                    elif env[i-1][j] == 1:
+                        m[i][j]= m[i][j-1];
+                    elif env[i][j-1] == 1:
+                        m[i][j]= m[i-1][j]
+                    else:
+                        m[i][j] = m[i-1][j] + m[i][j-1];
+        
+    return m;
+
+#calcola il numero di percorsi possibili dalla cella (m,n) alla (1,1)
+
+def num_percorsi_reverse(env,r,c):
+    m = []
+    for i in range(0,r):
+        m.append([0 for j in range(0,c)])
+    for i in range(r-1,0,-1):
+        m[i][0]=0
+    for j in range(c-1,0,-1):
+        m[0][j]=0
+    m[r-2][c-2]=1
+    for i in range(r-3,0,-1):
+        if env[i][c-2]==1:
+            m[i][c-2]=0
+        else:
+            m[i][c-2]= m[i+1][c-2] + m[i][c-2+1];
+    for j in range(c-3,0,-1):
+        if env[r-2][j]==1:
+            m[r-2][j]=0
+        else:
+            m[r-2][j]= m[r-2+1][j] + m[r-2][j+1];
+    
+    for i in range(r-3,0,-1):
+        for j in range(c-3,0,-1):
+                if env[i][j]==1:
+                    m[i][j]=0
+                else:
+                    if env[i+1][j] == 1 and env[i][j+1] == 1:
+                         m[i][j] =0                    
+                    elif env[i+1][j] == 1:
+                        m[i][j]= m[i][j+1];
+                    elif env[i][j+1] == 1:
+                        m[i][j]= m[i+1][j]
+                    else:
+                        m[i][j] = m[i+1][j] + m[i][j+1];
+    return m
+            

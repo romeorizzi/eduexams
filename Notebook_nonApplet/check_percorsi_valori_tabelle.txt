@@ -1,0 +1,13 @@
+def check_value(name,table,row,col, value):
+    submission=f"Hai inserito il valore {value}, nella tabella {name} in posizione ({row},{col}) è presente il valore {table[row][col]}"
+    if table[row][col]==value:
+        return evaluation_format("Si", 1, 10)+f"La tua soluzione è coerente con quanto hai inserito nella tabella {name}<br>"+submission
+    else:
+        return evaluation_format("No", 0, 10)+f"La tua soluzione è coerente con quanto hai inserito nella tabella {name}<br>"+submission
+    
+def check_value_from_tables(table1, table2, row, col, value):
+    submission=f"Hai inserito il valore {value}, il valore atteso ricavato dalle tue tabelle è {table1[row][col]*table2[row][col]}"
+    if table[row][col]==value:
+        return evaluation_format("Si", 1, 10)+f"La tua soluzione è coerente con quanto hai inserito nelle tabelle<br>"+submission
+    else:
+        return evaluation_format("No", 0, 10)+f"La tua soluzione è coerente con quanto hai inserito nella tabelle<br>"+submission
