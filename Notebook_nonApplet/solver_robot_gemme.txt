@@ -1,0 +1,29 @@
+def conta_gemme(env):
+    r=len(env)
+    c=len(env[0])
+    mat = []
+    for i in range(0,r):
+        mat.append([0 for j in range(0,c)])
+    for i in range(1,r):
+        for j in range(1,c):
+            if mappa[i][j]!=-1:
+                mat[i][j]=max(mat[i][j-1], mat[i-1][j])+mappa[i][j]
+            else:
+                mat[i][j]=0
+    return mat
+    
+ def conta_gemme_rev(env):
+    r=len(env)+1
+    c=len(env[0])+1
+    mat = []
+    for i in range(0,r):
+        mat.append([0 for j in range(0,c)])
+    for i in range(r-2,0,-1):
+        for j in range(c-2,0,-1):
+            if mappa[i][j]!=-1:
+                mat[i][j]=max(mat[i][j+1], mat[i+1][j])+mappa[i][j]
+            else:
+                mat[i][j]=0
+    return mat
+    
+come env passo mappa (ricordo che mappa è campo_minato con una riga e una colonna in più)
