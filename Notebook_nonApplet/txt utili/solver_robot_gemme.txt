@@ -28,7 +28,7 @@ def conta_gemme_with_opt(env):
                     mat[i][j]=(max(mat[i][j-1][0],mat[i-1][j][0])+mappa[i][j],1) 
                 else:        
                     if mat[i][j-1][0]==mat[i-1][j][0]:
-                        mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1]+mat[i][j-1][1])
+                        mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1]+mat[i-1][j][1])
                     elif mat[i][j-1][0]>mat[i-1][j][0]:
                         mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1])
                     else:
