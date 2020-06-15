@@ -41,6 +41,8 @@ This background has determined my vision and approach.
 
 **Marco Crosara.**
 
+**Alessandro Busatto.**
+
 ...
 
 insomma, la lista di chi ci stà lavorando o ci ha lavorato in passato, spiegando un minimo sul ruolo/contributo.
