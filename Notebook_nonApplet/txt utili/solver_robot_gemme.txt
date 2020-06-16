@@ -2,52 +2,53 @@
 def conta_gemme(env):
     r=len(env)
     c=len(env[0])
-    mat = []
-    for i in range(0,r):
-        mat.append([0 for j in range(0,c)])
+    mat = [([0]*c) for _ in range(r)]
     for i in range(1,r):
         for j in range(1,c):
-            if mappa[i][j]=="*" or (mappa[i][j-1]=="*" and mappa[i-1][j]=="*"):
-                mat[i][j]=0
+            if mappa[i][j]=="*" or (mat[i][j-1] is None and mat[i-1][j] is None):
+                mat[i][j]=None
             else:
-                mat[i][j]=max(mat[i][j-1], mat[i-1][j])+mappa[i][j]               
+                mat[i][j]=max((mat[i-1][j] if mat[i-1][j] is not None else 0),(mat[i][j-1] if mat[i][j-1] is not None else 0)) + mappa[i][j]
     return mat
     
 
 def conta_gemme_with_opt(env):
     r=len(env)
     c=len(env[0])
-    mat = []
-    for i in range(0,r):
-        mat.append([(0,0) for j in range(0,c)])
+    mat = [([(0,0)]*c) for _ in range(r)]
     for i in range(1,r):
         for j in range(1,c):
-            if mappa[i][j]=="*" or (mappa[i][j-1]=="*" and mappa[i-1][j]=="*"):
-                mat[i][j]=(0,0)
+            if mappa[i][j]=="*" or (mat[i][j-1] is None and mat[i-1][j] is None):
+                mat[i][j] = None
             else:
-                if i==1 or j==1:
-                    mat[i][j]=(max(mat[i][j-1][0],mat[i-1][j][0])+mappa[i][j],1) 
-                else:        
-                    if mat[i][j-1][0]==mat[i-1][j][0]:
-                        mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1]+mat[i-1][j][1])
-                    elif mat[i][j-1][0]>mat[i-1][j][0]:
-                        mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1])
+                if i==1 and j==1:
+                    mat[i][j]=(0,0)
+                elif i==1 or j==1:
+                    mat[i][j]=(max(mat[i-1][j][0] if mat[i-1][j] is not None else 0,mat[i][j-1][0] if mat[i][j-1] is not None else 0) + mappa[i][j],1)
+                else:
+                    if mat[i][j-1] is not None and mat[i-1][j] is not None:
+                        if mat[i][j-1][0]==mat[i-1][j][0]:
+                            mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1]+mat[i-1][j][1])
+                        elif mat[i][j-1][0]>mat[i-1][j][0]:
+                            mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1])
+                        else:
+                            mat[i][j]=(mat[i-1][j][0]+mappa[i][j],mat[i-1][j][1])
+                    elif mat[i][j-1] is None:
+                        mat[i][j]=(mat[i-1][j][0]+mappa[i][j],mat[i-1][j][1])
                     else:
-                        mat[i][j]=(mat[i-1][j][0]+mappa[i][j],mat[i-1][j][1])                
+                        mat[i][j]=(mat[i][j-1][0]+mappa[i][j],mat[i][j-1][1])                  
     return mat
-       
- def conta_gemme_rev(env):
+    
+def conta_gemme_rev(env):
     r=len(env)+1
     c=len(env[0])+1
-    mat = []
-    for i in range(0,r):
-        mat.append([0 for j in range(0,c)])
+    mat = [([0]*c) for _ in range(r)]
     for i in range(r-2,0,-1):
         for j in range(c-2,0,-1):
-            if mappa[i][j]!="*":
-                mat[i][j]=max(mat[i][j+1], mat[i+1][j])+mappa[i][j]
+            if mappa[i][j]=="*" or (mat[i][j+1] is None and mat[i+1][j] is None):
+                mat[i][j] = None
             else:
-                mat[i][j]=0
+                mat[i][j]=max((mat[i+1][j] if mat[i+1][j] is not None else 0),(mat[i][j+1] if mat[i][j+1] is not None else 0)) + mappa[i][j]
     return mat
     
 come env passo mappa (ricordo che mappa è campo_minato con una riga e una colonna in più)
