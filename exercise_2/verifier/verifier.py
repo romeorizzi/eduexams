@@ -122,7 +122,7 @@ def is_subseq_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, f
                 if is_subseq(s[:forced_ele_0basedpos], subs[:guess_0basedpos_in_subs]) and is_subseq(s[forced_ele_0basedpos:], subs[guess_0basedpos_in_subs:]):
                     found_magic_point = False
         if not found_magic_point:
-            return submission_string + f"{evaluation_format('No', pt_green,pt_red)}" + f"La sequenza $LaTexVarName({name_subs})$ proposta non è sottosequenza di $LaTexVarName({name_s}) che ne includa l'elemento in posizione {forced_ele_pos}$."
+            return submission_string + f"{evaluation_format('No', pt_green,pt_red)}" + f"La sequenza ${LaTexVarName(name_subs)}$ proposta non è sottosequenza di ${LaTexVarName(name_s)}$ che ne includa l'elemento in posizione {forced_ele_pos}$."
         
     return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"
 
