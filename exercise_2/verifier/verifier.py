@@ -127,7 +127,7 @@ def is_subseq_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, f
         if not found_magic_point:
             return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"La sequenza ${LaTexVarName(name_subs)}$ proposta non è sottosequenza di ${LaTexVarName(name_s)}$ che ne includa l'elemento in posizione ${forced_ele_pos}$."
         
-    return submission_string + f"{evaluation_format('Si', 1,pt_red)}"
+    return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"
 
 def eval_coloring(s, name_s, col, name_col, subs_type, pt_green=2, pt_red=15):
     """
@@ -143,9 +143,9 @@ def eval_coloring(s, name_s, col, name_col, subs_type, pt_green=2, pt_red=15):
         subs = [s[i] for i in range(len(s)) if col[i] == c]
         if not is_seq_of_type(subs, "subs", subs_type)[0]:
             return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"Checking the subsequence of the elements colored with {c} within ${LaTexVarName(name_s)}$, that is {subs} ... " + is_seq_of_type(subs, "subs", subs_type)[1]        
-    return submission_string + f"{evaluation_format('Si', 1,pt_red)}"
+    return submission_string + f"{evaluation_format('Si', pt_green ,pt_red)}"
 
-def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green=0, pt_red=15):
+def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green=2, pt_red=15):
     """
     Verifica se subs, una lista di sottosequenze di s, fornisce len(subs) sottosequenze di tipo subs_sype (vedi tabella) e
     verifica che tutti gli elementi di s compaiano nelle sottosequenze. 
@@ -172,5 +172,5 @@ def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green=0, pt_red=1
         if not is_seq_of_type(elem, "subs", subs_type)[0]:
             return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"Attenzione la sottosequenza ${elem}$ non è del tipo richiesto."
         
-    return submission_string + f"{evaluation_format('Si', 1,pt_red)}"
+    return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"
     
