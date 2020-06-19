@@ -13,7 +13,10 @@ def is_subseq(s, subs):
     return False
 
 def evaluation_format(answ, pt_green,pt_red):
-    pt_blue=pt_red-pt_green
+    pt_blue=0
+    if pt_green!=0:
+        pt_blue=pt_red-pt_green
+        pt_red=0
     return f"{answ}. Totalizzeresti <span style='color:green'>[{pt_green} safe pt]</span>, \
                                     <span style='color:blue'>[{pt_blue} possible pt]</span>, \
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
@@ -140,5 +143,34 @@ def eval_coloring(s, name_s, col, name_col, subs_type, pt_green=2, pt_red=15):
         subs = [s[i] for i in range(len(s)) if col[i] == c]
         if not is_seq_of_type(subs, "subs", subs_type)[0]:
             return submission_string + f"{evaluation_format('No', pt_green,pt_red)}" + f"Checking the subsequence of the elements colored with {c} within ${LaTexVarName(name_s)}$, that is {subs} ... " + is_seq_of_type(subs, "subs", subs_type)[1]        
+    return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"
+
+def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green=2, pt_red=15):
+    """
+    Verifica se subs, una lista di sottosequenze di s, fornisce len(subs) sottosequenze di tipo subs_sype (vedi tabella) e
+    verifica che tutti gli elementi di s compaiano nelle sottosequenze. 
+    Restituisce una stringa contenete la valutazione del certificato col immesso dallo studente, a tale scopo i parametri 
+    pt_green e pt_red mentre pt_blue=pt_red-pt_green è fatto implicito.
+    """
+    submission_string = f"Hai inserito il certificato ${LaTexVarName(name_subs)}={subs}$."
+    submission_string += f"<br>L'istanza era data da ${LaTexVarName(name_s)}={s}$.<br>"
+    
+    check={}
+    for n in s:
+        if n not in check.keys():
+            check[n]=1
+        else:
+            check[n]=check[n]+1
+    for elem in subs:
+        for n in elem:
+            if n in check.keys():
+                check[n]=check[n]-1
+    for key in check.keys():
+        if check[key] != 0:
+            return submission_string + f"{evaluation_format('No', pt_green,pt_red)}" + f"Le tue sottosequenze non contengono tutti i valori di ${name_s}$"
+    for elem in subs:
+        if not is_seq_of_type(elem, "subs", subs_type)[0]:
+            return submission_string + f"{evaluation_format('No', pt_green,pt_red)}" + f"Attenzione la sottosequenza ${elem}$ non è del tipo richiesto."
+        
     return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"
     
