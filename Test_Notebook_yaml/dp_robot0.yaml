@@ -1,0 +1,42 @@
+---
+name: dp_robot
+title: Cammini del robot Bimo in un campo minato
+description1: Conteggio di cammini in una griglia rettangolare con celle proibite.
+
+description2: "Bimo cammina sulle celle di un campo minato dalla forma di una griglia rettangolare $m \\times n$. Le mine sono indicate da un \"*\" mentre le altre celle (\" \") sono tutte transitabili.
+Le mosse consentite portano Bimo dalla cella $(i,j)$ alla cella $(i+1,j)$ oppure $(i,j+1)$, sempre ove queste siano transitabili.
+Organizzati per calcolare quanti sono i cammini possibili tra due celle date e per rispondere ad altre domande di questo tipo."
+
+tasks:
+- {
+    tot_points: 14,
+    ver_points: 14,
+    description1: "A mano o tramite un programma componi la matrice $num\\_paths\\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\\_paths\\_to[i][j]$ sia riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."
+  }
+- {
+    tot_points: 14,
+    ver_points: 14,
+    description1: "Componi ora una matrice $num\\_paths\\_from$ di dimensione $(m+2)\\times(n+2)$ e tale per cui in $num\\_paths\\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella $H9=(8,9)$."
+  }
+- {
+    tot_points: 5,
+    ver_points: 0,
+    description1: "Quanti sono i percorsi con partenza in A1=(1,1) ed arrivo in H9=(8,9)?"
+  }
+- {
+    tot_points: 5,
+    ver_points: 0,
+    description1: "Quanti sono i percorsi con partenza in B3=(2,3) ed arrivo in H9=(8,9)?"
+  }
+- {
+    tot_points: 5,
+    ver_points: 0,
+    description1: "Quanti sono i percorsi con partenza in A1=(1,1) ed arrivo in F6=(6,6)?"
+  }
+- {
+    tot_points: 5,
+    ver_points: 0,
+    description1: "Quanti sono i percorsi che partono da A1=(1,1), passano da D5=(4,5), ed arrivano in H9=(8,9)?"
+  }
+
+...
