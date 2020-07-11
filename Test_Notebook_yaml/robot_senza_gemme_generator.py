@@ -1,7 +1,6 @@
 import argparse
 import nbformat as nbf
 import yaml
-import sys
 
 parser = argparse.ArgumentParser(description="Robot generator notebook")
 required_parser = parser.add_argument_group("required arguments")
@@ -9,6 +8,9 @@ required_parser.add_argument('-name', '-n', help="The name of the yaml instance 
 args = parser.parse_args()
 
 nb = nbf.v4.new_notebook()
+
+#nb0 = new_notebook(cells=cells,metadata={'language': 'python',})
+#new_markdown_cell(source=code, metadata=metadata)
 
 with open(args.name, 'r') as stream:
     data_instance = yaml.safe_load(stream)
@@ -267,8 +269,8 @@ display(Markdown(f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da ${chr
 
 
 nb['cells'] = [
-                nbf.v4.new_code_cell(cell_1),
-                nbf.v4.new_code_cell(cell_2),
+                nbf.v4.new_code_cell(cell_1,metadata={"hide_input": True,"init_cell": True,"trusted": True}),
+                nbf.v4.new_code_cell(cell_2, metadata={ "deletable": False,"hide_input": True, "init_cell": True, "trusted": True}),
                 nbf.v4.new_code_cell(cell_3),
                 nbf.v4.new_code_cell(cell_4),
                 nbf.v4.new_code_cell(cell_5),
