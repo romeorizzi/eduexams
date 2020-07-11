@@ -5,7 +5,16 @@ nb = nbf.v4.new_notebook()
 with open("robot_senza_gemme.yaml", 'r') as stream:
     data_instance = yaml.safe_load(stream)
 
-print(data_loaded)
+instance=\
+            f"campo_minato={data_instance['campo_minato']}"\
+            +f"\nstart_point={data_instance['start_point']}"\
+            +f"\ntarget_point={data_instance['target_point']}"\
+            +f"\nmiddle_point_1={data_instance['middle_point_3']}"\
+            +f"\nmiddle_point_2={data_instance['middle_point_2']}"\
+            +f"\nmiddle_point_3={data_instance['middle_point_3']}"\
+
+num_paths_to=f"num_paths_to={[[0]*(len(data_instance['campo_minato'][0])+1) for _ in range(len(data_instance['campo_minato'])+1)]}"
+num_paths_from=f"num_paths_from={[[0]*(len(data_instance['campo_minato'][0])+2) for _ in range(len(data_instance['campo_minato'])+2)]}"
 
 cell_1 = """\
 %%javascript
@@ -35,24 +44,7 @@ cell_3="""\
 #seleziona la cella e premi ctrl-invio
 start()
 """
-cell_4="""\
-campo_minato = [
-    [ " " , " " , " " , " " , " " , " " , " " , " " , "*" ],
-    [ " " , " " , " " , " " , "*" , "*" , " " , " " , " " ],
-    [ " " , "*" , " " , "*" , " " , " " , " " , " " , " " ],
-    [ " " , " " , " " , " " , " " , " " , " " , "*" , " " ],
-    [ " " , " " , "*" , " " , "*" , " " , " " , " " , " " ],
-    [ " " , " " , " " , " " , " " , " " , "*" , " " , " " ],
-    [ " " , "*" , " " , " " , " " , " " , " " , " " , " " ],
-    [ " " , " " , " " , " " , " " , " " , " " , " " , " " ]
-]
-
-start_point=(1,1)
-target_point=(8,9)
-middle_point_1=(2,3)
-middle_point_2=(6,6)
-middle_point_3=(4,5)
-
+cell_4=instance+"\n"+"""\
 m = len(campo_minato)
 n = len(campo_minato[0])
 mappa = [ ["*"]*(n+1) ] + [ (["*"] + r) for r in campo_minato]
@@ -225,19 +217,7 @@ cell_12="""\
 display(Markdown(f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella ${chr(64+start_point[0])}{start_point[1]}={start_point}$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."))
 """
 
-cell_13="""\
-num_paths_to =[
-                    [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0], 
-                    [  0,   1,   1,   1,   1,   1,   1,   1,   1,   0], 
-                    [  0,   1,   2,   3,   4,   0,   0,   0,   0,   0], 
-                    [  0,   1,   0,   3,   0,   0,   0,   0,   0,   0], 
-                    [  0,   1,   1,   3,   3,   3,   3,   3,   0,   0], 
-                    [  0,   1,   2,   0,   3,   0,   3,   6,   6,   6], 
-                    [  0,   1,   3,   3,   6,   6,   9,   0,   6,  12], 
-                    [  0,   1,   0,   3,   9,  15,  24,  24,  30,  42], 
-                    [  0,   1,   1,   4,  13,  28,  52,  86, 106, 148]
-                ]
-"""
+cell_13=num_paths_to
 
 cell_14="""\
 visualizza_e_valuta('num_paths_to',num_paths_to)
@@ -250,39 +230,28 @@ display(Markdown(f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ 
                     +f"${chr(64+target_point[0])}{target_point[1]}={target_point})$."))
 """
 
-cell_16="""\
-num_paths_from=[
-                    [  *,   *,   *,   *,   *,   *,   *,   *,   *,   *], 
-                    [  *,    ,    ,    ,    ,    ,    ,    ,    ,   *], 
-                    [  *,    ,    ,    ,    ,   *,   *,    ,    ,    ], 
-                    [  *,    ,   *,    ,   *,    ,    ,    ,    ,    ], 
-                    [  *,    ,    ,    ,    ,    ,    ,    ,   *,    ], 
-                    [  *,    ,    ,   *,    ,   *,    ,    ,    ,    ], 
-                    [  *,    ,    ,    ,    ,    ,    ,   *,    ,    ], 
-                    [  *,    ,   *,    ,    ,    ,    ,    ,    ,    ], 
-                    [  *,    ,    ,    ,    ,    ,    ,    ,    ,    ]
-                ]
-"""
-cell_17=""""\
+cell_16=num_paths_from
+
+cell_17="""\
 visualizza_e_valuta('num_paths_from',num_paths_from)
 """
-cell_rispondi=""""\
+cell_rispondi="""\
 Inserisci la risposta
 """
 
-cell_18=""""\
+cell_18="""\
 display(Markdown(f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in "\
                  +f"${chr(64+target_point[0])}{target_point[1]}={target_point}$."))
 """
-cell_19=""""\
+cell_19="""\
 display(Markdown(f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+middle_point_1[0])}{middle_point_1[1]}={middle_point_1}$ ed arrivo in "\
                  +f"${chr(64+target_point[0])}{target_point[1]}={target_point}$."))
 """
-cell_20=""""\
+cell_20="""\
 display(Markdown(f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+middle_point_2[0])}{middle_point_2[1]}={middle_point_2}$?"))
 """
 
-cell_21=""""\
+cell_21="""\
 display(Markdown(f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da ${chr(64+start_point[0])}{start_point[1]}={start_point}$, passano da ${chr(64+middle_point_3[0])}{middle_point_3[1]}={middle_point_3}$, ed arrivano in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"))
 """
 
