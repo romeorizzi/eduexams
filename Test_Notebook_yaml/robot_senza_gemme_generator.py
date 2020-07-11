@@ -1,8 +1,16 @@
+import argparse
 import nbformat as nbf
 import yaml
+import sys
+
+parser = argparse.ArgumentParser(description="Robot generator notebook")
+required_parser = parser.add_argument_group("required arguments")
+required_parser.add_argument('-name', '-n', help="The name of the yaml instance file", required=True)
+args = parser.parse_args()
+
 nb = nbf.v4.new_notebook()
 
-with open("robot_senza_gemme.yaml", 'r') as stream:
+with open(args.name, 'r') as stream:
     data_instance = yaml.safe_load(stream)
 
 instance=\
