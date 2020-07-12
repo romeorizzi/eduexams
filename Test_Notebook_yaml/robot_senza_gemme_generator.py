@@ -23,8 +23,18 @@ instance=\
             +f"\nmiddle_point_2={data_instance['middle_point_2']}"\
             +f"\nmiddle_point_3={data_instance['middle_point_3']}"\
 
-num_paths_to=f"num_paths_to={[[0]*(len(data_instance['campo_minato'][0])+1) for _ in range(len(data_instance['campo_minato'])+1)]}"
-num_paths_from=f"num_paths_from={[[0]*(len(data_instance['campo_minato'][0])+2) for _ in range(len(data_instance['campo_minato'])+2)]}"
+num_paths_to=f"num_paths_to=["
+for _ in range (len(data_instance['campo_minato'])+1):
+    num_paths_to=num_paths_to+"\n\t\t"+str([0]*(len(data_instance['campo_minato'][0])+1))+","
+num_paths_to = num_paths_to + "\n]"
+
+num_paths_from=f"num_paths_from=["
+for _ in range (len(data_instance['campo_minato'])+2):
+    num_paths_from=num_paths_from+"\n\t\t"+str([0]*(len(data_instance['campo_minato'][0])+2))+","
+num_paths_from = num_paths_from + "\n]"
+
+#num_paths_to=f"num_paths_to={[[0]*(len(data_instance['campo_minato'][0])+1) for _ in range(len(data_instance['campo_minato'])+1)]}"
+#num_paths_from=f"num_paths_from={[[0]*(len(data_instance['campo_minato'][0])+2) for _ in range(len(data_instance['campo_minato'])+2)]}"
 
 cell_1 = """\
 %%javascript
@@ -265,35 +275,36 @@ cell_21="""\
 display(Markdown(f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da ${chr(64+start_point[0])}{start_point[1]}={start_point}$, passano da ${chr(64+middle_point_3[0])}{middle_point_3[1]}={middle_point_3}$, ed arrivano in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"))
 """
 
-
-
+meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
+meta_run={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+meta_stud_input={"trusted": True, "deletable": False}
 
 nb['cells'] = [
-                nbf.v4.new_code_cell(cell_1,metadata={"hide_input": True,"init_cell": True,"trusted": True}),
-                nbf.v4.new_code_cell(cell_2, metadata={ "deletable": False,"hide_input": True, "init_cell": True, "trusted": True}),
-                nbf.v4.new_code_cell(cell_3),
-                nbf.v4.new_code_cell(cell_4),
-                nbf.v4.new_code_cell(cell_5),
-                nbf.v4.new_markdown_cell(cell_6),
-                nbf.v4.new_markdown_cell(cell_7),
-                nbf.v4.new_markdown_cell(cell_8),
-                nbf.v4.new_code_cell(cell_9),
-                nbf.v4.new_code_cell(cell_10),
-                nbf.v4.new_markdown_cell(cell_11),
-                nbf.v4.new_code_cell(cell_12),
-                nbf.v4.new_code_cell(cell_13),
-                nbf.v4.new_code_cell(cell_14),
-                nbf.v4.new_code_cell(cell_15),
-                nbf.v4.new_code_cell(cell_16),
-                nbf.v4.new_code_cell(cell_17),
-                nbf.v4.new_code_cell(cell_18),
-                nbf.v4.new_markdown_cell(cell_rispondi),
-                nbf.v4.new_code_cell(cell_19),
-                nbf.v4.new_markdown_cell(cell_rispondi),
-                nbf.v4.new_code_cell(cell_20),
-                nbf.v4.new_markdown_cell(cell_rispondi),
-                nbf.v4.new_code_cell(cell_21),
-                nbf.v4.new_markdown_cell(cell_rispondi)
+                nbf.v4.new_code_cell(cell_1,metadata=meta_init),
+                nbf.v4.new_code_cell(cell_2, metadata=meta_init),
+                nbf.v4.new_code_cell(cell_3, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_4, metadata=meta_run),
+                nbf.v4.new_code_cell(cell_5, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_6, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_7, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_8, metadata=meta_run),
+                nbf.v4.new_code_cell(cell_9, metadata=meta_run),
+                nbf.v4.new_code_cell(cell_10, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_11, metadata=meta_run),
+                nbf.v4.new_code_cell(cell_12, metadata=meta_run),
+                nbf.v4.new_code_cell(cell_13, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_14, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_15, metadata=meta_run),
+                nbf.v4.new_code_cell(cell_16, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_17, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_18, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_19, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_20, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
+                nbf.v4.new_code_cell(cell_21, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input)
             ]
 
 nbf.write(nb, 'test_robot.ipynb')
