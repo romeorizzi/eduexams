@@ -19,13 +19,18 @@ instance=f"campo_minato={data_instance['campo_minato']}"\
 
 
 num_paths_to=f"num_paths_to=["
-for _ in range (len(data_instance['campo_minato'])+1):
+for i in range (len(data_instance['campo_minato'])+1):
     num_paths_to=num_paths_to+"\n\t\t"+str([0]*(len(data_instance['campo_minato'][0])+1))+","
+    if i > 0:
+        num_paths_to += "\t\t# " + str(data_instance['campo_minato'][i-1]) + "\n"
 num_paths_to = num_paths_to + "\n]"
 
+
 num_paths_from=f"num_paths_from=["
-for _ in range (len(data_instance['campo_minato'])+2):
+for i in range (len(data_instance['campo_minato'])+2):
     num_paths_from=num_paths_from+"\n\t\t"+str([0]*(len(data_instance['campo_minato'][0])+2))+","
+    if i > 0 and i <= len(data_instance['campo_minato']):
+        num_paths_from += "\t\t# " + str(data_instance['campo_minato'][i-1]) + "\n"
 num_paths_from = num_paths_from + "\n]"
 
 #num_paths_to=f"num_paths_to={[[0]*(len(data_instance['campo_minato'][0])+1) for _ in range(len(data_instance['campo_minato'])+1)]}"
@@ -229,7 +234,7 @@ __Richieste__:
 """
 
 cell_12="""\
-display(Markdown(f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella ${chr(64+start_point[0])}{start_point[1]}={start_point}$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."))
+display(Markdown(f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\u005C\u005Ctimes(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella ${chr(64+start_point[0])}{start_point[1]}={start_point}$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."))
 """
 
 cell_13=num_paths_to
@@ -239,7 +244,7 @@ visualizza_e_valuta('num_paths_to',num_paths_to)
 """
 
 cell_15="""\
-display(Markdown(f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)x(n+2)$" \
+display(Markdown(f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\u005C\u005Ctimes(n+2)$" \
                     +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
                     +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
                     +f"${chr(64+m)}{n}=({m},{n})$."))
