@@ -12,29 +12,37 @@ nb = nbf.v4.new_notebook()
 with open(args.name, 'r') as stream:
     data_instance = yaml.safe_load(stream)
 
+campo_minato=data_instance['campo_minato']
+m=len(data_instance['campo_minato'])
+n=len(data_instance['campo_minato'][0])
+
+start_point=eval(data_instance['start_point'])
+target_point=eval(data_instance['target_point'])
+middle_point=eval(data_instance['middle_point'])
+
+
 instance=f"campo_minato={data_instance['campo_minato']}"\
-            +f"\nstart_point={data_instance['start_point']}"\
-            +f"\ntarget_point={data_instance['target_point']}"\
-            +f"\nmiddle_point={data_instance['middle_point']}"\
+            +f"\nstart_point={start_point}"\
+            +f"\ntarget_point={target_point}"\
+            +f"\nmiddle_point={middle_point}"\
+
+
 
 
 num_paths_to=f"num_paths_to=["
-for i in range (len(data_instance['campo_minato'])+1):
-    num_paths_to=num_paths_to+"\n\t\t"+str([0]*(len(data_instance['campo_minato'][0])+1))+","
+for i in range (m+1):
+    num_paths_to=num_paths_to+"\n\t\t"+str([0]*(n+1))+","
     if i > 0:
-        num_paths_to += "\t\t# " + str(data_instance['campo_minato'][i-1]) + "\n"
+        num_paths_to += "\t\t# " + str(campo_minato[i-1]) + "\n"
 num_paths_to = num_paths_to + "\n]"
 
 
 num_paths_from=f"num_paths_from=["
-for i in range (len(data_instance['campo_minato'])+2):
-    num_paths_from=num_paths_from+"\n\t\t"+str([0]*(len(data_instance['campo_minato'][0])+2))+","
-    if i > 0 and i <= len(data_instance['campo_minato']):
-        num_paths_from += "\t\t# " + str(data_instance['campo_minato'][i-1]) + "\n"
+for i in range (m+2):
+    num_paths_from=num_paths_from+"\n\t\t"+str([0]*(n+2))+","
+    if i > 0 and i <= m:
+        num_paths_from += "\t\t# " + str(campo_minato[i-1]) + "\n"
 num_paths_from = num_paths_from + "\n]"
-
-#num_paths_to=f"num_paths_to={[[0]*(len(data_instance['campo_minato'][0])+1) for _ in range(len(data_instance['campo_minato'])+1)]}"
-#num_paths_from=f"num_paths_from={[[0]*(len(data_instance['campo_minato'][0])+2) for _ in range(len(data_instance['campo_minato'])+2)]}"
 
 cell_1 = """\
 %%javascript
@@ -215,15 +223,13 @@ cell_8="""\
 Ciò nononostante, per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
 """
 
-cell_9="""\
-display(Markdown(f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$, deve portarsi nella cella "
-                + f"${chr(64+m)}{n}=({m},{n})$." 
-                + f"Le celle che riportano il simbolo '*' contengono una mina od altre trapole mortali, ed il robot deve evitarle." 
-                + f"I movimenti base possibili sono il passo verso destra (ad esempio il primo passo potrebbe avvenire dalla cella $A1$ alla cella $A2$)" 
-                + f" ed il passo verso il basso (ad esempio, come unica altra alternativa per il primo passo il robot "
-                + f"potrebbe portarsi quindi nella cella $B1$)." 
-                + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"))
-"""
+cell_9=f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$, deve portarsi nella cella "\
+       +f"${chr(64+m)}{n}=({m},{n})$." \
+       +f"Le celle che riportano il simbolo '*' contengono una mina od altre trapole mortali, ed il robot deve evitarle." \
+       +f"I movimenti base possibili sono il passo verso destra (ad esempio il primo passo potrebbe avvenire dalla cella $A1$ alla cella $A2$)" \
+       + f" ed il passo verso il basso (ad esempio, come unica altra alternativa per il primo passo il robot "\
+       + f"potrebbe portarsi quindi nella cella $B1$)."\
+       + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"\
 
 cell_10="""\
 visualizza(mappa)
@@ -233,9 +239,7 @@ cell_11="""\
 __Richieste__:
 """
 
-cell_12="""\
-display(Markdown(f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\u005C\u005Ctimes(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella ${chr(64+start_point[0])}{start_point[1]}={start_point}$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."))
-"""
+cell_12=f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."
 
 cell_13=num_paths_to
 
@@ -243,12 +247,10 @@ cell_14="""\
 visualizza_e_valuta('num_paths_to',num_paths_to)
 """
 
-cell_15="""\
-display(Markdown(f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\u005C\u005Ctimes(n+2)$" \
+cell_15=f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\\times(n+2)$" \
                     +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
                     +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
-                    +f"${chr(64+m)}{n}=({m},{n})$."))
-"""
+                    +f"${chr(64+m)}{n}=({m},{n})$."
 
 cell_16=num_paths_from
 
@@ -259,21 +261,10 @@ cell_rispondi="""\
 Inserisci la risposta
 """
 
-cell_18="""\
-display(Markdown(f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(65)}{1}={(1,1)}$ ed arrivo in "\
-                 +f"${chr(64+m)}{n}=({m},{n})$."))
-"""
-cell_19="""\
-display(Markdown(f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in "\
-                 +f"${chr(64+m)}{n}=({m},{n})$."))
-"""
-cell_20="""\
-display(Markdown(f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(65)}{1}={(1,1)}$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"))
-"""
-
-cell_21="""\
-display(Markdown(f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da ${chr(65)}{1}={(1,1)}$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"))
-"""
+cell_18=f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+cell_19=f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+cell_20=f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"
+cell_21=f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da $A1=(1,1)$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"
 
 meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
 meta_run={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
@@ -288,22 +279,22 @@ nb['cells'] = [
                 nbf.v4.new_markdown_cell(cell_6, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_7, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_8, metadata=meta_run),
-                nbf.v4.new_code_cell(cell_9, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_9, metadata=meta_run),
                 nbf.v4.new_code_cell(cell_10, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_11, metadata=meta_run),
-                nbf.v4.new_code_cell(cell_12, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_12, metadata=meta_run),
                 nbf.v4.new_code_cell(cell_13, metadata=meta_stud_input),
                 nbf.v4.new_code_cell(cell_14, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_15, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_15, metadata=meta_run),
                 nbf.v4.new_code_cell(cell_16, metadata=meta_stud_input),
                 nbf.v4.new_code_cell(cell_17, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_18, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_18, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_19, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_19, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_20, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_20, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_21, metadata=meta_run),
+                nbf.v4.new_markdown_cell(cell_21, metadata=meta_run),
                 nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input)
             ]
 
