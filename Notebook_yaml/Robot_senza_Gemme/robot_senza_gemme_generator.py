@@ -293,4 +293,4 @@ cell_21=f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da $A1=(1,1)$, pa
 nb['cells'].append(nbf.v4.new_markdown_cell(cell_21,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 nb['cells'].append(nbf.v4.new_markdown_cell(cell_rispondi,metadata={"trusted": True, "deletable": False}))
 
-nbf.write(nb, 'test_robot.ipynb')
+nbf.write(nb, 'robot_senza_gemme.ipynb')
