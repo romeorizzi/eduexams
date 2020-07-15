@@ -1,0 +1,17 @@
+---
+
+#istanza
+campo_minato: 
+   - [ " " , " " , " " ]
+   - [ "*" , " " , " " ]
+   - [ " " , "*" , " " ]
+   - [ " " , " " , " " ]
+
+
+start_point: (1,1)
+target_point: (4,3)
+middle_point_1: (2,2)
+middle_point_2: (2,3)
+middle_point_3: (4,2)
+
+...

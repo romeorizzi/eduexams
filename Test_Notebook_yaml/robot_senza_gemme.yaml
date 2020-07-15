@@ -12,10 +12,8 @@ campo_minato:
    - [ " " , " " , " " , " " , " " , " " , " " , " " , " " ]
 
 
-start_point: (1,1)
-target_point: (8,9)
-middle_point_1: (2,3)
-middle_point_2: (6,6)
-middle_point_3: (4,5)
+start_point: (2,3)
+target_point: (6,6)
+middle_point: (4,5)
 
 ...

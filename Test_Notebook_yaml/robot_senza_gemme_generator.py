@@ -9,19 +9,14 @@ args = parser.parse_args()
 
 nb = nbf.v4.new_notebook()
 
-#nb0 = new_notebook(cells=cells,metadata={'language': 'python',})
-#new_markdown_cell(source=code, metadata=metadata)
-
 with open(args.name, 'r') as stream:
     data_instance = yaml.safe_load(stream)
 
-instance=\
-            f"campo_minato={data_instance['campo_minato']}"\
+instance=f"campo_minato={data_instance['campo_minato']}"\
             +f"\nstart_point={data_instance['start_point']}"\
             +f"\ntarget_point={data_instance['target_point']}"\
-            +f"\nmiddle_point_1={data_instance['middle_point_3']}"\
-            +f"\nmiddle_point_2={data_instance['middle_point_2']}"\
-            +f"\nmiddle_point_3={data_instance['middle_point_3']}"\
+            +f"\nmiddle_point={data_instance['middle_point']}"\
+
 
 num_paths_to=f"num_paths_to=["
 for _ in range (len(data_instance['campo_minato'])+1):
@@ -216,13 +211,13 @@ Ciò nononostante, per facilitare chi di voi volesse scrivere del codice a propr
 """
 
 cell_9="""\
-display(Markdown(f"Un robot, inizialmente situato nella cella ${chr(64+start_point[0])}{start_point[1]}={start_point}$, deve portarsi nella cella "
-                + f"${chr(64+target_point[0])}{target_point[1]}={target_point}$." 
+display(Markdown(f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$, deve portarsi nella cella "
+                + f"${chr(64+m)}{n}=({m},{n})$." 
                 + f"Le celle che riportano il simbolo '*' contengono una mina od altre trapole mortali, ed il robot deve evitarle." 
                 + f"I movimenti base possibili sono il passo verso destra (ad esempio il primo passo potrebbe avvenire dalla cella $A1$ alla cella $A2$)" 
                 + f" ed il passo verso il basso (ad esempio, come unica altra alternativa per il primo passo il robot "
                 + f"potrebbe portarsi quindi nella cella $B1$)." 
-                + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(64+start_point[0])}{start_point[1]}$ alla cella ${chr(64+target_point[0])}{target_point[1]}$?"))
+                + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"))
 """
 
 cell_10="""\
@@ -247,7 +242,7 @@ cell_15="""\
 display(Markdown(f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)x(n+2)$" \
                     +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
                     +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
-                    +f"${chr(64+target_point[0])}{target_point[1]}={target_point})$."))
+                    +f"${chr(64+m)}{n}=({m},{n})$."))
 """
 
 cell_16=num_paths_from
@@ -260,19 +255,19 @@ Inserisci la risposta
 """
 
 cell_18="""\
-display(Markdown(f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in "\
-                 +f"${chr(64+target_point[0])}{target_point[1]}={target_point}$."))
+display(Markdown(f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(65)}{1}={(1,1)}$ ed arrivo in "\
+                 +f"${chr(64+m)}{n}=({m},{n})$."))
 """
 cell_19="""\
-display(Markdown(f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+middle_point_1[0])}{middle_point_1[1]}={middle_point_1}$ ed arrivo in "\
-                 +f"${chr(64+target_point[0])}{target_point[1]}={target_point}$."))
+display(Markdown(f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in "\
+                 +f"${chr(64+m)}{n}=({m},{n})$."))
 """
 cell_20="""\
-display(Markdown(f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+middle_point_2[0])}{middle_point_2[1]}={middle_point_2}$?"))
+display(Markdown(f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(65)}{1}={(1,1)}$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"))
 """
 
 cell_21="""\
-display(Markdown(f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da ${chr(64+start_point[0])}{start_point[1]}={start_point}$, passano da ${chr(64+middle_point_3[0])}{middle_point_3[1]}={middle_point_3}$, ed arrivano in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"))
+display(Markdown(f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da ${chr(65)}{1}={(1,1)}$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"))
 """
 
 meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
