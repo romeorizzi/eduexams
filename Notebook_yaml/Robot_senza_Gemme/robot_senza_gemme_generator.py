@@ -26,9 +26,6 @@ instance=f"campo_minato={data_instance['campo_minato']}"\
             +f"\ntarget_point={target_point}"\
             +f"\nmiddle_point={middle_point}"\
 
-
-
-
 num_paths_to=f"num_paths_to=["
 for i in range (m+1):
     num_paths_to=num_paths_to+"\n\t\t"+str([0]*(n+1))+","
@@ -43,6 +40,12 @@ for i in range (m+2):
     if i > 0 and i <= m:
         num_paths_from += "\t\t# " + str(campo_minato[i-1]) + "\n"
 num_paths_from = num_paths_from + "\n]"
+
+#meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
+#meta_run={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+#meta_stud_input={"trusted": True, "deletable": False}
+
+nb['cells']=[]
 
 cell_1 = """\
 %%javascript
@@ -60,6 +63,9 @@ window.runCells = function runCells() {
     Jupyter.notebook.execute_cells(c);
 };
 """
+
+nb['cells'].append(nbf.v4.new_code_cell(cell_1,metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}))
+
 cell_2 ="""\
 from IPython.core.display import display, HTML, Markdown, Javascript
 from tabulate import tabulate
@@ -68,21 +74,27 @@ import copy
 def start():
     display(Javascript("window.runCells()"))
 """
+nb['cells'].append(nbf.v4.new_code_cell(cell_2,metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}))
+
 cell_3="""\
 #seleziona la cella e premi ctrl-invio
 start()
 """
+nb['cells'].append(nbf.v4.new_code_cell(cell_3,metadata={"trusted": True, "deletable": False}))
+
 cell_4=instance+"\n"+"""\
 m = len(campo_minato)
 n = len(campo_minato[0])
 mappa = [ ["*"]*(n+1) ] + [ (["*"] + r) for r in campo_minato]
 """
-cell_5="""\
+nb['cells'].append(nbf.v4.new_code_cell(cell_4,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
+
+cell_5 = """\
 def visualizza(env):
     if len(env)==m+1 and len(env[0])==n+1:
         index=[chr(65+i) for i in range(m)]
         aux=[r[1:] for r in env[1:]]
-        
+
 
     if len(env)==m+2 and len(env[0])==n+2:
         index=[chr(65+i) for i in range(m)]
@@ -90,7 +102,7 @@ def visualizza(env):
 
     columns=[str(i) for i in range(1,n+1)]
     print(tabulate(aux, headers=columns, tablefmt='fancy_grid', showindex=index))
-        
+
 
 def evaluation_format(answ, pt_green,pt_red):
     pt_blue=0
@@ -110,7 +122,7 @@ def check_num_paths_to(mappa, num_paths_to, return_only_boolan=False):
         if return_only_boolan:
                 return False
         return evaluation_format("No", 0, 10)+f"Le colonne della matrice $num\_paths\_to$ devono essere $n+1=${n+1}, non {len(num_paths_to[0])}."
-        
+
     for i in range (0,m):
         if num_paths_to[i][0]!=0:
             if return_only_boolan:
@@ -149,7 +161,7 @@ def check_num_paths_from(mappa, num_paths_from, return_only_boolan=False):
         if return_only_boolan:
                 return False
         return evaluation_format("No", 0, 10)+f"Le colonne della matrice $num\_paths\_from$ devono essere $n+2=${n+2}, non {len(num_paths_from[0])}."
-        
+
     for i in range (0,m+1):
         if num_paths_from[i][n+1]!=0:
             if return_only_boolan:
@@ -206,22 +218,26 @@ def visualizza_e_valuta(nome_matrice, matrice):
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
     display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)")))    
 """
+nb['cells'].append(nbf.v4.new_code_cell(cell_5,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_6="""\
 ## Esercizio \[60 pts\]
 (campo minato) Conteggio di cammini in una griglia rettangolare con celle proibite.
 """
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_6,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_7="""\
 Bimo cammina sulle celle di un campo minato dalla forma di una griglia rettangolare $m\times n$. Le mine sono indicate da un "*" mentre le altre celle (" ") sono tutte transitabili.
 Le mosse consentite portano Bimo dalla cella $(i,j)$ alla cella $(i+1,j)$ oppure $(i,j+1)$, sempre ove queste siano transitabili.
 Organizzati per calcolare quanti sono i cammini possibili tra due celle date e per rispondere ad altre domande di questo tipo.
 """
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_7,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_8="""\
 <b>Notice:</b> Anche se ne hai quì ogni opportunità, non ti è però richiesto in alcun modo di scrivere del codice per condurre a termine il tuo esercizio. Puoi fare tutto a mano e vogliamo essere chiari che noi non facciamo alcuna differenza tra i punti conquistati in un modo piuttosto che in un altro (noi guardiamo ai risultati e ci piace che voi vi ingegniate a modo vostro per portarli a casa, in tutta libertà). Sei incoraggiato piuttosto a ricercare l'approccio per tè più pratico, sicuro, e conveniente. E magari quello che puoi trovare più piacevole e stimolante quando svlgi l'esercizio da casa, dove ti suggerisco sperimentare, potrebbe anche essere diverso .
 Ciò nononostante, per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
 """
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_8,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_9=f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$, deve portarsi nella cella "\
        +f"${chr(64+m)}{n}=({m},{n})$." \
@@ -229,73 +245,52 @@ cell_9=f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$, deve
        +f"I movimenti base possibili sono il passo verso destra (ad esempio il primo passo potrebbe avvenire dalla cella $A1$ alla cella $A2$)" \
        + f" ed il passo verso il basso (ad esempio, come unica altra alternativa per il primo passo il robot "\
        + f"potrebbe portarsi quindi nella cella $B1$)."\
-       + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"\
+       + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_9,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
-cell_10="""\
-visualizza(mappa)
-"""
+cell_10="""visualizza(mappa)"""
+nb['cells'].append(nbf.v4.new_code_cell(cell_10,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
-cell_11="""\
-__Richieste__:
-"""
+cell_11="""__Richieste__:"""
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_11,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_12=f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_12,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_13=num_paths_to
+nb['cells'].append(nbf.v4.new_code_cell(cell_13,metadata={"trusted": True, "deletable": False}))
 
-cell_14="""\
-visualizza_e_valuta('num_paths_to',num_paths_to)
-"""
+cell_14="""visualizza_e_valuta('num_paths_to',num_paths_to)"""
+nb['cells'].append(nbf.v4.new_code_cell(cell_14,metadata={"trusted": True, "deletable": False}))
 
 cell_15=f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\\times(n+2)$" \
                     +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
                     +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
                     +f"${chr(64+m)}{n}=({m},{n})$."
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_15,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
 cell_16=num_paths_from
+nb['cells'].append(nbf.v4.new_code_cell(cell_16,metadata={"trusted": True, "deletable": False}))
 
-cell_17="""\
-visualizza_e_valuta('num_paths_from',num_paths_from)
-"""
-cell_rispondi="""\
-Inserisci la risposta
-"""
+cell_17="""visualizza_e_valuta('num_paths_from',num_paths_from)"""
+nb['cells'].append(nbf.v4.new_code_cell(cell_17,metadata={"trusted": True, "deletable": False}))
+
+cell_rispondi="#Inserisci la risposta"
 
 cell_18=f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_18,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_rispondi,metadata={"trusted": True, "deletable": False}))
+
 cell_19=f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_19,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_rispondi,metadata={"trusted": True, "deletable": False}))
+
 cell_20=f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_20,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_rispondi,metadata={"trusted": True, "deletable": False}))
+
 cell_21=f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da $A1=(1,1)$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"
-
-meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
-meta_run={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-meta_stud_input={"trusted": True, "deletable": False}
-
-nb['cells'] = [
-                nbf.v4.new_code_cell(cell_1,metadata=meta_init),
-                nbf.v4.new_code_cell(cell_2, metadata=meta_init),
-                nbf.v4.new_code_cell(cell_3, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_4, metadata=meta_run),
-                nbf.v4.new_code_cell(cell_5, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_6, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_7, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_8, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_9, metadata=meta_run),
-                nbf.v4.new_code_cell(cell_10, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_11, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_12, metadata=meta_run),
-                nbf.v4.new_code_cell(cell_13, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_14, metadata=meta_stud_input),
-                nbf.v4.new_markdown_cell(cell_15, metadata=meta_run),
-                nbf.v4.new_code_cell(cell_16, metadata=meta_stud_input),
-                nbf.v4.new_code_cell(cell_17, metadata=meta_stud_input),
-                nbf.v4.new_markdown_cell(cell_18, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
-                nbf.v4.new_markdown_cell(cell_19, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
-                nbf.v4.new_markdown_cell(cell_20, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input),
-                nbf.v4.new_markdown_cell(cell_21, metadata=meta_run),
-                nbf.v4.new_markdown_cell(cell_rispondi, metadata=meta_stud_input)
-            ]
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_21,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
+nb['cells'].append(nbf.v4.new_markdown_cell(cell_rispondi,metadata={"trusted": True, "deletable": False}))
 
 nbf.write(nb, 'test_robot.ipynb')
