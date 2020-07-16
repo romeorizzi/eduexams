@@ -154,7 +154,8 @@ nb['cells'].append(nbf.v4.new_code_cell(cell_4,metadata={"hide_input": True, "ed
 ##############
 # ( CELL 5:
 
-cell_5 = """\
+cell_type="Code"
+cell_string= """\
 def visualizza(env):
     if len(env)==m+1 and len(env[0])==n+1:
         index=[chr(65+i) for i in range(m)]
@@ -283,7 +284,8 @@ def visualizza_e_valuta(nome_matrice, matrice):
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
     display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)")))    
 """
-nb['cells'].append(nbf.v4.new_code_cell(cell_5,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 5 -END)
 ##############
@@ -310,9 +312,13 @@ nb['cells'].append(nbf.v4.new_markdown_cell(cell_7,metadata={"hide_input": True,
 ##############
 # ( CELL 8:
 
-cell_8="""\
-<b>Notice:</b> Anche se ne hai quì ogni opportunità, non ti è però richiesto in alcun modo di scrivere del codice per condurre a termine il tuo esercizio. Puoi fare tutto a mano e vogliamo essere chiari che noi non facciamo alcuna differenza tra i punti conquistati in un modo piuttosto che in un altro (noi guardiamo ai risultati e ci piace che voi vi ingegniate a modo vostro per portarli a casa, in tutta libertà). Sei incoraggiato piuttosto a ricercare l'approccio per tè più pratico, sicuro, e conveniente. E magari quello che puoi trovare più piacevole e stimolante quando svlgi l'esercizio da casa, dove ti suggerisco sperimentare, potrebbe anche essere diverso .
-Ciò nononostante, per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
+cell_8="""<b>Nota</b>: Saper programmare non è la competenza che intendiamo valutare con questo esercizio.
+Decidi tu, in piena libertà, se preferisci compilare le tabelle e le risposte a mano, oppure scrivere del codice che lo faccia per te
+o che ti assista nelle misura che ti è più utile. Sei incoraggiato a ricercare l'approccio per te più pratico, sicuro e conveniente.
+Non verranno pertanto attribuiti punti extra per chi scrive del codice. I punti ottenuti dalle risposte consegnate a chiusura sono l'unico elemento oggetto di valutazione.
+In ogni caso, il feedback offerto dalle procedure di validazione rese disponibili è di grande aiuto.
+Esso convalida la conformità delle tue risposte facendo anche presente a quanti dei punti previsti  le tue risposte possono ambire.
+Per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
 """
 nb['cells'].append(nbf.v4.new_markdown_cell(cell_8,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
 
@@ -394,9 +400,17 @@ nb['cells'].append(nbf.v4.new_code_cell(cell_17,metadata={"trusted": True, "dele
 ###############
 # ( CELL 18:
 
-cell_18=f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
-nb['cells'].append(nbf.v4.new_markdown_cell(cell_18,metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}))
-nb['cells'].append(nbf.v4.new_markdown_cell("Inserisci la risposta",metadata={"trusted": True, "deletable": False}))
+#Richiesta
+cell_type='Markdown'
+cell_string=f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
+
+#Risposta
+cell_type='Markdown'
+cell_string="Inserisci la risposta"
+cell_metadata={"trusted": True, "deletable": False}
+add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 18 -END)
 ###############

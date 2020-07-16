@@ -1,5 +1,5 @@
 # in these folders the .ipynb files are automatically generate from .py files applied to .yaml files:
-Notebook_yaml/**.ipynb 
+Notebook_yaml/*.ipynb 
 
 # backups
 *~
