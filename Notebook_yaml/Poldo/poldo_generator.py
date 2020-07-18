@@ -43,44 +43,36 @@ except Exception:
     tb = sys.exc_info()[2]
     raise OtherException(...).with_traceback(tb)
 
-campo_minato=data_instance['campo_minato']
-start_point=eval(data_instance['start_point'])
-target_point=eval(data_instance['target_point'])
-middle_point=eval(data_instance['middle_point'])
+s=data_instance['s']
 
 # END instance specific data loading
 
 # BEGIN instance specific data pre-elaboration
-
-m=len(data_instance['campo_minato'])
-n=len(data_instance['campo_minato'][0])
+dictionary_of_types = {
+     "SC": "<b>strettamente crescente</b>",
+     "ND": "<b>non-decrescente</b>",
+     "SD": "<b>strettamente decrescente</b>",
+     "NC": "<b>non-crescente</b>",
+      "V": "<b>V-sequenza</b>, se cala fino ad un certo punto, e da lì in poi cresce sempre",
+      "A": "<b>ad A</b> (prima sù e poi giù)</it>",
+     "SV": "<b>a V stretto</b> <it>(prima strettamente giù e poi strettamente sù)</it>",
+     "SA": "<b>ad A stetto</b> <it>(prima strettamente sù e poi strettamente giù)</it>",
+      "N": "<b>a N</b> (non-decrescente con al più un ripensamento)</it>",
+      "Z": "<b>a Z</b> <it>(non-crescente con al più un ripensamento)</it>",
+     "SN": "<b>a N stetto</b> <it>(strettamente crescente con al più un ripensamento)</it>",
+     "SZ": "<b>a Z stretto</b> <it>(strettamente decrescente con al più un ripensamento)</it>",
+ "ZigZag": "<b>a Zig-Zag</b> <it>(primo passo a crescere e poi alterna ad ogni passo)</it>",
+ "ZagZig": "<b>a Zag-Zig</b> <it>(primo passo a calare e poi alterna ad ogni passo)</it>",
+"ZigZagEQ": "<b>a Zig-Zag debole</b> <it>(primo passo a crescere e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>",
+"ZagZigEQ": "<b>a Zag-Zig debole</b> <it>(primo passo a calare e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>",
+"132-free": "<b>dal mondo delle permutazioni pattern free per un infinità di problemi in FPT</b>",
+}
 
 # END instance specific data pre-elaboration
 
 # BEGIN instance representation in the notebook
-instance=f"campo_minato={data_instance['campo_minato']}"\
-            +f"\nstart_point={start_point}"\
-            +f"\ntarget_point={target_point}"\
-            +f"\nmiddle_point={middle_point}"\
+instance=f"s={s}"
 # END instance representation in the notebook
-
-# BEGIN dynamic programming table input in the notebook
-# First DP table:
-num_paths_to=f"num_paths_to=["
-for i in range (m+1):
-    num_paths_to=num_paths_to+"\n\t\t"+str([0]*(n+1))+","
-    if i > 0:
-        num_paths_to += "\t\t# " + str(campo_minato[i-1])  
-num_paths_to = num_paths_to + "\n]"
-
-# Second DP table:
-num_paths_from=f"num_paths_from=["
-for i in range (m+2):
-    num_paths_from=num_paths_from+"\n\t\t"+str([0]*(n+2))+","
-    if i > 0 and i <= m:
-        num_paths_from += "\t\t# " + str(campo_minato[i-1])
-num_paths_from = num_paths_from + "\n]"
-# END dynamic programming table input in the notebook
 
 # Handy Ctrl-C Ctrl-V stuff:
 #meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
@@ -90,7 +82,7 @@ num_paths_from = num_paths_from + "\n]"
 
 # NOTEBOOK DEFINITION:
 
-nb = nbf.v4.new_notebook()     
+nb = nbf.v4.new_notebook()
 nb['cells']=[]
 
 
@@ -122,7 +114,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Code'
 cell_string ="""\
-from IPython.core.display import display, HTML, Markdown
+from IPython.core.display import display, HTML, Markdown, Javascript
 
 def start():
     display(Javascript("window.runCells()"))
@@ -147,13 +139,10 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 4:
 
 cell_type='Code'
-cell_string=instance+"\n"+"""\
-m = len(campo_minato)
-n = len(campo_minato[0])
-mappa = [ ["*"]*(n+1) ] + [ (["*"] + r) for r in campo_minato]
-"""
+cell_string=instance
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
+
 # CELL 4 -END)
 ##############
 # ( CELL 5:
@@ -318,7 +307,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Markdown'
 cell_string=f"## Esercizio \[60 pts\]\n"\
-+f"(poldo) Ricerca di sottosequenze {type_of_sequence} di massima lughezza."
++f"(poldo) Ricerca di sottosequenze del tipo{dictionary_of_types[data_instance['general']]} di massima lughezza."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
@@ -327,22 +316,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 7:
 
 cell_type='Markdown'
-cell_string="Si consideri la seguente sequenza di numeri naturali:"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted":True}
+cell_string="Si consideri la seguente sequenza di numeri naturali:\n\n"+str(s)
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 # CELL 7 -END)
 ##############
 # ( CELL 8:
 
 cell_type='Markdown'
-cell_string="""<b>Nota</b>: Saper programmare non è la competenza che intendiamo valutare con questo esercizio.
-Decidi tu, in piena libertà, se preferisci compilare le tabelle e le risposte a mano, oppure scrivere del codice che lo faccia per te
-o che ti assista nelle misura che ti è più utile. Sei incoraggiato a ricercare l'approccio per te più pratico, sicuro e conveniente.
-Non verranno pertanto attribuiti punti extra per chi scrive del codice. I punti ottenuti dalle risposte consegnate a chiusura sono l'unico elemento oggetto di valutazione.
-In ogni caso, il feedback offerto dalle procedure di validazione rese disponibili è di grande aiuto.
-Esso convalida la conformità delle tue risposte facendo anche presente a quanti dei punti previsti  le tue risposte possono ambire.
-Per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
-"""
+cell_string="""__Richieste__:"""
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
@@ -351,14 +333,8 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 9:
 
 cell_type='Markdown'
-cell_string=f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$, deve portarsi nella cella "\
-       +f"${chr(64+m)}{n}=({m},{n})$." \
-       +f"Le celle che riportano il simbolo '*' contengono una mina od altre trapole mortali, ed il robot deve evitarle." \
-       +f"I movimenti base possibili sono il passo verso destra (ad esempio il primo passo potrebbe avvenire dalla cella $A1$ alla cella $A2$)" \
-       + f" ed il passo verso il basso (ad esempio, come unica altra alternativa per il primo passo il robot "\
-       + f"potrebbe portarsi quindi nella cella $B1$)."\
-       + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"
-cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_string=f"1. __[10 pts]__ Trovare una sottosequenza $s1$ {dictionary_of_types[data_instance['question_1']]} di $s$ che sia la più lunga possibile."
+cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 9 -END)
@@ -366,17 +342,17 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 10:
 
 cell_type='Code'
-cell_string="""visualizza(mappa)"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_string="#Inserisci la risposta\ns1=[]"
+cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 10 -END)
+#CELL 10 -END)
 ###############
 # ( CELL 11:
 
-cell_type='Markdown'
-cell_string="""__Richieste__:"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_type='Code'
+cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s1, 's1', '{data_instance['question_1']}', pt_green=1, pt_red=10)))"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 11 -END)
@@ -384,15 +360,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 12:
 
 cell_type='Markdown'
-cell_string=f"1. __\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."
+cell_string=f"2. __[10 pts]__ Trovare una sottosequenza $s2$  {dictionary_of_types[data_instance['question_2']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {data_instance['start_banned_interval']} alla posizione {data_instance['end_banned_interval']}."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 12 -END)
 ###############
 # ( CELL 13:
-cell_type="Code"
-cell_string=num_paths_to
+cell_type='Code'
+cell_string="#Inserisci la risposta\ns2=[]"
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 # CELL 13 -END)
@@ -400,18 +376,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 14:
 
 cell_type='Code'
-cell_string="""visualizza_e_valuta('num_paths_to',num_paths_to)"""
-cell_metadata=={"trusted": True, "deletable": False}
+cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s2, 's2', '{data_instance['question_2']}', pt_green=1, pt_red=10, start_banned_interval={data_instance['start_banned_interval']}, end_banned_interval={data_instance['end_banned_interval']})))"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 14 -END)
 ###############
 # ( CELL 15:
 cell_type='Markdown'
-cell_string=f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\\times(n+2)$" \
-                    +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
-                    +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
-                    +f"${chr(64+m)}{n}=({m},{n})$."
+cell_string=f"3. __[10 pts]__ Trovare la più lunga {dictionary_of_types[data_instance['question_3']]} che includa l'elemento in posizione {data_instance['forced_ele_pos']}"
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
@@ -419,85 +392,71 @@ add_cell(cell_type,cell_string,cell_metadata)
 ###############
 # ( CELL 16:
 
-cell_type="Code" 
-cell_string=num_paths_from
+cell_type='Code'
+cell_string="#Inserisci la risposta\ns3=[]"
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 16 -END)
-###############
+##############
 # ( CELL 17:
 
 cell_type="Code"
-cell_string="""visualizza_e_valuta('num_paths_from',num_paths_from)"""
-cell_metadata={"trusted": True, "deletable": False}
+cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{data_instance['question_3']}', pt_green=1, pt_red=10, forced_ele_pos={data_instance['forced_ele_pos']})))"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 17 -END)
-###############
+##############
 # ( CELL 18:
 
-#Richiesta
 cell_type='Markdown'
-cell_string=f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+cell_string=f"4. __[10 pts]__ Una sequenza è detta una {dictionary_of_types[data_instance['question_4']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 18 -END)
 ###############
 # ( CELL 19:
 
-#Richiesta
-
-cell_type='Markdown'
-cell_string=f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_string="Inserisci la risposta"
+cell_type='Code'
+cell_string="#Inserisci la risposta\ns4=[]"
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 19 -END)
 ###############
 # ( CELL 20:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_type="Code"
+cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s4, 's4', '{data_instance['question_4']}', pt_green=1, pt_red=10)))"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 20 -END)
-###############
 # ( CELL 21:
 
-#Richiesta
 cell_type='Markdown'
-cell_string=f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da $A1=(1,1)$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"
+cell_string=f"5. __[20 pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[data_instance['question_5']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
 # CELL 21 -END)
 ###############
+# ( CELL 22:
 
-nbf.write(nb, 'robot_senza_gemme.ipynb')
+cell_type='Code'
+cell_string="#Inserisci la risposta\ncol=[]"
+cell_metadata={"trusted": True, "deletable": False}
+add_cell(cell_type,cell_string,cell_metadata)
+
+# CELL 23 -END)
+###############
+# ( CELL 24:
+
+cell_type="Code"
+cell_string=f"display(Markdown(eval_coloring(s, 's', col, 'col', '{data_instance['question_5']}', pt_green=2, pt_red=15)))"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
+
+# CELL 24 -END)
+
+nbf.write(nb, 'test_poldo.ipynb')

@@ -1,0 +1,41 @@
+---
+# dictionary_of_types = {
+#      "SC": ("implemented", "<b>strettamente crescente</b>"),
+#      "ND": ("implemented", "<b>non-decrescente</b>"),
+#      "SD": ("implemented", "<b>strettamente decrescente</b>"),
+#      "NC": ("implemented", "<b>non-crescente</it>"),
+#       "V": ("implemented", "<b>a V</b> <it>(prima giù e poi sù)</it>"),
+#       "A": ("implemented", "<b>ad A</b> (prima sù e poi giù)</it>"),
+#      "SV": ("implemented", "<b>a V stretto</b> <it>(prima strettamente giù e poi strettamente sù)</it>"),
+#      "SA": ("implemented", "<b>ad A stetto</b> <it>(prima strettamente sù e poi strettamente giù)</it>"),
+#       "N": ("implemented", "<b>a N</b> (non-decrescente con al più un ripensamento)</it>"),
+#       "Z": ("implemented", "<b>a Z</b> <it>(non-crescente con al più un ripensamento)</it>"),
+#      "SN": ("implemented", "<b>a N stetto</b> <it>(strettamente crescente con al più un ripensamento)</it>"),
+#      "SZ": ("implemented", "<b>a Z stretto</b> <it>(strettamente decrescente con al più un ripensamento)</it>"),
+#  "ZigZag": ("implemented", "<b>a Zig-Zag</b> <it>(primo passo a crescere e poi alterna ad ogni passo)</it>"),
+#  "ZagZig": ("implemented", "<b>a Zag-Zig</b> <it>(primo passo a calare e poi alterna ad ogni passo)</it>"),
+#"ZigZagEQ": ("implemented", "<b>a Zig-Zag debole</b> <it>(primo passo a crescere e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>"),
+#"ZagZigEQ": ("implemented", "<b>a Zag-Zig debole</b> <it>(primo passo a calare e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>"),
+#"132-free": ("not yet done", "<b>dal mondo delle permutazioni pattern free per un infinità di problemi in FPT</b>"),
+#     "...": ("not thought of yet", "<b>???</b>")
+#}
+
+
+#istanza
+s: [11, 24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 13, 33, 35, 21, 16, 39, 49, 60, 54, 23]
+
+#descrivere i tipi di sequenza per l'introduzione e per le richieste
+
+general: "SC"
+question_1: "SC"
+question_2: "SD"
+question_3: "SC"
+question_4: "V"
+question_5: "NC"
+
+#elementi aggiuntivi
+forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
+start_banned_interval : 1 #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
+end_banned_interval : 4 #ultimo elemento non concesso
+
+...
