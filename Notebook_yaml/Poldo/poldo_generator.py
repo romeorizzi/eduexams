@@ -459,4 +459,4 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 24 -END)
 
-nbf.write(nb, 'test_poldo.ipynb')
+nbf.write(nb, 'poldo.ipynb')
