@@ -147,6 +147,24 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 3 -END)
 ##############
+#CELL 5
+cell_type = "Code"
+cell_string = """\
+def is_divisible(env,num):
+    solve = False
+    for i in env :
+        if int(i) % int(n) != 0:
+            solve = False
+        else:
+            solve = True
+    if solve == True:
+        print("Tutti i numeri sono divisibili")
+    else:
+        print("Ritenta! Ci sono numeri che non sono divisibili")
+    return solve
+    """
+cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 5 -END)
 ##############
@@ -206,11 +224,14 @@ cell_string=f"1. __\[10 pts\]__"
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
+cell_type='Code'
+cell_string="#Inserisci la risposta" +"\n" +"n=0 #0 non è chiaramente la soluzione, modifica il valore di n!"
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
-
+cell_type ="Code"
+cell_string="is_divisible(env,n)"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
 # CELL 10 -END)
 ###############
 
