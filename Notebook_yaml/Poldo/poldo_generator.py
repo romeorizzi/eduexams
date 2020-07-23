@@ -59,7 +59,7 @@ dictionary_of_types = {
      "SA": "<b>ad A stetto</b> <it>(prima strettamente sù e poi strettamente giù)</it>",
       "N": "<b>a N</b> (non-decrescente con al più un ripensamento)</it>",
       "Z": "<b>a Z</b> <it>(non-crescente con al più un ripensamento)</it>",
-     "SN": "<b>a N stetto</b> <it>(strettamente crescente con al più un ripensamento)</it>",
+     "SN": "<b>a N stretto</b> <it>(strettamente crescente con al più un ripensamento)</it>",
      "SZ": "<b>a Z stretto</b> <it>(strettamente decrescente con al più un ripensamento)</it>",
  "ZigZag": "<b>a Zig-Zag</b> <it>(primo passo a crescere e poi alterna ad ogni passo)</it>",
  "ZagZig": "<b>a Zag-Zig</b> <it>(primo passo a calare e poi alterna ad ogni passo)</it>",
@@ -307,7 +307,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Markdown'
 cell_string=f"## Esercizio \[60 pts\]\n"\
-+f"(poldo) Ricerca di sottosequenze del tipo{dictionary_of_types[data_instance['general']]} di massima lughezza."
++f"(poldo) {dictionary_of_types[data_instance['title']]}."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
