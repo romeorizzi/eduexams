@@ -56,6 +56,14 @@ num_of_question=1
 
 # END instance specific data loading
 
+# BEGIN creazione variabili per generare istanza yaml per modalità libera
+yaml_gen={}
+yaml_gen['name']=data_instance['name']
+yaml_gen['title']=data_instance['title']
+tasks=[]
+one_task={}
+
+
 # BEGIN instance specific data pre-elaboration
 dictionary_of_types = {
      "SC": "<b>strettamente crescente</b>",
@@ -328,6 +336,7 @@ cell_type='Markdown'
 cell_string="Si consideri la seguente sequenza di numeri naturali:\n\n"+str(s)
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
+yaml_gen['desciption1']=cell_string
 # CELL 7 -END)
 ##############
 # ( CELL 8:
@@ -348,6 +357,10 @@ if task[0]==True:
     cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
+    one_task['tot_points'] = possible_tasks[0]['tot_points']
+    one_task['ver_points'] = possible_tasks[0]['ver_points']
+    one_task['description1'] = cell_string
+    tasks.append(one_task)
 
     # CELL 9 -END)
     ##############
@@ -377,6 +390,10 @@ if task[1]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
+    one_task['tot_points'] = possible_tasks[1]['tot_points']
+    one_task['ver_points'] = possible_tasks[1]['ver_points']
+    one_task['description1'] = cell_string
+    tasks.append(one_task)
 
     # CELL 12 -END)
     ###############
@@ -404,6 +421,10 @@ if task[2]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
+    one_task['tot_points'] = possible_tasks[2]['tot_points']
+    one_task['ver_points'] = possible_tasks[2]['ver_points']
+    one_task['description1'] = cell_string
+    tasks.append(one_task)
 
     # CELL 15 -END)
     ###############
@@ -434,6 +455,10 @@ if task[3]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
+    one_task['tot_points'] = possible_tasks[3]['tot_points']
+    one_task['ver_points'] = possible_tasks[3]['ver_points']
+    one_task['description1'] = cell_string
+    tasks.append(one_task)
 
     # CELL 18 -END)
     ###############
@@ -460,6 +485,10 @@ if task[4]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
+    one_task['tot_points'] = possible_tasks[4]['tot_points']
+    one_task['ver_points'] = possible_tasks[4]['ver_points']
+    one_task['description1'] = cell_string
+    tasks.append(one_task)
 
     # CELL 21 -END)
     ###############
@@ -480,5 +509,12 @@ if task[4]==True:
     add_cell(cell_type,cell_string,cell_metadata)
 
     # CELL 24 -END)
+
+yaml_gen['tasks']=tasks
+
+print(yaml_gen)
+print (yaml.dump(yaml_gen))
+with open(r'store_file.yaml', 'w') as file:
+    documents = yaml.dump(yaml_gen, file)
 
 nbf.write(nb, 'poldo.ipynb')

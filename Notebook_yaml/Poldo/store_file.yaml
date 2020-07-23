@@ -1,0 +1,20 @@
+name: dp_poldo
+title: Sottosequenze crescenti e decrescenti
+desciption1: 'Si consideri la seguente sequenza di numeri naturali:
+
+
+  [11, 24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 13,
+  33, 35, 21, 16, 39, 49, 60, 54, 23]'
+tasks:
+- &id001
+  tot_points: 20
+  ver_points: 20
+  description1: "5. __[20 pts]__ Qual \xE8 il minor numero possibile di colori _C_\
+    \ per colorare gli elementi della sequenza in input in modo che, per ogni colore,\
+    \ la sottosequenza degli elementi di quel colore sia monotona <b>non-crescente</b>?\
+    \ Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a\
+    \ _C_)"
+- *id001
+- *id001
+- *id001
+- *id001
