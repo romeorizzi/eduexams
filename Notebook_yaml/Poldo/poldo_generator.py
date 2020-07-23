@@ -43,7 +43,16 @@ except Exception:
     tb = sys.exc_info()[2]
     raise OtherException(...).with_traceback(tb)
 
+#print(data_instance)
 s=data_instance['s']
+#print(data_instance['possible_tasks'])
+task=data_instance['tasks_to_create']
+possible_tasks=data_instance['possible_tasks']
+total_point=0
+for i in range (0,len(task)):
+    if task[i]==True:
+        total_point+=possible_tasks[i]['tot_points']
+num_of_question=1
 
 # END instance specific data loading
 
@@ -306,8 +315,8 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 6:
 
 cell_type='Markdown'
-cell_string=f"## Esercizio \[60 pts\]\n"\
-+f"(poldo) {dictionary_of_types[data_instance['title']]}."
+cell_string=f"## Esercizio \[{total_point} pts\]\n"\
++f"(poldo) {data_instance['title']}."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
@@ -330,133 +339,146 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 8 -END)
 ##############
-# ( CELL 9:
 
-cell_type='Markdown'
-cell_string=f"1. __[10 pts]__ Trovare una sottosequenza $s1$ {dictionary_of_types[data_instance['question_1']]} di $s$ che sia la più lunga possibile."
-cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+if task[0]==True:
+    # ( CELL 9:
 
-# CELL 9 -END)
-##############
-# ( CELL 10:
+    cell_type='Markdown'
+    cell_string=f"{num_of_question}. __[{possible_tasks[0]['tot_points']} pts]__ Trovare una sottosequenza $s1$ {dictionary_of_types[possible_tasks[0]['type']]} di $s$ che sia la più lunga possibile."
+    cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_of_question+=1
 
-cell_type='Code'
-cell_string="#Inserisci la risposta\ns1=[]"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
+    # CELL 9 -END)
+    ##############
+    # ( CELL 10:
 
-#CELL 10 -END)
-###############
-# ( CELL 11:
+    cell_type='Code'
+    cell_string="#Inserisci la risposta\ns1=[]"
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-cell_type='Code'
-cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s1, 's1', '{data_instance['question_1']}', pt_green=1, pt_red=10)))"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    #CELL 10 -END)
+    ###############
+    # ( CELL 11:
 
-# CELL 11 -END)
-###############
-# ( CELL 12:
+    cell_type='Code'
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s1, 's1', '{dictionary_of_types[possible_tasks[0]['type']]}', pt_green=1, pt_red={possible_tasks[0]['tot_points']})))"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-cell_type='Markdown'
-cell_string=f"2. __[10 pts]__ Trovare una sottosequenza $s2$  {dictionary_of_types[data_instance['question_2']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {data_instance['start_banned_interval']} alla posizione {data_instance['end_banned_interval']}."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    # CELL 11 -END)
+    ###############
+if task[1]==True:
+    # ( CELL 12:
 
-# CELL 12 -END)
-###############
-# ( CELL 13:
-cell_type='Code'
-cell_string="#Inserisci la risposta\ns2=[]"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 13 -END)
-###############
-# ( CELL 14:
+    cell_type='Markdown'
+    cell_string=f"{num_of_question}. __[{possible_tasks[1]['tot_points']} pts]__ Trovare una sottosequenza $s2$  {dictionary_of_types[possible_tasks[1]['type']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {possible_tasks[1]['start_banned_interval']} alla posizione {possible_tasks[1]['end_banned_interval']}."
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_of_question+=1
 
-cell_type='Code'
-cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s2, 's2', '{data_instance['question_2']}', pt_green=1, pt_red=10, start_banned_interval={data_instance['start_banned_interval']}, end_banned_interval={data_instance['end_banned_interval']})))"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    # CELL 12 -END)
+    ###############
+    # ( CELL 13:
+    cell_type='Code'
+    cell_string="#Inserisci la risposta\ns2=[]"
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
+    # CELL 13 -END)
+    ###############
+    # ( CELL 14:
 
-# CELL 14 -END)
-###############
-# ( CELL 15:
-cell_type='Markdown'
-cell_string=f"3. __[10 pts]__ Trovare la più lunga {dictionary_of_types[data_instance['question_3']]} che includa l'elemento in posizione {data_instance['forced_ele_pos']}"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type='Code'
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s2, 's2', '{dictionary_of_types[possible_tasks[1]['type']]}', pt_green=1, pt_red={possible_tasks[1]['tot_points']}, start_banned_interval={possible_tasks[1]['start_banned_interval']}, end_banned_interval={possible_tasks[1]['end_banned_interval']})))"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 15 -END)
-###############
-# ( CELL 16:
+    # CELL 14 -END)
+    ###############
 
-cell_type='Code'
-cell_string="#Inserisci la risposta\ns3=[]"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
+if task[2]==True:
+    # ( CELL 15:
+    cell_type='Markdown'
+    cell_string=f"{num_of_question}. __[{possible_tasks[2]['tot_points']} pts]__ Trovare la più lunga {dictionary_of_types[possible_tasks[2]['type']]} che includa l'elemento in posizione {possible_tasks[2]['forced_ele_pos']}"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_of_question+=1
 
-# CELL 16 -END)
-##############
-# ( CELL 17:
+    # CELL 15 -END)
+    ###############
+    # ( CELL 16:
 
-cell_type="Code"
-cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{data_instance['question_3']}', pt_green=1, pt_red=10, forced_ele_pos={data_instance['forced_ele_pos']})))"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type='Code'
+    cell_string="#Inserisci la risposta\ns3=[]"
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 17 -END)
-##############
-# ( CELL 18:
+    # CELL 16 -END)
+    ##############
+    # ( CELL 17:
 
-cell_type='Markdown'
-cell_string=f"4. __[10 pts]__ Una sequenza è detta una {dictionary_of_types[data_instance['question_4']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type="Code"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{dictionary_of_types[possible_tasks[2]['type']]}', pt_green=1, pt_red={possible_tasks[2]['tot_points']}, forced_ele_pos={possible_tasks[2]['forced_ele_pos']})))"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 18 -END)
-###############
-# ( CELL 19:
+    # CELL 17 -END)
+    ##############
 
-cell_type='Code'
-cell_string="#Inserisci la risposta\ns4=[]"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
+if task[3]==True:
+    # ( CELL 18:
 
-# CELL 19 -END)
-###############
-# ( CELL 20:
-cell_type="Code"
-cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s4, 's4', '{data_instance['question_4']}', pt_green=1, pt_red=10)))"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type='Markdown'
+    cell_string=f"{num_of_question}. __[{possible_tasks[3]['tot_points']} pts]__ Una sequenza è detta una {dictionary_of_types[possible_tasks[3]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_of_question+=1
 
-# ( CELL 21:
+    # CELL 18 -END)
+    ###############
+    # ( CELL 19:
 
-cell_type='Markdown'
-cell_string=f"5. __[20 pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[data_instance['question_5']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type='Code'
+    cell_string="#Inserisci la risposta\ns4=[]"
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 21 -END)
-###############
-# ( CELL 22:
+    # CELL 19 -END)
+    ###############
+    # ( CELL 20:
+    cell_type="Code"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s4, 's4', '{dictionary_of_types[possible_tasks[3]['type']]}', pt_green=1, pt_red={possible_tasks[3]['tot_points']})))"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-cell_type='Code'
-cell_string="#Inserisci la risposta\ncol=[]"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
+if task[4]==True:
+    # ( CELL 21:
 
-# CELL 23 -END)
-###############
-# ( CELL 24:
+    cell_type='Markdown'
+    cell_string=f"{num_of_question}. __[{possible_tasks[4]['tot_points']} pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[possible_tasks[4]['type']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_of_question+=1
 
-cell_type="Code"
-cell_string=f"display(Markdown(eval_coloring(s, 's', col, 'col', '{data_instance['question_5']}', pt_green=2, pt_red=15)))"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    # CELL 21 -END)
+    ###############
+    # ( CELL 22:
 
-# CELL 24 -END)
+    cell_type='Code'
+    cell_string="#Inserisci la risposta\ncol=[]"
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
+
+    # CELL 23 -END)
+    ###############
+    # ( CELL 24:
+
+    cell_type="Code"
+    cell_string=f"display(Markdown(eval_coloring(s, 's', col, 'col', '{dictionary_of_types[possible_tasks[4]['type']]}', pt_green=2, pt_red={possible_tasks[4]['tot_points']})))"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+
+    # CELL 24 -END)
 
 nbf.write(nb, 'poldo.ipynb')

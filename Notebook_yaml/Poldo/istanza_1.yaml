@@ -20,8 +20,8 @@
 #     "...": ("not thought of yet", "<b>???</b>")
 #}
 
-name: dp_poldo
-title: Sottosequenze crescenti e decrescenti
+name: "dp_poldo"
+title: "Sottosequenze crescenti e decrescenti"
 
 
 #istanza
@@ -29,40 +29,52 @@ s: [11, 24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 
 
 #descrivere i tipi di sequenza per l'introduzione e per le richieste
 
-general: "SC"
-question_1: "SC"
-question_2: "SD"
-question_3: "SC"
-question_4: "V"
-question_5: "NC"
+#question_1: "SC"
+#question_2: "SD"
+#question_3: "SC"
+#question_4: "V"
+#question_5: "NC"
 
 #elementi aggiuntivi
-forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
-start_banned_interval : 1 #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
-end_banned_interval : 4 #ultimo elemento non concesso
+#forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
+#start_banned_interval : 1 #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
+#end_banned_interval : 4 #ultimo elemento non concesso
 
-
-tasks:
+#qui è possibile configurare i parametri dei 5 possibili tasks
+possible_tasks:
 - {
+    type: "SC",
     tot_points: 10,
     ver_points: 10,
-    description1: "Trovare una sottosequenza crescente che sia la più lunga possibile"
   }
 - {
-    tot_points: 20,
-    ver_points: 20,
-    description1: "Trovare quante sono le sottosequenze crescenti di lunghezza massima"
-  }
-- {
-    tot_points: 20,
-    ver_points: 20,
-    description1: "Una sequenza è detta una _Z-sequenza_ , o sequenza crescente con un possibile ripensamento, se esiste un indice _i_ tale che ciascuno degli elementi della sequenza esclusi al più il primo e l'_i_-esimo sono strettamente maggiori dell'elemento che immediatamente li precede nella sequenza. Trovare la più lunga Z-sequenza che sia una sottosequenza della sequenza data"
-  }
-- {
+    type: "SD",
     tot_points: 10,
     ver_points: 10,
-    description1: "Trovare la più lunga sottosequenza crescente che includa l'elemento di valore 32"
+    start_banned_interval : 1, #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
+    end_banned_interval : 4, #ultimo elemento non concesso
   }
+- {
+    type: "SC",
+    tot_points: 10,
+    ver_points: 10,
+    forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
+  }
+- {
+    type: "V",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    type: "NC",
+    tot_points: 20,
+    ver_points: 20,
+  }
+
+#inserire true se il task deve essere presente, false se non lo si vuole nel file generato (l'array deve essere sempre della dimensione dei possible_tasks)
+tasks_to_create: [True, True, True, True, True]
+
+#esempio (non crea la prima e l'ultima richiesta):
+#tasks_to_create: [False, True, True, True, False]
 ...
 
-...
