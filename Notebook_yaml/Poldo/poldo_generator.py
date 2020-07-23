@@ -76,14 +76,14 @@ dictionary_of_types = {
      "ND": "<b>non-decrescente</b>",
      "SD": "<b>strettamente decrescente</b>",
      "NC": "<b>non-crescente</b>",
-      "V": "<b>V-sequenza</b>, se cala fino ad un certo punto, e da lì in poi cresce sempre",
+      "V": "<b>una V-sequenza</b>, se cala fino ad un certo punto, e da lì in poi cresce sempre",
       "A": "<b>ad A</b> (prima sù e poi giù)</it>",
      "SV": "<b>a V stretto</b> <it>(prima strettamente giù e poi strettamente sù)</it>",
      "SA": "<b>ad A stetto</b> <it>(prima strettamente sù e poi strettamente giù)</it>",
-      "N": "<b>a N</b> (non-decrescente con al più un ripensamento)</it>",
-      "Z": "<b>a Z</b> <it>(non-crescente con al più un ripensamento)</it>",
-     "SN": "<b>a N stretto</b> <it>(strettamente crescente con al più un ripensamento)</it>",
-     "SZ": "<b>a Z stretto</b> <it>(strettamente decrescente con al più un ripensamento)</it>",
+      "N": "<b>una N-sequenza</b> (non-decrescente con al più un ripensamento)</it>",
+      "Z": "<b>una Z-sequenza</b> <it>(non-crescente con al più un ripensamento)</it>",
+     "SN": "<b>una N-sequenza stretta</b> <it>(strettamente crescente con al più un ripensamento)</it>",
+     "SZ": "<b>una Z-sequenza stretta</b> <it>(strettamente decrescente con al più un ripensamento)</it>",
  "ZigZag": "<b>a Zig-Zag</b> <it>(primo passo a crescere e poi alterna ad ogni passo)</it>",
  "ZagZig": "<b>a Zag-Zig</b> <it>(primo passo a calare e poi alterna ad ogni passo)</it>",
 "ZigZagEQ": "<b>a Zig-Zag debole</b> <it>(primo passo a crescere e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>",
@@ -448,7 +448,7 @@ if task[3]==True:
     # ( CELL 18:
 
     cell_type='Markdown'
-    cell_string=f"{num_of_question}. __[{possible_tasks[3]['tot_points']} pts]__ Una sequenza è detta una {dictionary_of_types[possible_tasks[3]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
+    cell_string=f"{num_of_question}. __[{possible_tasks[3]['tot_points']} pts]__ Una sequenza è detta {dictionary_of_types[possible_tasks[3]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1

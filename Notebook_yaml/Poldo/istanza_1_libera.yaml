@@ -17,7 +17,7 @@ tasks:
     \ che includa l'elemento in posizione 18"
   tot_points: 10
   ver_points: 10
-- description1: "4. __[10 pts]__ Una sequenza \xE8 detta una <b>V-sequenza</b>, se\
+- description1: "4. __[10 pts]__ Una sequenza \xE8 detta <b>una V-sequenza</b>, se\
     \ cala fino ad un certo punto, e da l\xEC in poi cresce sempre. Trovare la pi\xF9\
     \ lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
   tot_points: 10
