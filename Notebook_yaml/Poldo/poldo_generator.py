@@ -3,6 +3,15 @@ from sys import argv, exit, stderr
 import os
 import nbformat as nbf
 import yaml
+from collections import OrderedDict
+
+def represent_dictionary_order(self, dict_data):
+    return self.represent_mapping('tag:yaml.org,2002:map', dict_data.items())
+
+def setup_yaml():
+    yaml.add_representer(OrderedDict, represent_dictionary_order)
+
+setup_yaml()
 
 
 def add_cell(cell_type,cell_string,cell_metadata):
@@ -43,9 +52,7 @@ except Exception:
     tb = sys.exc_info()[2]
     raise OtherException(...).with_traceback(tb)
 
-#print(data_instance)
 s=data_instance['s']
-#print(data_instance['possible_tasks'])
 task=data_instance['tasks_to_create']
 possible_tasks=data_instance['possible_tasks']
 total_point=0
@@ -57,11 +64,10 @@ num_of_question=1
 # END instance specific data loading
 
 # BEGIN creazione variabili per generare istanza yaml per modalità libera
-yaml_gen={}
+yaml_gen=OrderedDict()
 yaml_gen['name']=data_instance['name']
 yaml_gen['title']=data_instance['title']
 tasks=[]
-one_task={}
 
 
 # BEGIN instance specific data pre-elaboration
@@ -323,7 +329,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 6:
 
 cell_type='Markdown'
-cell_string=f"## Esercizio \[{total_point} pts\]\n"\
+cell_string=f"## Esercizio \[{total_point} pts\]<br/>"\
 +f"(poldo) {data_instance['title']}."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
@@ -333,10 +339,10 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 7:
 
 cell_type='Markdown'
-cell_string="Si consideri la seguente sequenza di numeri naturali:\n\n"+str(s)
+cell_string="Si consideri la seguente sequenza di numeri naturali:<br/><br/>"+str(s)
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
-yaml_gen['desciption1']=cell_string
+yaml_gen['description1']=cell_string
 # CELL 7 -END)
 ##############
 # ( CELL 8:
@@ -357,10 +363,7 @@ if task[0]==True:
     cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
-    one_task['tot_points'] = possible_tasks[0]['tot_points']
-    one_task['ver_points'] = possible_tasks[0]['ver_points']
-    one_task['description1'] = cell_string
-    tasks.append(one_task)
+    tasks+=[{'tot_points' : possible_tasks[0]['tot_points'],'ver_points': possible_tasks[0]['ver_points'], 'description1':cell_string}]
 
     # CELL 9 -END)
     ##############
@@ -390,10 +393,7 @@ if task[1]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
-    one_task['tot_points'] = possible_tasks[1]['tot_points']
-    one_task['ver_points'] = possible_tasks[1]['ver_points']
-    one_task['description1'] = cell_string
-    tasks.append(one_task)
+    tasks+=[{'tot_points' : possible_tasks[1]['tot_points'],'ver_points': possible_tasks[1]['ver_points'], 'description1':cell_string}]
 
     # CELL 12 -END)
     ###############
@@ -421,10 +421,7 @@ if task[2]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
-    one_task['tot_points'] = possible_tasks[2]['tot_points']
-    one_task['ver_points'] = possible_tasks[2]['ver_points']
-    one_task['description1'] = cell_string
-    tasks.append(one_task)
+    tasks += [{'tot_points': possible_tasks[2]['tot_points'], 'ver_points': possible_tasks[2]['ver_points'],'description1': cell_string}]
 
     # CELL 15 -END)
     ###############
@@ -455,10 +452,7 @@ if task[3]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
-    one_task['tot_points'] = possible_tasks[3]['tot_points']
-    one_task['ver_points'] = possible_tasks[3]['ver_points']
-    one_task['description1'] = cell_string
-    tasks.append(one_task)
+    tasks += [{'tot_points': possible_tasks[3]['tot_points'], 'ver_points': possible_tasks[3]['ver_points'],'description1': cell_string}]
 
     # CELL 18 -END)
     ###############
@@ -485,10 +479,7 @@ if task[4]==True:
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
-    one_task['tot_points'] = possible_tasks[4]['tot_points']
-    one_task['ver_points'] = possible_tasks[4]['ver_points']
-    one_task['description1'] = cell_string
-    tasks.append(one_task)
+    tasks += [{'tot_points': possible_tasks[4]['tot_points'], 'ver_points': possible_tasks[4]['ver_points'],'description1': cell_string}]
 
     # CELL 21 -END)
     ###############
@@ -512,9 +503,7 @@ if task[4]==True:
 
 yaml_gen['tasks']=tasks
 
-print(yaml_gen)
-print (yaml.dump(yaml_gen))
-with open(r'store_file.yaml', 'w') as file:
-    documents = yaml.dump(yaml_gen, file)
+with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
+    documents = yaml.dump(yaml_gen, file, default_flow_style=False)
 
 nbf.write(nb, 'poldo.ipynb')
