@@ -1,6 +1,7 @@
 import random
 import math
-import sys
+from sys import argv
+import os
 #-----------------------------------------------------------------
 #                             FUNZIONE CHE VERIFICA SE UN NUMERO E' PRIMO
 #-----------------------------------------------------------------
@@ -38,22 +39,52 @@ def InstanceDesigner(MCD,numRegoli,tetto):
     listPrime = GeneratePimeNumber(numRegoli)
     listRegoli = []
     molt = 1
-    for l in listPrime:
-        molt *= l
-    for l in listPrime:
-        num = (MCD * molt)//l
-        listRegoli.append(int(num))
-    return listRegoli
-#---------------------------------------------------------------------
+    if MCD > tetto:
+        print("Please mcd must be less than max num.Retry")
+        exit()
+    else:
+        for l in listPrime:
+            if molt < tetto:
+                molt *= l
+
+        for l in listPrime:
+            num = (molt*MCD)//l
+            if num < tetto:
+                listRegoli.append(num)
+            else:
+                n =random.randrange(1,4)
+                num =MCD*l*(pow(2,n) +1)
+                if num < tetto:
+                    listRegoli.append(num)
+                else:
+                    n = random.randrange(1, 4)
+                    num = MCD *l*(pow(2, n-1) + 1)
+                    if num < tetto:
+                        listRegoli.append(num)
+                        print("ho aggiunto " + str(num))
+                    else:
+
+                            num = listRegoli[len(listRegoli) - 1]
+                            listRegoli.append(num)
+                            print("ho aggiunto " + str(num))
+
+        print(listRegoli)
+        return listRegoli
+    #---------------------------------------------------------------------
 #                        FUNZIONE CHE GENERA LO YAML
 #--------------------------------------------------------------------
 def YAMLFile(text):
     file1=open("istanza.yaml","w")
-    text = "---\n"+"Generazione:"+str(text) +"\n"+"---"
+    text = "---\n"+"Generazione:\n"+str(text) +"\n"+"..."
     file1.write(text)
 
 def main():
-    text = (InstanceDesigner(3,9))
+    if len(argv) != 4:
+        print(f"Mh... you have called the script {os.path.basename(argv[0])} passing to it {len(argv) - 1} +parameters. Expecting three. Please pass me the MCD, number element of sequence and the max number that I can't superate!")
+        exit(1)
+
+    # BEGIN instance specific data loading
+    text = (InstanceDesigner(int(argv[1]),int(argv[2]),int(argv[3])))
     YAMLFile(text)
 
 main()
