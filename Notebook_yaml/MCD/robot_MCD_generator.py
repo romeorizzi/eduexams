@@ -4,6 +4,7 @@ import os
 # import argparse
 import nbformat as nbf
 import yaml
+import math
 
 
 def add_cell(cell_type,cell_string,cell_metadata):
@@ -147,28 +148,62 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 3 -END)
 ##############
-#CELL 5
+#CELL 4
+
 cell_type = "Code"
-cell_string = """\
-def is_divisible(env,num):
-    solve = False
-    for i in env :
-        if int(i) % int(n) != 0:
-            solve = False
-        else:
-            solve = True
-    if solve == True:
-        print("Tutti i numeri sono divisibili")
+cell_string ="""\
+regoli=[24, 90, 120]
+def evaluation_format(answ, pt_green,pt_red):
+    pt_blue=0
+    if pt_green!=0:
+        pt_blue=pt_red-pt_green
+        pt_red=0
+    return f"{answ}. Totalizzeresti <span style='color:green'>[{pt_green} safe pt]</span>, \
+                                    <span style='color:blue'>[{pt_blue} possible pt]</span>, \
+                                    <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
+def is_a_divisor(d,n):
+    if n % d != 0:
+        return False
     else:
-        print("Ritenta! Ci sono numeri che non sono divisibili")
-    return solve
-    """
+        return True 
+    
+def verifica_lower_bound(common_divisor, silent=False):
+    for r in regoli:
+        if not is_a_divisor(common_divisor,r):
+            if silent:
+                return False
+            else:
+                display(Markdown(evaluation_format("No", 0, 12)+f"Il numero che hai proposto ({common_divisor}) non è un divisore del numero ${r}={r//common_divisor}+{r%common_divisor}$ che appartiene al gruppo dei numeri proposti."))
+                return
+    display(Markdown(evaluation_format("Si", 1, 12)+"Posso confermarti che il numero inserito è un comun divisore. Mi hai convinto che il massimo comun divisore è grande almeno ${common_divisor}$. Non so dirti (nè sarei titolato a dirti) se ${common_divisor}$ sia massimo tra i divisori comuni."))
+        
+def verifica_upper_bound(coefficients, silent=False):
+    if len(coefficients) != len(regoli):
+        if silent:
+            return False
+            
+        else:
+            display(Markdown(evaluation_format("No", 0, 14)+f"Mi hai fornito ${len(coefficients)}$ coefficienti quando me ne aspettavo ${len(regoli)}$ (uno per ogni regolo fornito in input)."))
+            return
+    ub = 0
+    for c,x in zip(coefficients,regoli):
+        ub += c*x            
+    if ub <= 0:
+        if silent:
+            return False
+        else:
+            display(Markdown(evaluation_format("No", 0, 14)+f"La combinazione lineare dei regoli coi coefficienti interi che mi hai fornito genera il numero ${ub}$ che non è strettamente maggiore di zero come richiesto e quindi non costituisce un upper-bound valido sul valore del massimo comun divisore per i regoli assegnati. Mi hai fornito il seguente vettore di coefficienti ${coefficients}$."))
+            return
+    display(Markdown(evaluation_format("Si", 1, 14)+"La combinazione lineare dei regoli fornita vale "+str(ub)+" e mi convince che il massimo comun divisore dei regoli non potrà mai eccedere " +str(ub)+ " essendo chiamato ad esserne un divisore come di ogni altra combinazione a coefficienti interi e positiva di numeri che divide. Mi hai convinto che il massimo comun divisore è grande al massimo " +str(ub)+". Non so dirti (nè sarei titolato a dirti) se puoi generare combinazioni positive più piccole."))
+"""\
+
+
 cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 5 -END)
+# CELL 4 -END)
 ##############
-# ( CELL 6:
+# ( CELL 5:
 
 cell_type='Markdown'
 cell_string="""\
@@ -178,20 +213,10 @@ cell_string="""\
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 6 -END)
+# CELL 5 -END)
 ##############
-# ( CELL 7:
 
-cell_type='Markdown'
-cell_string="""\
-Bimo lavora in un' azienda ortofrutticola e ha a disposizione n prodotti anche in numero diverso di occorrenza. Il suo obbiettivo è quello di riuscire a riempire sacchetti tutti contenenti lo stesso numero di prodotti.
-Organizzati per calcolare di quanti sacchetti avrà bisogno affinchè tutti i prodotti siano impacchettati. 
-"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted":True}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 7 -END)
-##############
-# ( CELL 8:
+# ( CELL 7:
 
 cell_type='Markdown'
 cell_string="""<b>Nota</b>: Saper programmare non è la competenza che intendiamo valutare con questo esercizio.
@@ -200,130 +225,58 @@ o che ti assista nelle misura che ti è più utile. Sei incoraggiato a ricercare
 Non verranno pertanto attribuiti punti extra per chi scrive del codice. I punti ottenuti dalle risposte consegnate a chiusura sono l'unico elemento oggetto di valutazione.
 In ogni caso, il feedback offerto dalle procedure di validazione rese disponibili è di grande aiuto.
 Esso convalida la conformità delle tue risposte facendo anche presente a quanti dei punti previsti  le tue risposte possono ambire.
-Per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
 """
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 8 -END)
+# CELL 7 -END)
 ##############
 
-# ( CELL 9:
+# ( CELL 8:
 
 cell_type='Markdown'
 cell_string="""__Richieste__:"""
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 9 -END)
+# CELL 8 -END)
 ###############
-# ( CELL 10:
+# ( CELL 9:
 
 cell_type='Markdown'
-cell_string=f"1. __\[10 pts\]__"
+cell_string="1. __\[12 pts\]__fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Code'
-cell_string="#Inserisci la risposta" +"\n" +"n=0 #0 non è chiaramente la soluzione, modifica il valore di n!"
+cell_string="#Inserisci la risposta" +"\n" +"common_divisor=?"
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
+
+
 cell_type ="Code"
-cell_string="is_divisible(env,n)"
+cell_string="verifica_lower_bound(common_divisor, silent=False)"
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
+# CELL 9-END)
+###############
+
+# ( CELL 10:
+cell_type='Markdown'
+cell_string="2. __\[14 pts\]__ Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{i=0}^{len(regoli)} coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "\
+
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
+
+cell_type='Code'
+cell_string="#Inserisci la risposta#\ncoeff = [?,?,?] "
+cell_metadata={"trusted": True, "deletable": False}
+add_cell(cell_type,cell_string,cell_metadata)
+
+cell_type ="Code"
+cell_string="verifica_upper_bound(coeff, silent=False)"
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 # CELL 10 -END)
 ###############
-
-# ( CELL 12:
-
-# CELL 12 -END)
-###############
-# ( CELL 13:
-cell_type='Markdown'
-cell_string=f"2. __\[10 pts\]__ "\
-
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 13 -END)
-###############
-# ( CELL 14:
-
-
-# CELL 14 -END)
-###############
-# ( CELL 15:
-
-# CELL 15 -END)
-###############
-# ( CELL 16:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"3. __\[10 pts\]__"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 16 -END)
-###############
-# ( CELL 17:
-
-#Richiesta
-
-cell_type='Markdown'
-cell_string=f"4. __\[10 pts\]__"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 17 -END)
-###############
-# ( CELL 18:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"5. __\[10 pts\]__"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 18 -END)
-###############
-# ( CELL 19:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"6. __\[10 pts\]__"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 19 -END)
-###############
-
 nbf.write(nb, 'robot_MCD.ipynb')
