@@ -19,15 +19,15 @@ def add_cell(cell_type,cell_string,cell_metadata):
     else:
         assert False
 
-#def usage():
-#     print(f"""Usage: ./{os.path.basename(argv[0])} instance_file.yaml\n\n   dove il parametro obbligatorio <instance_file.yaml> è il nome del file coi dati di istanza specifica.""", file=stderr)
+def usage():
+     print(f"""Usage: ./{os.path.basename(argv[0])} instance_file.yaml\n\n   dove il parametro obbligatorio <instance_file.yaml> è il nome del file coi dati di istanza specifica.""", file=stderr)
 
-"""   
+
 # THE MAIN PROGRAM:    
 # Usage: command_name  instance_file.yaml
 if len(argv) != 2:
     print(f"Mh... you have called the script {os.path.basename(argv[0])} passing to it {len(argv)-1} parameters. Expecting just one!")
-   # usage()
+    usage()
     exit(1)
 
 # BEGIN instance specific data loading
@@ -41,55 +41,10 @@ except FileNotFoundError:
 except IOError:
     print("Error: can\'t read the file")
     exit(1)
-except Exception:
-    tb = sys.exc_info()[2]
-    raise OtherException(...).with_traceback(tb)
 
-campo_minato=data_instance['campo_minato']
-start_point=eval(data_instance['start_point'])
-target_point=eval(data_instance['target_point'])
-middle_point=eval(data_instance['middle_point'])
+istanza=data_instance["istanza"]
 
-# END instance specific data loading
 
-# BEGIN instance specific data pre-elaboration
-
-m=len(data_instance['campo_minato'])
-n=len(data_instance['campo_minato'][0])
-
-# END instance specific data pre-elaboration
-
-# BEGIN instance representation in the notebook
-instance=f"campo_minato={data_instance['campo_minato']}"\
-            +f"\nstart_point={start_point}"\
-            +f"\ntarget_point={target_point}"\
-            +f"\nmiddle_point={middle_point}"\
-# END instance representation in the notebook
-
-# BEGIN dynamic programming table input in the notebook
-# First DP table:
-num_paths_to=f"num_paths_to=["
-for i in range (m+1):
-    num_paths_to=num_paths_to+"\n\t\t"+str([0]*(n+1))+","
-    if i > 0:
-        num_paths_to += "\t\t# " + str(campo_minato[i-1])  
-num_paths_to = num_paths_to + "\n]"
-
-# Second DP table:
-num_paths_from=f"num_paths_from=["
-for i in range (m+2):
-    num_paths_from=num_paths_from+"\n\t\t"+str([0]*(n+2))+","
-    if i > 0 and i <= m:
-        num_paths_from += "\t\t# " + str(campo_minato[i-1])
-num_paths_from = num_paths_from + "\n]"
-# END dynamic programming table input in the notebook
-
-# Handy Ctrl-C Ctrl-V stuff:
-#meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
-#meta_run={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-#meta_stud_input={"trusted": True, "deletable": False}
-
-"""
 # NOTEBOOK DEFINITION:
 
 nb = nbf.v4.new_notebook()     
@@ -152,7 +107,6 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type = "Code"
 cell_string ="""\
-regoli=[24, 90, 120]
 def evaluation_format(answ, pt_green,pt_red):
     pt_blue=0
     if pt_green!=0:
@@ -231,7 +185,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 7 -END)
 ##############
-
+#CELL 8
+cell_type = 'Markdown'
+cell_string = "Data la seguente sequenza di numeri:\n"
+cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
+cell_type = 'Code'
+cell_string = "regoli="+str(istanza)
+cell_metadata = {"hide_input": False, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 8:
 
 cell_type='Markdown'
@@ -244,7 +206,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 9:
 
 cell_type='Markdown'
-cell_string="1. __\[12 pts\]__fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
+cell_string="1. __\[12 pts\]__ Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
