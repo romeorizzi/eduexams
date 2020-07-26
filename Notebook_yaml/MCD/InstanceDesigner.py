@@ -37,6 +37,7 @@ def GeneratePimeNumber(num_primes):
 
 def InstanceDesigner(MCD,numRegoli,tetto):
     listPrime = GeneratePimeNumber(numRegoli)
+    newListPrime =[]
     listRegoli = []
     molt = 1
     if MCD > tetto:
@@ -46,37 +47,54 @@ def InstanceDesigner(MCD,numRegoli,tetto):
         for l in listPrime:
             if molt < tetto:
                 molt *= l
-
-        for l in listPrime:
+                newListPrime.append(l)
+        print(molt)
+        for l in newListPrime:
             num = (molt*MCD)//l
+
             if num < tetto:
                 listRegoli.append(num)
             else:
-                n =random.randrange(1,4)
-                num =MCD*l*(pow(2,n) +1)
+                n =random.randrange(1,7)
+                num =MCD*n*l
+
                 if num < tetto:
                     listRegoli.append(num)
                 else:
-                    n = random.randrange(1, 4)
-                    num = MCD *l*(pow(2, n-1) + 1)
+                    n = random.randrange(1, 8)
+                    num = MCD *l * n
                     if num < tetto:
                         listRegoli.append(num)
-                        print("ho aggiunto " + str(num))
+
                     else:
+                            if len(listRegoli) !=0:
+                                num = listRegoli[len(listRegoli) - 1]
+                                listRegoli.append(num)
 
-                            num = listRegoli[len(listRegoli) - 1]
-                            listRegoli.append(num)
-                            print("ho aggiunto " + str(num))
-
+                            else:
+                                num = MCD
+                                listRegoli.append(num)
+        while len(listRegoli)< int(argv[2]):
+            num = listRegoli[len(listRegoli) - 1]
+            listRegoli.append(num)
         print(listRegoli)
         return listRegoli
     #---------------------------------------------------------------------
 #                        FUNZIONE CHE GENERA LO YAML
 #--------------------------------------------------------------------
 def YAMLFile(text):
-    file1=open("istanza.yaml","w")
-    text = "---\n"+"Generazione:\n"+str(text) +"\n"+"..."
-    file1.write(text)
+    count=1
+    continuo = True
+    while True:
+        filename = "istanza_"+str(count)+".yaml"
+        if filename not in os.listdir():
+            file1=open(filename,"w")
+            text = "---\n#istanza\ns: "+str(text)
+            file1.write(text)
+            break
+        else:
+            count=count+1
+
 
 def main():
     if len(argv) != 4:
