@@ -89,7 +89,7 @@ def YAMLFile(text):
         filename = "istanza_"+str(count)+".yaml"
         if filename not in os.listdir():
             file1=open(filename,"w")
-            text = "---\n#istanza\ns: "+str(text)
+            text = "---\n#istanza\nname: dp_MCD\ntitle: Ricerca del più grande numero che divide tutti i numeri dati in input..\ns: "+str(text)
             file1.write(text)
             break
         else:
