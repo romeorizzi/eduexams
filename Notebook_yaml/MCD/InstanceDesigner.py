@@ -100,9 +100,12 @@ def main():
     if len(argv) != 4:
         print(f"Mh... you have called the script {os.path.basename(argv[0])} passing to it {len(argv) - 1} +parameters. Expecting three. Please pass me the MCD, number element of sequence and the max number that I can't superate!")
         exit(1)
+    else:
+        print(type(argv[3]))
 
     # BEGIN instance specific data loading
     text = (InstanceDesigner(int(argv[1]),int(argv[2]),int(argv[3])))
     YAMLFile(text)
+    print("NOTA: inserisci i punteggi degli esercizi sull'istanza es [points1: 12] per la richiesta 1")
 
 main()

@@ -6,7 +6,16 @@ import nbformat as nbf
 import yaml
 import math
 
-
+def YAMLFile(text):
+    count=1
+    while True:
+        filename = "istanza_"+str(count)+"_libera.yaml"
+        if filename not in os.listdir():
+            file1=open(filename,"w")
+            file1.write(text)
+            break
+        else:
+            count=count+1
 def add_cell(cell_type,cell_string,cell_metadata):
     if cell_type=="Code":
         nb['cells'].append(nbf.v4.new_code_cell(cell_string,metadata=cell_metadata));
@@ -41,8 +50,12 @@ except FileNotFoundError:
 except IOError:
     print("Error: can\'t read the file")
     exit(1)
-
+yaml_libero = ""
+name = data_instance['name']
+title = data_instance['title']
 istanza = data_instance['s']
+yaml_libero += "name: "+name+"\n"+"title: "+title+"\n"
+num_richiesta = 1
 
 
 # NOTEBOOK DEFINITION:
@@ -161,12 +174,9 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Markdown'
 cell_string="""\
-## Esercizio \[60 pts\]
-(Massimo Comun Divisore) Ricerca del più grande numero che divide tutti i numeri dati in input..
-"""
+## Esercizio \[26 pts\] (Massimo Comun Divisore) """+str(title)
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
-
 # CELL 5 -END)
 ##############
 
@@ -191,9 +201,11 @@ cell_string = "Data la seguente sequenza di numeri:\n"
 cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 cell_type = 'Code'
+yaml_libero+="description1: " + str(cell_string) + str(istanza) +"\n"
 cell_string = "regoli="+str(istanza)
 cell_metadata = {"hide_input": False, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
+yaml_libero+="tasks:\n"
 # ( CELL 8:
 
 cell_type='Markdown'
@@ -206,15 +218,16 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 9:
 
 cell_type='Markdown'
-cell_string="1. __\[12 pts\]__ Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
+cell_string="<b>"+str(num_richiesta)+".("+str(data_instance['points'+str(num_richiesta)])+"pts)</b>"+" Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
-
+yaml_libero+="description1: "+cell_string+"\n"
+num_richiesta+=1
 cell_type='Code'
 cell_string="#Inserisci la risposta" +"\n" +"common_divisor=?"
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
-
+yaml_libero+="tot_points:"+str(data_instance['points1'])+"\n"+"ver_points:"+str(data_instance['points1'])+"\n"
 
 cell_type ="Code"
 cell_string="verifica_lower_bound(common_divisor, silent=False)"
@@ -225,20 +238,22 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # ( CELL 10:
 cell_type='Markdown'
-cell_string="2. __\[14 pts\]__ Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{i=0}^{len(regoli)} coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "\
-
+cell_string="<b>"+str(num_richiesta)+".("+str(data_instance['points'+str(num_richiesta)])+ "pts)</b> Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{i=0}^{len(regoli)} coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
-
+yaml_libero+=cell_string+"\n"
 cell_type='Code'
 cell_string="#Inserisci la risposta#\ncoeff = [?,?,?] "
 cell_metadata={"trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
-
+num_richiesta+=1
 cell_type ="Code"
 cell_string="verifica_upper_bound(coeff, silent=False)"
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
+yaml_libero+="tot_points:"+str(data_instance['points2'])+"\n"+"ver_points:"+str(data_instance['points2'])+"\n"
+
 # CELL 10 -END)
 ###############
 nbf.write(nb, 'robot_MCD.ipynb')
+YAMLFile(yaml_libero)

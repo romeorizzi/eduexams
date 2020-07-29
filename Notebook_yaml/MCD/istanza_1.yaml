@@ -1,7 +1,5 @@
 ---
-
-istanza:
-   [24,60,120]
-
-
-...
+#istanza
+name: dp_MCD
+title: Ricerca del più grande numero che divide tutti i numeri dati in input..
+s: [20, 90, 210, 150]
