@@ -56,9 +56,11 @@ s=data_instance['s']
 task=data_instance['tasks_to_create']
 possible_tasks=data_instance['possible_tasks']
 total_point=0
+n = 0
 for i in range (0,len(task)):
     if task[i]==True:
         total_point+=possible_tasks[i]['tot_points']
+        n += 1
 num_of_question=1
 
 # END instance specific data loading
@@ -128,7 +130,7 @@ window.runCells = function runCells() {
     Jupyter.notebook.execute_cells(c);
 };
 """
-cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
+cell_metadata={"hide_input": True,"tags": ["noexport"], "init_cell": True, "trusted": True, "deletable": False, "editable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 1 -END)
@@ -136,13 +138,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 2:
 
 cell_type='Code'
-cell_string ="""\
+cell_string =f"""\
 from IPython.core.display import display, HTML, Markdown, Javascript
 
 def start():
     display(Javascript("window.runCells()"))
+
+arr_point={str([-1] * n)}
 """
-cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False}
+cell_metadata={"hide_input": True, "init_cell": True,"tags": ["noexport"], "trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 2 -END)
@@ -154,7 +158,7 @@ cell_string="""\
 #seleziona la cella e premi ctrl-invio
 start()
 """
-cell_metadata={"trusted": True, "deletable": False}
+cell_metadata={"tags": ["noexport"], "trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 3 -END)
@@ -163,7 +167,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Code'
 cell_string=instance
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 4 -END)
@@ -171,7 +175,10 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 5:
 
 cell_type="Code"
+
+
 cell_string= """\
+
 def is_subseq(s, subs):
     found = 0
     pos_r = 0
@@ -183,11 +190,15 @@ def is_subseq(s, subs):
         pos_r += 1
     return False
 
-def evaluation_format(answ, pt_green,pt_red):
+def evaluation_format(answ, pt_green,pt_red, index_pt):
     pt_blue=0
     if pt_green!=0:
         pt_blue=pt_red-pt_green
         pt_red=0
+    arr_point[index_pt]=pt_green
+    file = open("points.txt", "w")
+    file.write(str(arr_point))
+    file.close()
     return f"{answ}. Totalizzeresti <span style='color:green'>[{pt_green} safe pt]</span>, \
                                     <span style='color:blue'>[{pt_blue} possible pt]</span>, \
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
@@ -261,12 +272,12 @@ def LaTexVarName(var_name):
     return var_name.replace("_", "\_")
 
 
-def is_subseq_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, forced_ele_pos = None, start_banned_interval = None, end_banned_interval = None):
+def is_subseq_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, index_pt, forced_ele_pos = None, start_banned_interval = None, end_banned_interval = None):
     submission_string = f"Hai inserito il certificato ${LaTexVarName(name_subs)}={subs}$."
     submission_string += f"<br>L'istanza era data da ${LaTexVarName(name_s)}={s}$.<br>"
 
     if not is_seq_of_type(subs, "subs", subs_type)[0]:
-        return submission_string + evaluation_format("No", 0,pt_red) + is_seq_of_type(subs, "subs", subs_type)[1]
+        return submission_string + evaluation_format("No", 0,pt_red, index_pt) + is_seq_of_type(subs, "subs", subs_type)[1]
     if start_banned_interval != None or end_banned_interval != None:
         assert start_banned_interval != None and end_banned_interval != None
         if forced_ele_pos != None:
@@ -275,7 +286,7 @@ def is_subseq_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, f
                 forced_ele_pos -= end_banned_interval 
         aux = s[:start_banned_interval-1] +s[end_banned_interval:]
     if not is_subseq(s, subs):
-        return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"La sequenza ${LaTexVarName(name_subs)}$ proposta non è sottosequenza di ${LaTexVarName(name_s)}$."
+        return submission_string + f"{evaluation_format('No', 0,pt_red,index_pt)}" + f"La sequenza ${LaTexVarName(name_subs)}$ proposta non è sottosequenza di ${LaTexVarName(name_s)}$."
     if forced_ele_pos != None:
         forced_ele_0basedpos = forced_ele_pos-1
         found_magic_point = False
@@ -284,21 +295,21 @@ def is_subseq_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, f
                 if is_subseq(s[:forced_ele_0basedpos], subs[:guess_0basedpos_in_subs]) and is_subseq(s[forced_ele_0basedpos:], subs[guess_0basedpos_in_subs:]):
                     found_magic_point = True#False
         if not found_magic_point:
-            return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"La sequenza ${LaTexVarName(name_subs)}$ proposta non è sottosequenza di ${LaTexVarName(name_s)}$ che ne includa l'elemento in posizione ${forced_ele_pos}$."
+            return submission_string + f"{evaluation_format('No', 0,pt_red,index_pt)}" + f"La sequenza ${LaTexVarName(name_subs)}$ proposta non è sottosequenza di ${LaTexVarName(name_s)}$ che ne includa l'elemento in posizione ${forced_ele_pos}$."
         
-    return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"
+    return submission_string + f"{evaluation_format('Si', pt_green,pt_red, index_pt)}"
 
-def eval_coloring(s, name_s, col, name_col, subs_type, pt_green=2, pt_red=15):
+def eval_coloring(s, name_s, col, name_col, subs_type, pt_green, pt_red, index_pt):
     submission_string = f"Hai inserito il certificato ${LaTexVarName(name_col)}={col}$."
     submission_string += f"<br>L'istanza era data da ${LaTexVarName(name_s)}={s}$.<br>"
 
     for c in col:
         subs = [s[i] for i in range(len(s)) if col[i] == c]
         if not is_seq_of_type(subs, "subs", subs_type)[0]:
-            return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"Checking the subsequence of the elements colored with {c} within ${LaTexVarName(name_s)}$, that is {subs} ... " + is_seq_of_type(subs, "subs", subs_type)[1]        
-    return submission_string + f"{evaluation_format('Si', pt_green ,pt_red)}"
+            return submission_string + f"{evaluation_format('No', 0,pt_red,index_pt)}" + f"Checking the subsequence of the elements colored with {c} within ${LaTexVarName(name_s)}$, that is {subs} ... " + is_seq_of_type(subs, "subs", subs_type)[1]        
+    return submission_string + f"{evaluation_format('Si', pt_green ,pt_red, index_pt)}"
 
-def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green=2, pt_red=15):
+def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green, pt_red, index_pt):
     submission_string = f"Hai inserito il certificato ${LaTexVarName(name_subs)}={subs}$."
     submission_string += f"<br>L'istanza era data da ${LaTexVarName(name_s)}={s}$.<br>"
     
@@ -314,14 +325,14 @@ def min_subs_of_type(s, name_s, subs, name_subs, subs_type, pt_green=2, pt_red=1
                 check[n]=check[n]-1
     for key in check.keys():
         if check[key] != 0:
-            return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"Le tue sottosequenze non contengono tutti i valori di ${name_s}$"
+            return submission_string + f"{evaluation_format('No', 0,pt_red,index_pt)}" + f"Le tue sottosequenze non contengono tutti i valori di ${name_s}$"
     for elem in subs:
         if not is_seq_of_type(elem, "subs", subs_type)[0]:
-            return submission_string + f"{evaluation_format('No', 0,pt_red)}" + f"Attenzione la sottosequenza ${elem}$ non è del tipo richiesto."
+            return submission_string + f"{evaluation_format('No', 0,pt_red,index_pt)}" + f"Attenzione la sottosequenza ${elem}$ non è del tipo richiesto."
         
-    return submission_string + f"{evaluation_format('Si', pt_green,pt_red)}"   
+    return submission_string + f"{evaluation_format('Si', pt_green,pt_red,index_pt)}"   
 """
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 5 -END)
@@ -331,7 +342,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 cell_type='Markdown'
 cell_string=f"## Esercizio \[{total_point} pts\]<br/>"\
 +f"(poldo) {data_instance['title']}."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 6 -END)
@@ -340,7 +351,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Markdown'
 cell_string="Si consideri la seguente sequenza di numeri naturali:<br/><br/>"+str(s)
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 yaml_gen['description1']=cell_string
 # CELL 7 -END)
@@ -349,7 +360,7 @@ yaml_gen['description1']=cell_string
 
 cell_type='Markdown'
 cell_string="""__Richieste__:"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 8 -END)
@@ -360,7 +371,7 @@ if task[0]==True:
 
     cell_type='Markdown'
     cell_string=f"{num_of_question}. __[{possible_tasks[0]['tot_points']} pts]__ Trovare una sottosequenza $s1$ {dictionary_of_types[possible_tasks[0]['type']]} di $s$ che sia la più lunga possibile."
-    cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
     tasks+=[{'tot_points' : possible_tasks[0]['tot_points'],'ver_points': possible_tasks[0]['ver_points'], 'description1':cell_string}]
@@ -379,7 +390,7 @@ if task[0]==True:
     # ( CELL 11:
 
     cell_type='Code'
-    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s1, 's1', '{dictionary_of_types[possible_tasks[0]['type']]}', pt_green=1, pt_red={possible_tasks[0]['tot_points']})))"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s1, 's1', '{dictionary_of_types[possible_tasks[0]['type']]}', pt_green=1, pt_red={possible_tasks[0]['tot_points']},index_pt={num_of_question-2})))"
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
@@ -390,7 +401,7 @@ if task[1]==True:
 
     cell_type='Markdown'
     cell_string=f"{num_of_question}. __[{possible_tasks[1]['tot_points']} pts]__ Trovare una sottosequenza $s2$  {dictionary_of_types[possible_tasks[1]['type']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {possible_tasks[1]['start_banned_interval']} alla posizione {possible_tasks[1]['end_banned_interval']}."
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
     tasks+=[{'tot_points' : possible_tasks[1]['tot_points'],'ver_points': possible_tasks[1]['ver_points'], 'description1':cell_string}]
@@ -407,7 +418,7 @@ if task[1]==True:
     # ( CELL 14:
 
     cell_type='Code'
-    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s2, 's2', '{dictionary_of_types[possible_tasks[1]['type']]}', pt_green=1, pt_red={possible_tasks[1]['tot_points']}, start_banned_interval={possible_tasks[1]['start_banned_interval']}, end_banned_interval={possible_tasks[1]['end_banned_interval']})))"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s2, 's2', '{dictionary_of_types[possible_tasks[1]['type']]}', pt_green=1, pt_red={possible_tasks[1]['tot_points']},index_pt={num_of_question-2}, start_banned_interval={possible_tasks[1]['start_banned_interval']}, end_banned_interval={possible_tasks[1]['end_banned_interval']})))"
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
@@ -418,7 +429,7 @@ if task[2]==True:
     # ( CELL 15:
     cell_type='Markdown'
     cell_string=f"{num_of_question}. __[{possible_tasks[2]['tot_points']} pts]__ Trovare la più lunga {dictionary_of_types[possible_tasks[2]['type']]} che includa l'elemento in posizione {possible_tasks[2]['forced_ele_pos']}"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
     tasks += [{'tot_points': possible_tasks[2]['tot_points'], 'ver_points': possible_tasks[2]['ver_points'],'description1': cell_string}]
@@ -437,7 +448,7 @@ if task[2]==True:
     # ( CELL 17:
 
     cell_type="Code"
-    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{dictionary_of_types[possible_tasks[2]['type']]}', pt_green=1, pt_red={possible_tasks[2]['tot_points']}, forced_ele_pos={possible_tasks[2]['forced_ele_pos']})))"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{dictionary_of_types[possible_tasks[2]['type']]}', pt_green=1, pt_red={possible_tasks[2]['tot_points']},,index_pt={num_of_question-2}, forced_ele_pos={possible_tasks[2]['forced_ele_pos']})))"
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
@@ -449,7 +460,7 @@ if task[3]==True:
 
     cell_type='Markdown'
     cell_string=f"{num_of_question}. __[{possible_tasks[3]['tot_points']} pts]__ Una sequenza è detta {dictionary_of_types[possible_tasks[3]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
     tasks += [{'tot_points': possible_tasks[3]['tot_points'], 'ver_points': possible_tasks[3]['ver_points'],'description1': cell_string}]
@@ -467,7 +478,7 @@ if task[3]==True:
     ###############
     # ( CELL 20:
     cell_type="Code"
-    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s4, 's4', '{dictionary_of_types[possible_tasks[3]['type']]}', pt_green=1, pt_red={possible_tasks[3]['tot_points']})))"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s4, 's4', '{dictionary_of_types[possible_tasks[3]['type']]}', pt_green=1, pt_red={possible_tasks[3]['tot_points']},index_pt={num_of_question-2})))"
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
@@ -476,7 +487,7 @@ if task[4]==True:
 
     cell_type='Markdown'
     cell_string=f"{num_of_question}. __[{possible_tasks[4]['tot_points']} pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[possible_tasks[4]['type']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
     num_of_question+=1
     tasks += [{'tot_points': possible_tasks[4]['tot_points'], 'ver_points': possible_tasks[4]['ver_points'],'description1': cell_string}]
@@ -495,7 +506,7 @@ if task[4]==True:
     # ( CELL 24:
 
     cell_type="Code"
-    cell_string=f"display(Markdown(eval_coloring(s, 's', col, 'col', '{dictionary_of_types[possible_tasks[4]['type']]}', pt_green=2, pt_red={possible_tasks[4]['tot_points']})))"
+    cell_string=f"display(Markdown(eval_coloring(s, 's', col, 'col', '{dictionary_of_types[possible_tasks[4]['type']]}', pt_green=2, pt_red={possible_tasks[4]['tot_points']},index_pt={num_of_question-2})))"
     cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
