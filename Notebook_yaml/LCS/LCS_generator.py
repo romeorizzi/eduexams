@@ -6,7 +6,6 @@ import nbformat as nbf
 import yaml
 from collections import OrderedDict
 
-
 def represent_dictionary_order(self, dict_data):
     return self.represent_mapping('tag:yaml.org,2002:map', dict_data.items())
 
@@ -62,12 +61,7 @@ except Exception:
 
 s = data_instance['s']
 t = data_instance['t']
-sc = data_instance['sc']
-tc = data_instance['tc']
-sci = data_instance['sci']
-tci = data_instance['tci']
-t9 = data_instance['t9']
-s8 = data_instance['s8']
+
 task = data_instance['tasks_to_create']
 possible_tasks = data_instance['possible_tasks']
 total_point = 0
@@ -87,13 +81,6 @@ yaml_gen['title'] = data_instance['title']
 tasks = []
 
 # BEGIN instance specific data pre-elaboration
-dictionary_of_types = {
-    "N": "massima sottosequenza comune tra le <b> due stringhe</b>",
-    "P": "massima sottosequenza comune utilizzando <b>il seguente prefisso </b>",
-    "S": "massima sottosequenza comune utilizzando <b>il seguente suffisso </b>",
-    "LI": "massima sottosequenza comune tale che <b>inizi con la lettera </b>",
-    "LF": "massima sottosequenza comune tale che <b>termini con la lettera </b>",
-}
 
 # END instance specific data pre-elaboration
 
@@ -173,13 +160,6 @@ cell_type = 'Code'
 cell_string = """\
 s= "CTGTGAGAATCGCTGTA"
 t= "GTACGACTGAAGCTAT"
-sc = "CTGTGAGAATCGC"
-tc = "GTACGACTGAAGC"
-sci = "CTGTGAGAATCGC"
-tci = "CGACTGAAGC"
-t9= "GTACGACTG"
-s8= "CTGTGAGA"
-
 """
 cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                  "trusted": True}
@@ -207,7 +187,13 @@ def is_sub(sub,string):
         sol=False
     return sol
 
-def verifLCS(string1, string2, answer, index_pt):
+def verifLCS(string1, string2, answer, index_pt, start=False, end=False):
+    if answer=="":
+        return display(Markdown(evaluation_format("No", 0, 20, index_pt)+f"La sottosequenza fornita è vuota."))
+    if start != False and answer[0]!=start:
+        return display(Markdown(evaluation_format("No", 0, 20, index_pt)+f"La sottosequenza fornita non inizia con __{start}__."))
+    if end != False and answer[len(answer)-1]!=end:
+        return display(Markdown(evaluation_format("No", 0, 20, index_pt)+f"La sottosequenza fornita non termina con __{end}__."))
     s = ' ' + string1 
     t = ' ' + string2
     n = len(s)
@@ -240,15 +226,6 @@ def evaluation_format(answ, pt_green,pt_red, index_pt):
                                     <span style='color:blue'>[{pt_blue} possible pt]</span>, \
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
 
-#def evaluation_format(answ, pt_green,pt_red):
-#    pt_blue=0
-#    if pt_green!=0:
-#        pt_blue=pt_red-pt_green
-#        pt_red=0
-#    return f"{answ}. Totalizzeresti <span style='color:green'>[{pt_green} safe pt]</span>, \
-#                                    <span style='color:blue'>[{pt_blue} possible pt]</span>, \
-#                                    <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
-
 """
 cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                  "trusted": True}
@@ -270,7 +247,7 @@ add_cell(cell_type, cell_string, cell_metadata)
 # ( CELL 7:
 
 cell_type = 'Markdown'
-cell_string = "Si consideri le seguenti sequenze di caratteri:<br/><br/> $s$: " + str(s) + "<br/><br/>  $t$: " + str(t)
+cell_string = "Si consideri le seguenti sequenze di caratteri:<br/><br/> $s$: " + str(s) + "<br/>  $t$: " + str(t)
 cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                  "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
@@ -292,7 +269,7 @@ if task[0] == True:
     # ( CELL 9:
 
     cell_type = 'Markdown'
-    cell_string = f"{num_of_question}. __[{possible_tasks[0]['tot_points']} pts]__ Trovare la {dictionary_of_types[possible_tasks[0]['type']]}."
+    cell_string = f"{num_of_question}. __[{possible_tasks[0]['tot_points']} pts]__ Trovare la massima sottosequenza comune tra le <b> due stringhe</b>:<br/>$s$={s}<br/>$t$={t}."
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                      "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
@@ -315,7 +292,7 @@ if task[0] == True:
 
     cell_type = 'Code'
     cell_string = f"verifLCS(s, t ,answer{num_of_question - 1}, index_pt={num_of_question - 2})"
-    cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
+    cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
     # CELL 11 -END)
@@ -324,7 +301,7 @@ if task[1] == True:
     # ( CELL 12:
 
     cell_type = 'Markdown'
-    cell_string = f"{num_of_question}. __[{possible_tasks[1]['tot_points']} pts]__ Trovare la  {dictionary_of_types[possible_tasks[1]['type']]}  $t_9$= {t9} e $s$. "
+    cell_string = f"{num_of_question}. __[{possible_tasks[1]['tot_points']} pts]__ Trovare la massima sottosequenza comune utilizzando: <br/><b>il prefisso</b>  $t'$= {possible_tasks[1]['string_mod']} <br/>$s$={s}. "
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                      "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
@@ -344,7 +321,7 @@ if task[1] == True:
     # ( CELL 14:
 
     cell_type = 'Code'
-    cell_string = f"verifLCS(s, t9 ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
+    cell_string = f"verifLCS(s, '{possible_tasks[1]['string_mod']}' ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -354,7 +331,7 @@ if task[1] == True:
 if task[2] == True:
     # ( CELL 15:
     cell_type = 'Markdown'
-    cell_string = f"{num_of_question}. __[{possible_tasks[2]['tot_points']} pts]__ Trovare la {dictionary_of_types[possible_tasks[2]['type']]} $s_8$={s8} e $t$."
+    cell_string = f"{num_of_question}. __[{possible_tasks[2]['tot_points']} pts]__ Trovare la massima sottosequenza comune utilizzando:<br/><b>il suffisso </b> $s'$={possible_tasks[2]['string_mod']} <br/>$t$={t}."
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                      "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
@@ -376,8 +353,8 @@ if task[2] == True:
     # ( CELL 17:
 
     cell_type = "Code"
-    cell_string = f"verifLCS(s8, t ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
-    cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
+    cell_string = f"verifLCS('{possible_tasks[2]['string_mod']}', t ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
+    cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
     # CELL 17 -END)
@@ -387,7 +364,7 @@ if task[3] == True:
     # ( CELL 18:
 
     cell_type = 'Markdown'
-    cell_string = f"{num_of_question}. __[{possible_tasks[3]['tot_points']} pts]__ Trovare la {dictionary_of_types[possible_tasks[3]['type']]} __C__ utilizzando le stringhe $s$ e $t$."
+    cell_string = f"{num_of_question}. __[{possible_tasks[3]['tot_points']} pts]__ Trovare la massima sottosequenza comune tale che <b>inizi con la lettera </b> __{possible_tasks[3]['start']}__ utilizzando:<br/>$s$={s}<br/>$t$={t}."
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                      "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
@@ -408,15 +385,16 @@ if task[3] == True:
     ###############
     # ( CELL 20:
     cell_type = "Code"
-    cell_string = f"verifLCS(sci, tci ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
-    cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
+    cell_string = f"verifLCS(s, t ,answer{num_of_question - 1},index_pt={num_of_question - 2},start='{possible_tasks[3]['start']}')"
+    cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
 if task[4] == True:
     # ( CELL 18:
 
     cell_type = 'Markdown'
-    cell_string = f"{num_of_question}. __[{possible_tasks[4]['tot_points']} pts]__ Trovare la {dictionary_of_types[possible_tasks[4]['type']]} __C__ utilizzando le stringhe $s$ e $t$."
+    cell_string = f"{num_of_question}. __[{possible_tasks[4]['tot_points']} pts]__ Trovare la massima sottosequenza comune tale che <b>finisca con la lettera </b> __{possible_tasks[4]['end']}__ utilizzando:<br/> " \
+                  f"$s$={s} <br/>$t$={t}."
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"],
                      "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
@@ -437,8 +415,8 @@ if task[4] == True:
     ###############
     # ( CELL 20:
     cell_type = "Code"
-    cell_string = f"verifLCS(sc, tc ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
-    cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
+    cell_string = f"verifLCS(s, t ,answer{num_of_question - 1},index_pt={num_of_question - 2},end='{possible_tasks[4]['end']}')"
+    cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
 yaml_gen['tasks'] = tasks

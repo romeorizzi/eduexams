@@ -1,62 +1,40 @@
-#dictionary_of_types = {
-#   "N": ("implemented", "<b>massima sottosequenza comune tra le due stringhe</b>"),
-#  "P": ("implemented", "<b>massima sottosequenza comune utilizzando il seguente prefisso </b>"),
-#    "S": ("implemented", "<b>massima sottosequenza comune utilizzando il seguente suffisso </b>"),
-#   "LI": ("implemented", "<b>massima sottosequenza comune tale che inizi con la lettera </b>"),
-#    "LF": ("implemented", "<b>massima sottosequenza comune tale che termini con la lettera </b>"),
-#}
-
-
 name: "LCS"
 title: "Massima sottosequenza comune"
-
 
 #istanza
 s: "CTGTGAGAATCGCTGTA"
 t: "GTACGACTGAAGCTAT"
-sc : "CTGTGAGAATCGC"
-tc : "GTACGACTGAAGC"
-sci : "CTGTGAGAATCGC"
-tci : "CGACTGAAGC"
-t9: "GTACGACTG"
-s8: "CTGTGAGA"
-
-#descrivere i tipi di sequenza per l'introduzione e per le richieste
-
-#question_1: "N"
-#question_2: "P"
-#question_3: "S"
-#question_4: "LI"
-#question_5: "LF"
-
 
 #qui è possibile configurare i parametri dei 5 possibili tasks
 possible_tasks:
+    #esercizio sottostringa comune s e t
 - {
-    type: "N",
     tot_points: 10,
     ver_points: 10,
   }
+    #esercizio prefisso su t
 - {
-    type: "P",
     tot_points: 10,
     ver_points: 10,
+    string_mod: "GTACGACTG"
   }
+    #esercizio suffisso su s
 - {
-    type: "S",
     tot_points: 10,
     ver_points: 10,
-
+    string_mod: "CTGTGAGA"
   }
+    #esercizio inizia con...
 - {
-    type: "LI",
     tot_points: 10,
     ver_points: 10,
+    start: "C"
   }
+    #esercizio termina con
 - {
-    type: "LF",
     tot_points: 10,
     ver_points: 10,
+    end: "C"
   }
 
 #inserire true se il task deve essere presente, false se non lo si vuole nel file generato (l'array deve essere sempre della dimensione dei possible_tasks)
