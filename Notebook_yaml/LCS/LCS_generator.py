@@ -197,7 +197,7 @@ def is_sub(sub,string):
     i=0
     j=0
     sol=True
-    while i<len(string):
+    while match<len(sub) and i<len(string):
         if string[i]==sub[j]:
             match+=1
             if j<len(sub)-1:
