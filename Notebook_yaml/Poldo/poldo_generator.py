@@ -391,7 +391,7 @@ if task[0]==True:
 
     cell_type='Code'
     cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s1, 's1', '{dictionary_of_types[possible_tasks[0]['type']]}', pt_green=1, pt_red={possible_tasks[0]['tot_points']},index_pt={num_of_question-2})))"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    cell_metadata={"editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
     # CELL 11 -END)
@@ -419,7 +419,7 @@ if task[1]==True:
 
     cell_type='Code'
     cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s2, 's2', '{dictionary_of_types[possible_tasks[1]['type']]}', pt_green=1, pt_red={possible_tasks[1]['tot_points']},index_pt={num_of_question-2}, start_banned_interval={possible_tasks[1]['start_banned_interval']}, end_banned_interval={possible_tasks[1]['end_banned_interval']})))"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    cell_metadata={"editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
     # CELL 14 -END)
@@ -449,7 +449,7 @@ if task[2]==True:
 
     cell_type="Code"
     cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{dictionary_of_types[possible_tasks[2]['type']]}', pt_green=1, pt_red={possible_tasks[2]['tot_points']},,index_pt={num_of_question-2}, forced_ele_pos={possible_tasks[2]['forced_ele_pos']})))"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    cell_metadata={"editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
     # CELL 17 -END)
@@ -479,7 +479,7 @@ if task[3]==True:
     # ( CELL 20:
     cell_type="Code"
     cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s4, 's4', '{dictionary_of_types[possible_tasks[3]['type']]}', pt_green=1, pt_red={possible_tasks[3]['tot_points']},index_pt={num_of_question-2})))"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    cell_metadata={"editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
 if task[4]==True:
@@ -507,7 +507,7 @@ if task[4]==True:
 
     cell_type="Code"
     cell_string=f"display(Markdown(eval_coloring(s, 's', col, 'col', '{dictionary_of_types[possible_tasks[4]['type']]}', pt_green=2, pt_red={possible_tasks[4]['tot_points']},index_pt={num_of_question-2})))"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    cell_metadata={"editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
     # CELL 24 -END)
