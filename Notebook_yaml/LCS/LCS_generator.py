@@ -187,31 +187,34 @@ def is_sub(sub,string):
         sol=False
     return sol
 
-def verifLCS(string1, string2, answer, index_pt, start=False, end=False):
+def verifLCS(string1, string2, answer, pt_green, pt_red, index_pt, start=False, end=False):
     if answer=="":
-        return display(Markdown(evaluation_format("No", 0, 20, index_pt)+f"La sottosequenza fornita è vuota."))
+        return display(Markdown(evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita è vuota."))
     if start != False and answer[0]!=start:
-        return display(Markdown(evaluation_format("No", 0, 20, index_pt)+f"La sottosequenza fornita non inizia con __{start}__."))
+        return display(Markdown(evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita non inizia con __{start}__."))
     if end != False and answer[len(answer)-1]!=end:
-        return display(Markdown(evaluation_format("No", 0, 20, index_pt)+f"La sottosequenza fornita non termina con __{end}__."))
-    s = ' ' + string1 
-    t = ' ' + string2
-    n = len(s)
-    m = len(t)
-    L = np.zeros((n, m)) 
-    for i in range(1,n):
-        for j in range(1,m):
-            if s[i] == t[j]: 
-                L[i][j] = L[i-1][j-1] + 1
-            else: 
-                L[i][j] = max(L[i-1][j], L[i][j-1]) 
-    correct_len=np.max(L)
-    if (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)==correct_len:
-        display(Markdown(evaluation_format("Si", 20, 20 , index_pt)+"La sottosequenza comune è corretta."))
-    elif (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)!=correct_len:
-        display(Markdown(evaluation_format("No", 1,20, index_pt)+"La sottosequenza comune non è massima."))
+        return display(Markdown(evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita non termina con __{end}__."))
+    #s = ' ' + string1 
+    #t = ' ' + string2
+    #n = len(s)
+    #m = len(t)
+    #L = np.zeros((n, m)) 
+    #for i in range(1,n):
+    #    for j in range(1,m):
+    #        if s[i] == t[j]: 
+    #            L[i][j] = L[i-1][j-1] + 1
+    #        else: 
+    #            L[i][j] = max(L[i-1][j], L[i][j-1]) 
+    #correct_len=np.max(L)
+    #if (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)==correct_len:
+    #    display(Markdown(evaluation_format("Si", 20, 20 , index_pt)+"La sottosequenza comune è corretta."))
+    #elif (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)!=correct_len:
+    #    display(Markdown(evaluation_format("No", 1,20, index_pt)+"La sottosequenza comune non è massima."))
+    
+    if (is_sub(answer,string1)) and (is_sub(answer,string2)):
+        return evaluation_format("Si", pt_green, pt_red, index_pt)+"La sottosequenza fornita è ammissibile."
     else:
-        display(Markdown(evaluation_format("No", 0, 20, index_pt)+"La sottosequenza non è corretta."))
+        return evaluation_format("No", 0, pt_red, index_pt)+"La sottosequenza non è ammissibile."
 
 def evaluation_format(answ, pt_green,pt_red, index_pt):
     pt_blue=0
@@ -291,7 +294,7 @@ if task[0] == True:
     # ( CELL 11:
 
     cell_type = 'Code'
-    cell_string = f"verifLCS(s, t ,answer{num_of_question - 1}, index_pt={num_of_question - 2})"
+    cell_string = f"display(Markdown(verifLCS(s, t ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[2]['tot_points']}, index_pt={num_of_question - 2})))"
     cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -321,7 +324,7 @@ if task[1] == True:
     # ( CELL 14:
 
     cell_type = 'Code'
-    cell_string = f"verifLCS(s, '{possible_tasks[1]['string_mod']}' ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
+    cell_string = f"display(Markdown(verifLCS(s, '{possible_tasks[1]['string_mod']}' ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[1]['tot_points']},index_pt={num_of_question - 2})))"
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -353,7 +356,7 @@ if task[2] == True:
     # ( CELL 17:
 
     cell_type = "Code"
-    cell_string = f"verifLCS('{possible_tasks[2]['string_mod']}', t ,answer{num_of_question - 1},index_pt={num_of_question - 2})"
+    cell_string = f"display(Markdown(verifLCS('{possible_tasks[2]['string_mod']}', t ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[2]['tot_points']},index_pt={num_of_question - 2})))"
     cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -385,7 +388,7 @@ if task[3] == True:
     ###############
     # ( CELL 20:
     cell_type = "Code"
-    cell_string = f"verifLCS(s, t ,answer{num_of_question - 1},index_pt={num_of_question - 2},start='{possible_tasks[3]['start']}')"
+    cell_string = f"display(Markdown(verifLCS(s, t ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[3]['tot_points']},index_pt={num_of_question - 2},start='{possible_tasks[3]['start']}')))"
     cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -399,7 +402,7 @@ if task[4] == True:
                      "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
     num_of_question += 1
-    tasks += [{'tot_points': possible_tasks[3]['tot_points'], 'ver_points': possible_tasks[3]['ver_points'],
+    tasks += [{'tot_points': possible_tasks[4]['tot_points'], 'ver_points': possible_tasks[4]['ver_points'],
                'description1': cell_string}]
 
     # CELL 18 -END)
@@ -415,7 +418,7 @@ if task[4] == True:
     ###############
     # ( CELL 20:
     cell_type = "Code"
-    cell_string = f"verifLCS(s, t ,answer{num_of_question - 1},index_pt={num_of_question - 2},end='{possible_tasks[4]['end']}')"
+    cell_string = f"display(Markdown(verifLCS(s, t ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[4]['tot_points']},index_pt={num_of_question - 2},end='{possible_tasks[4]['end']}')))"
     cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 

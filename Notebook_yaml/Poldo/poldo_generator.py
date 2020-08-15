@@ -448,7 +448,7 @@ if task[2]==True:
     # ( CELL 17:
 
     cell_type="Code"
-    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{dictionary_of_types[possible_tasks[2]['type']]}', pt_green=1, pt_red={possible_tasks[2]['tot_points']},,index_pt={num_of_question-2}, forced_ele_pos={possible_tasks[2]['forced_ele_pos']})))"
+    cell_string=f"display(Markdown(is_subseq_of_type(s, 's', s3, 's3', '{dictionary_of_types[possible_tasks[2]['type']]}', pt_green=1, pt_red={possible_tasks[2]['tot_points']}, index_pt={num_of_question-2}, forced_ele_pos={possible_tasks[2]['forced_ele_pos']})))"
     cell_metadata={"editable": False,  "deletable": False, "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
 
