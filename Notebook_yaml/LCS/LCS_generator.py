@@ -189,30 +189,29 @@ def is_sub(sub,string):
 
 def verifLCS(string1, string2, answer, pt_green, pt_red, index_pt, start=False, end=False):
     if answer=="":
-        return display(Markdown(evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita è vuota."))
+        return evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita è vuota."
     if start != False and answer[0]!=start:
-        return display(Markdown(evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita non inizia con __{start}__."))
+        return evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita non inizia con __{start}__."
     if end != False and answer[len(answer)-1]!=end:
-        return display(Markdown(evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita non termina con __{end}__."))
-    #s = ' ' + string1 
-    #t = ' ' + string2
-    #n = len(s)
-    #m = len(t)
-    #L = np.zeros((n, m)) 
-    #for i in range(1,n):
-    #    for j in range(1,m):
-    #        if s[i] == t[j]: 
-    #            L[i][j] = L[i-1][j-1] + 1
-    #        else: 
-    #            L[i][j] = max(L[i-1][j], L[i][j-1]) 
-    #correct_len=np.max(L)
-    #if (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)==correct_len:
-    #    display(Markdown(evaluation_format("Si", 20, 20 , index_pt)+"La sottosequenza comune è corretta."))
-    #elif (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)!=correct_len:
-    #    display(Markdown(evaluation_format("No", 1,20, index_pt)+"La sottosequenza comune non è massima."))
-    
-    if (is_sub(answer,string1)) and (is_sub(answer,string2)):
-        return evaluation_format("Si", pt_green, pt_red, index_pt)+"La sottosequenza fornita è ammissibile."
+        return evaluation_format("No", 0, pt_red, index_pt)+f"La sottosequenza fornita non termina con __{end}__."
+    s = ' ' + string1 
+    t = ' ' + string2
+    n = len(s)
+    m = len(t)
+    L = np.zeros((n, m)) 
+    for i in range(1,n):
+        for j in range(1,m):
+            if s[i] == t[j]: 
+                L[i][j] = L[i-1][j-1] + 1
+            else: 
+                L[i][j] = max(L[i-1][j], L[i][j-1]) 
+    correct_len=np.max(L)
+    if (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)==correct_len:
+        return evaluation_format("Si", pt_green, pt_red, index_pt)+"La sottosequenza comune è corretta."
+    elif (is_sub(answer,string1)) and (is_sub(answer,string2)) and len(answer)!=correct_len:
+        return evaluation_format("No", 1, pt_red, index_pt)+"La sottosequenza comune non è massima."
+    #if (is_sub(answer,string1)) and (is_sub(answer,string2)):
+    #    return evaluation_format("Si", pt_green, pt_red, index_pt)+"La sottosequenza fornita è ammissibile."
     else:
         return evaluation_format("No", 0, pt_red, index_pt)+"La sottosequenza non è ammissibile."
 
@@ -388,7 +387,7 @@ if task[3] == True:
     ###############
     # ( CELL 20:
     cell_type = "Code"
-    cell_string = f"display(Markdown(verifLCS(s, t ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[3]['tot_points']},index_pt={num_of_question - 2},start='{possible_tasks[3]['start']}')))"
+    cell_string = f"display(Markdown(verifLCS('{possible_tasks[3]['start']}'+s.split('{possible_tasks[3]['start']}',1)[1], '{possible_tasks[3]['start']}'+t.split('{possible_tasks[3]['start']}',1)[1] ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[3]['tot_points']},index_pt={num_of_question - 2},start='{possible_tasks[3]['start']}')))"
     cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -418,7 +417,7 @@ if task[4] == True:
     ###############
     # ( CELL 20:
     cell_type = "Code"
-    cell_string = f"display(Markdown(verifLCS(s, t ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[4]['tot_points']},index_pt={num_of_question - 2},end='{possible_tasks[4]['end']}')))"
+    cell_string = f"display(Markdown(verifLCS(s.rsplit('{possible_tasks[4]['end']}',1)[0]+'{possible_tasks[4]['end']}', t.rsplit('{possible_tasks[4]['end']}',1)[0]+'{possible_tasks[4]['end']}' ,answer{num_of_question - 1},pt_green=1, pt_red={possible_tasks[4]['tot_points']},index_pt={num_of_question - 2},end='{possible_tasks[4]['end']}')))"
     cell_metadata = {"editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
 
