@@ -20,16 +20,6 @@
 #     "...": ("not thought of yet", "<b>???</b>")
 #}
 
-#dictionary_of_request_string={
-#    "R1": "Trovare una sottosequenza $s1$ ['type'] di $s$ che sia la più lunga possibile.",
-#    "R2": "Trovare una sottosequenza $s2$ ['type'] di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione ['start_banned_interval'] alla posizione ['end_banned_interval'].",
-#    "R3": "Trovare la più lunga ['type'] che includa l'elemento in posizione ['forced_ele_pos']",
-#    "R4": "Una sequenza è detta ['type']. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data.",
-#    "R5": "Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona ['type']?
-#           Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)",
-##aggiungere altre possibili richieste
-#}
-
 name: "dp_poldo"
 title: "Sottosequenze crescenti e decrescenti"
 
@@ -37,24 +27,27 @@ title: "Sottosequenze crescenti e decrescenti"
 #istanza
 s: [11, 24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 13, 33, 35, 21, 16, 39, 49, 60, 54, 23]
 
+#descrivere i tipi di sequenza per l'introduzione e per le richieste
+
+#question_1: "SC"
+#question_2: "SD"
+#question_3: "SC"
+#question_4: "V"
+#question_5: "NC"
 
 #elementi aggiuntivi
 #forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
 #start_banned_interval : 1 #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
 #end_banned_interval : 4 #ultimo elemento non concesso
 
-#qui è possibile configurare i tasks, se non si vogliono task è possibile commentarli oppure cancellarli da questo file
-#sono ammessi task con le stesse richieste ma parametri diversi
-#per eventuali parametri aggiuntivi vedere cosa è richiesto tra [] nelle richieste
+#qui è possibile configurare i parametri dei 5 possibili tasks
 possible_tasks:
 - {
-    request: "R1",
     type: "SC",
     tot_points: 10,
     ver_points: 10,
   }
 - {
-    request: "R2",
     type: "SD",
     tot_points: 10,
     ver_points: 10,
@@ -62,24 +55,26 @@ possible_tasks:
     end_banned_interval : 4, #ultimo elemento non concesso
   }
 - {
-    request: "R3",
     type: "SC",
     tot_points: 10,
     ver_points: 10,
     forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
   }
 - {
-    request: "R4",
     type: "V",
     tot_points: 10,
     ver_points: 10,
   }
 - {
-    request: "R5",
     type: "NC",
     tot_points: 20,
     ver_points: 20,
   }
 
+#inserire true se il task deve essere presente, false se non lo si vuole nel file generato (l'array deve essere sempre della dimensione dei possible_tasks)
+tasks_to_create: [True, True, True, True, True]
+
+#esempio (non crea la prima e l'ultima richiesta):
+#tasks_to_create: [False, True, True, True, False]
 ...
 

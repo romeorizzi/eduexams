@@ -4,13 +4,13 @@ description1: Si consideri la seguente sequenza di numeri naturali:<br/><br/>[11
   24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 13, 33,
   35, 21, 16, 39, 49, 60, 54, 23]
 tasks:
-- description1: "1. __[10 pts]__ Trovare una sottosequenza $answer\\_1$ <b>strettamente\
-    \ crescente</b> di $s$ che sia la pi\xF9 lunga possibile."
+- description1: "1. __[10 pts]__ Trovare una sottosequenza $s1$ <b>strettamente crescente</b>\
+    \ di $s$ che sia la pi\xF9 lunga possibile."
   tot_points: 10
   ver_points: 10
-- description1: "2. __[10 pts]__ Trovare una sottosequenza $answer\\_2$  <b>strettamente\
-    \ decrescente</b> di $s$ che sia la pi\xF9 lunga possibile che escluda gli elementi\
-    \ dalla posizione 1 alla posizione 4."
+- description1: "2. __[10 pts]__ Trovare una sottosequenza $s2$  <b>strettamente decrescente</b>\
+    \ di $s$ che sia la pi\xF9 lunga possibile che escluda gli elementi dalla posizione\
+    \ 1 alla posizione 4."
   tot_points: 10
   ver_points: 10
 - description1: "3. __[10 pts]__ Trovare la pi\xF9 lunga <b>strettamente crescente</b>\
