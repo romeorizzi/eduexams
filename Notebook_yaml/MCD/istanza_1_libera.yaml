@@ -1,11 +1,9 @@
 name: dp_MCD
-title: Ricerca del più grande numero che divide tutti i numeri dati in input..
-description1: Data la seguente sequenza di numeri:
-[48, 180, 300, 336, 660, 780, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816, 816]
+title: "Ricerca del pi\xF9 grande numero che divide tutti i numeri dati in input.."
+description1: Data la seguente sequenza di numeri:[20, 90, 210, 150]
 tasks:
-description1: <b>1.(12pts)</b> Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD).
-tot_points:12
-ver_points:12
-<b>2.(14pts)</b> Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{i=0}^{len(regoli)} coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. 
-tot_points:14
-ver_points:14
+- description1: "1. __[10 pts]____Fornisci un numero naturale che divida ciascuno\
+    \ dei coefficienti. Idealmente vorresti fornircelo il pi\xF9 grande possibile,\
+    \ ossia quello che viene chiamato il massimo comun divisore (GCD)."
+  tot_points: 10
+  ver_points: 10

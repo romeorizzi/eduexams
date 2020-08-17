@@ -1,21 +1,18 @@
 #!/usr/bin/python3
 from sys import argv, exit, stderr
 import os
-# import argparse
 import nbformat as nbf
 import yaml
-import math
+from collections import OrderedDict
 
-def YAMLFile(text):
-    count=1
-    while True:
-        filename = "istanza_"+str(count)+"_libera.yaml"
-        if filename not in os.listdir():
-            file1=open(filename,"w")
-            file1.write(text)
-            break
-        else:
-            count=count+1
+
+def represent_dictionary_order(self, dict_data):
+    return self.represent_mapping('tag:yaml.org,2002:map', dict_data.items())
+
+def setup_yaml():
+    yaml.add_representer(OrderedDict, represent_dictionary_order)
+
+setup_yaml()
 def add_cell(cell_type,cell_string,cell_metadata):
     if cell_type=="Code":
         nb['cells'].append(nbf.v4.new_code_cell(cell_string,metadata=cell_metadata));
@@ -50,12 +47,20 @@ except FileNotFoundError:
 except IOError:
     print("Error: can\'t read the file")
     exit(1)
-yaml_libero = ""
-name = data_instance['name']
-title = data_instance['title']
+yaml_gen=OrderedDict()
+yaml_gen['name']=data_instance['name']
+yaml_gen['title']=data_instance['title']
 istanza = data_instance['s']
-yaml_libero += "name: "+name+"\n"+"title: "+title+"\n"
+task=data_instance['tasks_to_create']
+possible_tasks = data_instance['possible_tasks']
 num_richiesta = 1
+total_point=0
+n = 0
+for i in range (0,len(task)):
+    if task[i]==True:
+        total_point+=possible_tasks[i]['tot_points']
+        n += 1
+tasks=[]
 
 
 # NOTEBOOK DEFINITION:
@@ -173,8 +178,8 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 5:
 
 cell_type='Markdown'
-cell_string="""\
-## Esercizio \[26 pts\] (Massimo Comun Divisore) """+str(title)
+cell_string=f"## Esercizio \[{total_point} pts\]<br/>"\
++f"(Massimo Comun Divisore) {data_instance['title']}."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 # CELL 5 -END)
@@ -197,15 +202,14 @@ add_cell(cell_type,cell_string,cell_metadata)
 ##############
 #CELL 8
 cell_type = 'Markdown'
-cell_string = "Data la seguente sequenza di numeri:\n"
+cell_string = "Data la seguente sequenza di numeri:"
 cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 cell_type = 'Code'
-yaml_libero+="description1: " + str(cell_string) + str(istanza) +"\n"
+yaml_gen['description1']=cell_string+str(istanza)
 cell_string = "regoli="+str(istanza)
 cell_metadata = {"hide_input": False, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
-yaml_libero+="tasks:\n"
 # ( CELL 8:
 
 cell_type='Markdown'
@@ -216,44 +220,48 @@ add_cell(cell_type,cell_string,cell_metadata)
 # CELL 8 -END)
 ###############
 # ( CELL 9:
+if task[0]==True:
+    cell_type='Markdown'
+    cell_string=f"{num_richiesta}. __[{possible_tasks[1]['tot_points']} pts]____Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_richiesta+=1
+    tasks += [{'tot_points': possible_tasks[1]['tot_points'], 'ver_points': possible_tasks[1]['ver_points'],'description1': cell_string}]
+    cell_type='Code'
+    cell_string="#Inserisci la risposta" +"\n" +"common_divisor=?"
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
 
-cell_type='Markdown'
-cell_string="<b>"+str(num_richiesta)+".("+str(data_instance['points'+str(num_richiesta)])+"pts)</b>"+" Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-yaml_libero+="description1: "+cell_string+"\n"
-num_richiesta+=1
-cell_type='Code'
-cell_string="#Inserisci la risposta" +"\n" +"common_divisor=?"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-yaml_libero+="tot_points:"+str(data_instance['points1'])+"\n"+"ver_points:"+str(data_instance['points1'])+"\n"
-
-cell_type ="Code"
-cell_string="verifica_lower_bound(common_divisor, silent=False)"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type ="Code"
+    cell_string="verifica_lower_bound(common_divisor, silent=False)"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
 # CELL 9-END)
 ###############
 
 # ( CELL 10:
-cell_type='Markdown'
-cell_string="<b>"+str(num_richiesta)+".("+str(data_instance['points'+str(num_richiesta)])+ "pts)</b> Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{i=0}^{len(regoli)} coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-yaml_libero+=cell_string+"\n"
-cell_type='Code'
-cell_string="#Inserisci la risposta#\ncoeff = [?,?,?] "
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-num_richiesta+=1
-cell_type ="Code"
-cell_string="verifica_upper_bound(coeff, silent=False)"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-yaml_libero+="tot_points:"+str(data_instance['points2'])+"\n"+"ver_points:"+str(data_instance['points2'])+"\n"
+if task[1]==True:
+    cell_type='Markdown'
+    cell_string=f"{num_richiesta}. __[{possible_tasks[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    num_richiesta += 1
+    tasks += [{'tot_points': possible_tasks[1]['tot_points'], 'ver_points': possible_tasks[1]['ver_points'],
+               'description1': cell_string}]
+    cell_type='Code'
+    cell_string="#Inserisci la risposta#\ncoeff = [?,?,?] "
+    cell_metadata={"trusted": True, "deletable": False}
+    add_cell(cell_type,cell_string,cell_metadata)
+
+    cell_type ="Code"
+    cell_string="verifica_upper_bound(coeff, silent=False)"
+    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+yaml_gen['tasks']=tasks
 
 # CELL 10 -END)
 ###############
-nbf.write(nb, 'robot_MCD.ipynb')
-YAMLFile(yaml_libero)
+with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
+    documents = yaml.dump(yaml_gen, file, default_flow_style=False)
+
+nbf.write(nb, 'MCD.ipynb')
