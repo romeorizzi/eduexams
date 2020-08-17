@@ -56,14 +56,14 @@ tasks:
   }
 - {
     request: "R5",
-    tot_points: 20,
-    ver_points: 20
+    tot_points: 10,
+    ver_points: 10
     target_point: (6,6),
   }
 - {
     request: "R6",
-    tot_points: 20,
-    ver_points: 20
+    tot_points: 10,
+    ver_points: 10
     middle_point: (4,5),
   }
 ...
