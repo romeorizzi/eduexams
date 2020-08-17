@@ -46,7 +46,7 @@ s: [11, 24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 
 #qui è possibile configurare i tasks, se non si vogliono task è possibile commentarli oppure cancellarli da questo file
 #sono ammessi task con le stesse richieste ma parametri diversi
 #per eventuali parametri aggiuntivi vedere cosa è richiesto tra [] nelle richieste
-possible_tasks:
+tasks:
 - {
     request: "R1",
     type: "SC",

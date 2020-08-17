@@ -54,11 +54,11 @@ except IOError:
 #    raise OtherException(...).with_traceback(tb)
 
 s=data_instance['s']
-possible_tasks=data_instance['possible_tasks']
+tasks=data_instance['tasks']
 total_point=0
 n = 0
-for i in range (0,len(possible_tasks)):
-        total_point+=possible_tasks[i]['tot_points']
+for i in range (0,len(tasks)):
+        total_point+=tasks[i]['tot_points']
         n += 1
 num_of_question=1
 
@@ -68,7 +68,7 @@ num_of_question=1
 yaml_gen=OrderedDict()
 yaml_gen['name']=data_instance['name']
 yaml_gen['title']=data_instance['title']
-tasks=[]
+tasks_istanza_libera=[]
 
 
 # BEGIN instance specific data pre-elaboration
@@ -364,23 +364,23 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 #ciclo generatore task
 
-for i in range (0,len(possible_tasks)):
+for i in range (0,len(tasks)):
 
-    if possible_tasks[i]['request']=="R1":
-        request=f"{num_of_question}. __[{possible_tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$ {dictionary_of_types[possible_tasks[i]['type']]} di $s$ che sia la più lunga possibile."
-        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{possible_tasks[i]['type']}', pt_green=1, pt_red={possible_tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
-    if possible_tasks[i]['request'] =="R2":
-        request=f"{num_of_question}. __[{possible_tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$  {dictionary_of_types[possible_tasks[i]['type']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {possible_tasks[i]['start_banned_interval']} alla posizione {possible_tasks[i]['end_banned_interval']}."
-        verif= f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{possible_tasks[i]['type']}', pt_green=1, pt_red={possible_tasks[i]['tot_points']},index_pt={num_of_question - 1}, start_banned_interval={possible_tasks[i]['start_banned_interval']}, end_banned_interval={possible_tasks[i]['end_banned_interval']})))"
-    if possible_tasks[i]['request'] == "R3":
-        request=f"{num_of_question}. __[{possible_tasks[i]['tot_points']} pts]__ Trovare la più lunga {dictionary_of_types[possible_tasks[i]['type']]} che includa l'elemento in posizione {possible_tasks[i]['forced_ele_pos']}"
-        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{possible_tasks[i]['type']}', pt_green=1, pt_red={possible_tasks[i]['tot_points']},index_pt={num_of_question - 1}, forced_ele_pos={possible_tasks[i]['forced_ele_pos']})))"
-    if possible_tasks[i]['request'] =="R4":
-        request=f"{num_of_question}. __[{possible_tasks[i]['tot_points']} pts]__ Una sequenza è detta {dictionary_of_types[possible_tasks[i]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
-        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{possible_tasks[i]['type']}', pt_green=1, pt_red={possible_tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
-    if possible_tasks[i]['request'] =="R5":
-        request=f"{num_of_question}. __[{possible_tasks[i]['tot_points']} pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[possible_tasks[i]['type']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
-        verif=f"display(Markdown(eval_coloring(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{possible_tasks[i]['type']}', pt_green=2, pt_red={possible_tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
+    if tasks[i]['request']=="R1":
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$ {dictionary_of_types[tasks[i]['type']]} di $s$ che sia la più lunga possibile."
+        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
+    if tasks[i]['request'] =="R2":
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$  {dictionary_of_types[tasks[i]['type']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {tasks[i]['start_banned_interval']} alla posizione {tasks[i]['end_banned_interval']}."
+        verif= f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, start_banned_interval={tasks[i]['start_banned_interval']}, end_banned_interval={tasks[i]['end_banned_interval']})))"
+    if tasks[i]['request'] == "R3":
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare la più lunga {dictionary_of_types[tasks[i]['type']]} che includa l'elemento in posizione {tasks[i]['forced_ele_pos']}"
+        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, forced_ele_pos={tasks[i]['forced_ele_pos']})))"
+    if tasks[i]['request'] =="R4":
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Una sequenza è detta {dictionary_of_types[tasks[i]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
+        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
+    if tasks[i]['request'] =="R5":
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[tasks[i]['type']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
+        verif=f"display(Markdown(eval_coloring(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=2, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
 
     # aggiungere altre possibili richieste e relativi verificatori
 
@@ -390,7 +390,7 @@ for i in range (0,len(possible_tasks)):
     cell_string= request
     cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
-    tasks+=[{'tot_points' : possible_tasks[i]['tot_points'],'ver_points': possible_tasks[i]['ver_points'], 'description1':cell_string}]
+    tasks_istanza_libera+=[{'tot_points' : tasks[i]['tot_points'],'ver_points': tasks[i]['ver_points'], 'description1':cell_string}]
 
     # CELL request -END)
     ##############
@@ -414,7 +414,7 @@ for i in range (0,len(possible_tasks)):
     # CELL verifier -END)
     ###############
 
-yaml_gen['tasks']=tasks
+yaml_gen['tasks']=tasks_istanza_libera
 
 with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
     documents = yaml.dump(yaml_gen, file, default_flow_style=False)
