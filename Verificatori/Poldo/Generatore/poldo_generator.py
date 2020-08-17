@@ -22,8 +22,6 @@ def add_cell(cell_type,cell_string,cell_metadata):
         nb['cells'].append(nbf.v4.new_markdown_cell(cell_string,metadata=cell_metadata));
     elif cell_type=="Raw":
         nb['cells'].append(nbf.v4.new_raw_cell(cell_string,metadata=cell_metadata));
-    #new_heading non esiste
-    #elif cell_type=="Heading":  nb['cells'].append(nbf.v4.new_heading_cell(cell_string,metadata=cell_metadata));
     else:
         assert False
 
@@ -369,21 +367,22 @@ for i in range (0,len(tasks)):
     if tasks[i]['request']=="R1":
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$ {dictionary_of_types[tasks[i]['type']]} di $s$ che sia la più lunga possibile."
         verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
-    if tasks[i]['request'] =="R2":
+    elif tasks[i]['request'] =="R2":
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$  {dictionary_of_types[tasks[i]['type']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {tasks[i]['start_banned_interval']} alla posizione {tasks[i]['end_banned_interval']}."
         verif= f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, start_banned_interval={tasks[i]['start_banned_interval']}, end_banned_interval={tasks[i]['end_banned_interval']})))"
-    if tasks[i]['request'] == "R3":
+    elif tasks[i]['request'] == "R3":
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare la più lunga {dictionary_of_types[tasks[i]['type']]} che includa l'elemento in posizione {tasks[i]['forced_ele_pos']}"
         verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, forced_ele_pos={tasks[i]['forced_ele_pos']})))"
-    if tasks[i]['request'] =="R4":
+    elif tasks[i]['request'] =="R4":
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Una sequenza è detta {dictionary_of_types[tasks[i]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
         verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
-    if tasks[i]['request'] =="R5":
+    elif tasks[i]['request'] =="R5":
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[tasks[i]['type']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
         verif=f"display(Markdown(eval_coloring(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=2, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
 
     # aggiungere altre possibili richieste e relativi verificatori
-
+    else:
+        assert False
     # ( CELL request:
 
     cell_type='Markdown'
