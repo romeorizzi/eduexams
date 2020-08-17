@@ -3,22 +3,15 @@
 name: dp_MCD
 title: Ricerca del più grande numero che divide tutti i numeri dati in input..
 s: [20, 90, 210, 150]
-possible_tasks:
+tasks:
 - {
-    type: "SC",
+    request: "R1",
     tot_points: 10,
     ver_points: 10,
   }
 - {
+    request: "R2",
     type: "SD",
     tot_points: 10,
     ver_points: 10,
   }
-
-
-#inserire true se il task deve essere presente, false se non lo si vuole nel file generato (l'array deve essere sempre della dimensione dei possible_tasks)
-tasks_to_create: [True, False]
-
-#esempio (non crea la prima e l'ultima richiesta):
-#tasks_to_create: [False, True, True, True, False]
-...

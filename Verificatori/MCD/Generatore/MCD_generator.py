@@ -50,15 +50,15 @@ except IOError:
 yaml_gen=OrderedDict()
 yaml_gen['name']=data_instance['name']
 yaml_gen['title']=data_instance['title']
+tasks=[]
+
 istanza = data_instance['s']
-task=data_instance['tasks_to_create']
-possible_tasks = data_instance['possible_tasks']
+possible_task = data_instance['tasks']
 num_richiesta = 1
 total_point=0
 n = 0
-for i in range (0,len(task)):
-    if task[i]==True:
-        total_point+=possible_tasks[i]['tot_points']
+for i in range (0,len(possible_task)):
+        total_point+=possible_task[i]['tot_points']
         n += 1
 tasks=[]
 
@@ -220,47 +220,46 @@ add_cell(cell_type,cell_string,cell_metadata)
 # CELL 8 -END)
 ###############
 # ( CELL 9:
-if task[0]==True:
-    cell_type='Markdown'
-    cell_string=f"{num_richiesta}. __[{possible_tasks[1]['tot_points']} pts]____Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-    add_cell(cell_type,cell_string,cell_metadata)
-    num_richiesta+=1
-    tasks += [{'tot_points': possible_tasks[1]['tot_points'], 'ver_points': possible_tasks[1]['ver_points'],'description1': cell_string}]
-    cell_type='Code'
-    cell_string="#Inserisci la risposta" +"\n" +"common_divisor=?"
-    cell_metadata={"trusted": True, "deletable": False}
-    add_cell(cell_type,cell_string,cell_metadata)
+print(len(possible_task))
+for i in range (0,len(possible_task)):
 
-    cell_type ="Code"
-    cell_string="verifica_lower_bound(common_divisor, silent=False)"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-    add_cell(cell_type,cell_string,cell_metadata)
-# CELL 9-END)
-###############
+    if possible_task[i]['request']=="R1":
+        request=f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
+        verif=f"verifica_lower_bound(common_divisor, silent=False)"
+    if possible_task[i]['request'] =="R2":
+        request=f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
+        verif= "verifica_upper_bound(coeff, silent=False)"
 
-# ( CELL 10:
-if task[1]==True:
+    # aggiungere altre possibili richieste e relativi verificatori
+
+    # ( CELL request:
+
     cell_type='Markdown'
-    cell_string=f"{num_richiesta}. __[{possible_tasks[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+    cell_string= request
+    cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
+    tasks+=[{'tot_points' : possible_task[i]['tot_points'],'ver_points': possible_task[i]['ver_points'], 'description1':cell_string}]
+    # ( CELL answer:
+
+    cell_type = 'Code'
+    cell_string = f"#Inserisci la risposta\nsubs{num_richiesta}=[]"
+    cell_metadata = {"trusted": True, "deletable": False}
+    add_cell(cell_type, cell_string, cell_metadata)
+
+    # CELL answer -END)
+    ###############
+    # ( CELL verifier:
+
+    cell_type = 'Code'
+    cell_string = verif
+    cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
+    add_cell(cell_type, cell_string, cell_metadata)
     num_richiesta += 1
-    tasks += [{'tot_points': possible_tasks[1]['tot_points'], 'ver_points': possible_tasks[1]['ver_points'],
-               'description1': cell_string}]
-    cell_type='Code'
-    cell_string="#Inserisci la risposta#\ncoeff = [?,?,?] "
-    cell_metadata={"trusted": True, "deletable": False}
-    add_cell(cell_type,cell_string,cell_metadata)
 
-    cell_type ="Code"
-    cell_string="verifica_upper_bound(coeff, silent=False)"
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-    add_cell(cell_type,cell_string,cell_metadata)
-yaml_gen['tasks']=tasks
-
+    # CELL verifier -END)
 # CELL 10 -END)
 ###############
+yaml_gen['tasks']=tasks
 with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
     documents = yaml.dump(yaml_gen, file, default_flow_style=False)
 
