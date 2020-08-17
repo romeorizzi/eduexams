@@ -1,0 +1,23 @@
+name: knapsack
+title: Problema dello zaino
+description1: 'Si consideri la seguente capienza dello zaino:<br/><br/> B=36<br/><br/>e
+  i seguenti elementi:<br/>[''A'', ''B'', ''C'', ''D'', ''E'', ''F'', ''G'', ''H'',
+  ''I''] <br/> che hanno come pesi:<br/>[15, 15, 15, 13, 13, 5, 5, 3, 1] <br/> e valori:<br/>[52,
+  52, 52, 40, 40, 17, 17, 7, 8] '
+tasks:
+- description1: 1. __[10 pts]__ Trovare quanto vale la <b>somma massima dei valori</b>
+    degli elementi.
+  tot_points: 10
+  ver_points: 10
+- description1: 2. __[10 pts]__ Fornire <b>il sottoinsieme degli elementi </b> tale
+    che massimizzi la somma dei valori degli elementi.
+  tot_points: 10
+  ver_points: 10
+- description1: 3. __[10 pts]__ Trovare la somma massima dei valori degli elementi  <b>
+    se non si considerano i seguenti elementi ['I'] </b>.
+  tot_points: 10
+  ver_points: 10
+- description1: 4. __[10 pts]__ Trovare la somma massima dei valori degli elementi
+    <b> se __B__ diventa 33</b>.
+  tot_points: 10
+  ver_points: 10
