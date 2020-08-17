@@ -1,0 +1,46 @@
+#dictionary_of_request_string = {
+#   "R1":  "Trovare quanto vale la <b>somma massima dei valori</b> degli elementi.",
+#   "R2": "Fornire <b>il sottoinsieme degli elementi </b> tale che massimizzi la somma dei valori.",
+#   "R3": "Trovare la somma massima dei valori degli elementi  <b> se non si considerano i seguenti elementi {possible_tasks[2]['edr']} </b>.",
+#   "R4": "Trovare la somma massima dei valori degli elementi <b> se __B__ diventa {possible_tasks[3]['B2']}</b>.",
+#}
+
+name: "knapsack"
+title: "Problema dello zaino"
+#istanza
+B: 36
+elementi: ["A","B","C","D","E","F","G","H","I"]
+pesi : [15,15,15,13,13,5,5,3,1]
+valori : [52,52,52,40,40,17,17,7,8]
+
+
+#descrivere i tipi di sequenza per l'introduzione e per le richieste
+
+#qui è possibile configurare i parametri dei 4 possibili tasks
+tasks:
+- {
+    request: "R1",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R2",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R3",
+    tot_points: 10,
+    ver_points: 10,
+    edr: ["I"]
+
+  }
+- {
+    request: "R4",
+    tot_points: 10,
+    ver_points: 10,
+    B2: 33
+  }
+
+
+...
