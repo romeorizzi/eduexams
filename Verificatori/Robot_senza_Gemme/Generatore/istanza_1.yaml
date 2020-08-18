@@ -52,19 +52,19 @@ tasks:
     request: "R4",
     tot_points: 10,
     ver_points: 10,
-    start_point: (2,3),
+    start_point: '(2,3)',
   }
 - {
     request: "R5",
     tot_points: 10,
-    ver_points: 10
-    target_point: (6,6),
+    ver_points: 10,
+    target_point: '(6,6)',
   }
 - {
     request: "R6",
     tot_points: 10,
-    ver_points: 10
-    middle_point: (4,5),
+    ver_points: 10,
+    middle_point: '(4,5)',
   }
 ...
 

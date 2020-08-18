@@ -53,10 +53,10 @@ campo_minato=data_instance['campo_minato']
 
 tasks=data_instance['tasks']
 total_point=0
-n = 0
+n_task = 0
 for i in range (0,len(tasks)):
         total_point+=tasks[i]['tot_points']
-        n += 1
+        n_task += 1
 num_of_question=1
 
 # BEGIN creazione variabili per generare istanza yaml per modalità libera
@@ -79,10 +79,7 @@ n=len(data_instance['campo_minato'][0])
 # END instance specific data pre-elaboration
 
 # BEGIN instance representation in the notebook
-instance=f"campo_minato={data_instance['campo_minato']}"\
-            +f"\nstart_point={start_point}"\
-            +f"\ntarget_point={target_point}"\
-            +f"\nmiddle_point={middle_point}"\
+instance=f"campo_minato={data_instance['campo_minato']}"
 # END instance representation in the notebook
 
 # BEGIN dynamic programming table input in the notebook
@@ -150,7 +147,7 @@ import copy
 def start():
     display(Javascript("window.runCells()"))
     
-arr_point={str([-1] * n)}
+arr_point={str([-1] * n_task)}
 """
 cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
@@ -212,26 +209,26 @@ def evaluation_format(answ, pt_green,pt_red, index_pt):
                                     <span style='color:blue'>[{pt_blue} possible pt]</span>, \
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
 
-def check_num_paths_to(mappa, num_paths_to, return_only_boolan=False):
+def check_num_paths_to(mappa, num_paths_to, pt_green, pt_red, index_pt, return_only_boolan=False):
     if len(num_paths_to) != m+1:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $num\_paths\_to$ devono essere $m+1=${m+1}, non {len(num_paths_to)}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le righe della matrice $num\_paths\_to$ devono essere $m+1=${m+1}, non {len(num_paths_to)}."
     if len(num_paths_to[0]) != n+1:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le colonne della matrice $num\_paths\_to$ devono essere $n+1=${n+1}, non {len(num_paths_to[0])}."
+        return evaluation_format("No", 0, pt_red, index_pt)+f"Le colonne della matrice $num\_paths\_to$ devono essere $n+1=${n+1}, non {len(num_paths_to[0])}."
 
     for i in range (0,m):
         if num_paths_to[i][0]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, i cammini devono partire dalla cella $(1,1)$ e pertanto $num\_paths\_to[${i}$][0] = 0$"
+            return evaluation_format("No", 0, pt_red, index_pt)+f"Attenzione, i cammini devono partire dalla cella $(1,1)$ e pertanto $num\_paths\_to[${i}$][0] = 0$"
     for j in range (0,n):
         if num_paths_to[0][j]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, i cammini devono partire dalla cella $(1,1)$ e pertanto $num\_paths\_to[0][${j}$] = 0$"
+            return evaluation_format("No", 0, pt_red, index_pt)+f"Attenzione, i cammini devono partire dalla cella $(1,1)$ e pertanto $num\_paths\_to[0][${j}$] = 0$"
     num_paths_to_forgiving = copy.deepcopy(num_paths_to)
     num_paths_to_forgiving[1][1] = 1
     for i in range(m,0,-1):
@@ -239,38 +236,38 @@ def check_num_paths_to(mappa, num_paths_to, return_only_boolan=False):
             if i==1 and j==1:
                 if return_only_boolan:
                     return True
-                return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $num\_paths\_to$."
+                return  evaluation_format("Si", pt_green, pt_red, index_pt)+"Non riscontro particolari problemi della tua versione della matrice $num\_paths\_to$."
             if mappa[i][j]!="*":
                 if num_paths_to_forgiving[i][j]!=num_paths_to_forgiving[i-1][j]+num_paths_to_forgiving[i][j-1]:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_to$."
+                    return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_to$."
             elif num_paths_to_forgiving[i][j]!=0:
                 if return_only_boolan:
                     return False
-                return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_to$."
+                return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_to$."
 
 
-def check_num_paths_from(mappa, num_paths_from, return_only_boolan=False):
+def check_num_paths_from(mappa, num_paths_from, pt_green, pt_red, index_pt, return_only_boolan=False):
     if len(num_paths_from) != m+2:
         if return_only_boolan:
             return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $num\_paths\_from$ devono essere $m+2=${m+2}, non {len(num_paths_from)}."
+        return evaluation_format("No", 0, pt_red, index_pt)+f"Le righe della matrice $num\_paths\_from$ devono essere $m+2=${m+2}, non {len(num_paths_from)}."
     if len(num_paths_from[0]) != n+2:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le colonne della matrice $num\_paths\_from$ devono essere $n+2=${n+2}, non {len(num_paths_from[0])}."
+        return evaluation_format("No", 0, pt_red, index_pt)+f"Le colonne della matrice $num\_paths\_from$ devono essere $n+2=${n+2}, non {len(num_paths_from[0])}."
 
     for i in range (0,m+1):
         if num_paths_from[i][n+1]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, i cammini devono partire dalla cella $(8,9)$ e pertanto $num\_paths\_from[${i}$][10] = 0$"
+            return evaluation_format("No", 0, pt_red, index_pt)+f"Attenzione, i cammini devono partire dalla cella $(8,9)$ e pertanto $num\_paths\_from[${i}$][10] = 0$"
     for j in range (0,n+1):
         if num_paths_from[m+1][j]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, i cammini devono partire dalla cella $(8,9)$ e pertanto $num\_paths\_from[9][${j}$] = 0$"
+            return evaluation_format("No", 0, pt_red, index_pt)+f"Attenzione, i cammini devono partire dalla cella $(8,9)$ e pertanto $num\_paths\_from[9][${j}$] = 0$"
     num_paths_from_forgiving = copy.deepcopy(num_paths_from)
     num_paths_from_forgiving[m][n] = 1
     for i in range(1,m-1):
@@ -279,43 +276,43 @@ def check_num_paths_from(mappa, num_paths_from, return_only_boolan=False):
                 if num_paths_from_forgiving[i][j]!=num_paths_from_forgiving[i+1][j]+num_paths_from_forgiving[i][j+1]:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
+                    return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
             elif num_paths_from_forgiving[i][j]!=0:
                 if return_only_boolan:
                     return False
-                return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
+                return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
     for i in range (1, m):
         if mappa[i][n]!="*":
             if num_paths_from_forgiving[i][n]!=num_paths_from_forgiving[i+1][n]+num_paths_from_forgiving[i][n+1]:    
                 if return_only_boolan:
                     return False
-                return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$." 
+                return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$." 
         elif num_paths_from_forgiving[i][n]!=0:
             if return_only_boolan:
                 return False
-            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
+            return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
     for j in range (1, n):
         if mappa[m][j]!="*":
             if num_paths_from_forgiving[m][j]!=num_paths_from_forgiving[m+1][j]+num_paths_from_forgiving[m][j+1]:
                 if return_only_boolan:
                     return False
-                return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$." 
+                return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$." 
         elif num_paths_from_forgiving[m][j]!=0:
             if return_only_boolan:
                 return False
-            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
+            return  evaluation_format("No", 0, pt_red, index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_paths\_from$."
     if return_only_boolan:
         return True
-    return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $num\_paths\_from$."
+    return  evaluation_format("Si", pt_green, pt_red, index_pt)+"Non riscontro particolari problemi della tua versione della matrice $num\_paths\_from$."
 
 def Latex_type(string):
     return string.replace("_", "\_")
 
-def visualizza_e_valuta(nome_matrice, matrice):
+def visualizza_e_valuta(nome_matrice, matrice, pt_green, pt_red, index_pt):
     display(Markdown(f"La tua versione attuale della matrice ${Latex_type(nome_matrice)}$ è la seguente:"))
     visualizza(matrice)
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
-    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)")))    
+    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice,pt_green, pt_red, index_pt)")))    
 """
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
@@ -397,22 +394,40 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 #ciclo per generare i tasks
 for i in range (0,len(tasks)):
+    verif=""
 
     if tasks[i]['request']=="R1":
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."
-        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
+        answer_type = "Code"
+        answer=num_paths_to
+        verif=f"visualizza_e_valuta('num_paths_to',num_paths_to, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
     elif tasks[i]['request'] =="R2":
-        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare una sottosequenza $subs{num_of_question}$  {dictionary_of_types[tasks[i]['type']]} di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione {tasks[i]['start_banned_interval']} alla posizione {tasks[i]['end_banned_interval']}."
-        verif= f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, start_banned_interval={tasks[i]['start_banned_interval']}, end_banned_interval={tasks[i]['end_banned_interval']})))"
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\\times(n+2)$" \
+                    +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
+                    +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
+                    +f"${chr(64+m)}{n}=({m},{n})$."
+        answer_type="Code"
+        answer=num_paths_from
+        verif= f"visualizza_e_valuta('num_paths_from',num_paths_from, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
     elif tasks[i]['request'] == "R3":
-        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Trovare la più lunga {dictionary_of_types[tasks[i]['type']]} che includa l'elemento in posizione {tasks[i]['forced_ele_pos']}"
-        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, forced_ele_pos={tasks[i]['forced_ele_pos']})))"
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+        answer_type="Markdown"
+        answer="#inserisci risposta"
     elif tasks[i]['request'] =="R4":
-        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Una sequenza è detta {dictionary_of_types[tasks[i]['type']]}. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
-        verif=f"display(Markdown(is_subseq_of_type(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
+        start_point=eval(tasks[i]['start_point'])
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+        answer_type = "Markdown"
+        answer = "#inserisci risposta"
     elif tasks[i]['request'] =="R5":
-        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona {dictionary_of_types[tasks[i]['type']]}? Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)"
-        verif=f"display(Markdown(eval_coloring(s, 's', subs{num_of_question}, 'subs{num_of_question}', '{tasks[i]['type']}', pt_green=2, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
+        target_point=eval(tasks[i]['target_point'])
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"
+        answer_type = "Markdown"
+        answer = "#inserisci risposta"
+    elif tasks[i]['request'] =="R6":
+        middle_point=eval(tasks[i]['middle_point'])
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Quanti sono i percorsi che partono da $A1=(1,1)$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"
+        answer_type = "Markdown"
+        answer = "#inserisci risposta"
 
     # aggiungere altre possibili richieste e relativi verificatori
     else:
@@ -429,152 +444,26 @@ for i in range (0,len(tasks)):
     ##############
     # ( CELL answer:
 
-    cell_type='Code'
-    cell_string=f"#Inserisci la risposta\nsubs{num_of_question}=[]"
+    cell_type=answer_type
+    cell_string=answer
     cell_metadata={"trusted": True, "deletable": False}
     add_cell(cell_type,cell_string,cell_metadata)
 
     #CELL answer -END)
     ###############
     # ( CELL verifier:
-
-    cell_type='Code'
-    cell_string=verif
-    cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
-    add_cell(cell_type,cell_string,cell_metadata)
-    num_of_question += 1
-
+    if verif !="":
+        cell_type='Code'
+        cell_string=verif
+        cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+        add_cell(cell_type,cell_string,cell_metadata)
     # CELL verifier -END)
     ###############
+    num_of_question += 1
 
 yaml_gen['tasks']=tasks_istanza_libera
 
 with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
     documents = yaml.dump(yaml_gen, file, default_flow_style=False)
-
-nbf.write(nb, 'poldo.ipynb')
-
-
-
-#da qui in poi è provvisorio, devo copiare le stringhe e i verificatori e poi tolgo
-
-# ( CELL 12:
-
-cell_type='Markdown'
-cell_string=f"1. __\[10 pts\]__
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 12 -END)
-###############
-# ( CELL 13:
-cell_type="Code"
-cell_string=num_paths_to
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 13 -END)
-###############
-# ( CELL 14:
-
-cell_type='Code'
-cell_string="""visualizza_e_valuta('num_paths_to',num_paths_to)"""
-cell_metadata=={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 14 -END)
-###############
-# ( CELL 15:
-cell_type='Markdown'
-cell_string=f"2. __\[10 pts\]__ Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\\times(n+2)$" \
-                    +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
-                    +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
-                    +f"${chr(64+m)}{n}=({m},{n})$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 15 -END)
-###############
-# ( CELL 16:
-
-cell_type="Code" 
-cell_string=num_paths_from
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 16 -END)
-###############
-# ( CELL 17:
-
-cell_type="Code"
-cell_string="""visualizza_e_valuta('num_paths_from',num_paths_from)"""
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 17 -END)
-###############
-# ( CELL 18:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"3. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 18 -END)
-###############
-# ( CELL 19:
-
-#Richiesta
-
-cell_type='Markdown'
-cell_string=f"4. __\[10 pts\]__ Quanti sono i percorsi con partenza in ${chr(64+start_point[0])}{start_point[1]}={start_point}$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 19 -END)
-###############
-# ( CELL 20:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"5. __\[10 pts\]__ Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+target_point[0])}{target_point[1]}={target_point}$?"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 20 -END)
-###############
-# ( CELL 21:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"6. __\[10 pts\]__ Quanti sono i percorsi che partono da $A1=(1,1)$, passano da ${chr(64+middle_point[0])}{middle_point[1]}={middle_point}$, ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 21 -END)
-###############
 
 nbf.write(nb, 'robot_senza_gemme.ipynb')
