@@ -125,6 +125,7 @@ cell_type='Code'
 cell_string =f"""\
 from IPython.core.display import display, HTML, Markdown, Javascript
 from tabulate import tabulate
+import pandas as pd
 import copy
 
 def start():
@@ -162,10 +163,6 @@ add_cell(cell_type, cell_string, cell_metadata)
 
 cell_type = "Code"
 cell_string ="""\
-from IPython.core.display import display, HTML, Markdown
-from tabulate import tabulate
-import pandas as pd
-import copy
 
 def visualizza(quadrante_spaziale):
     index=pd.Index([str(i) for i in range(len(quadrante_spaziale))])
