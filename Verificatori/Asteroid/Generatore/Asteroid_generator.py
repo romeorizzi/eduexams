@@ -376,7 +376,7 @@ tentativo1 = [(1,1),(2,2)]
 
 Nota che per specificare la cella nella riga$~3$ e nella colonna$~0$ utilizzi la scrittura `(3,0)`.
         """
-        verif= f"display(Markdown(verifica_asteroidi_indipendenti(answer{num_of_question - 1},pt_green=1, pt_red={tasks[1]['tot_points']},index_pt={num_of_question - 1})))"
+        verif= f"display(Markdown(verifica_asteroidi_indipendenti(answer{num_of_question - 1},pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})))"
     else:
         assert False
     # ( CELL request:
