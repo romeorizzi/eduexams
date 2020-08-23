@@ -286,9 +286,10 @@ def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
                         return False
                     return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$."
             else:
-                if num_gems_from_forgiving[i][j]!=max((num_gems_from_forgiving[i+1][j] if num_gems_from_forgiving[i+1][j] is not None else 0),(num_gems_from_forgiving[i][j+1] if num_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
-                    if return_only_boolan:
-                        return False
+                if num_gems_from_forgiving[i][j]!=max((num_gems_from_forgiving[i+1][j] 
+                    if num_gems_from_forgiving[i+1][j] is not None else 0),(num_gems_from_forgiving[i][j+1] if num_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
+                        if return_only_boolan:
+                            return False
                     return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$." 
     if return_only_boolan:
         return True
