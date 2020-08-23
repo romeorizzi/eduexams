@@ -4,8 +4,16 @@ import os
 # import argparse
 import nbformat as nbf
 import yaml
+from collections import OrderedDict
 
 
+def represent_dictionary_order(self, dict_data):
+    return self.represent_mapping('tag:yaml.org,2002:map', dict_data.items())
+
+def setup_yaml():
+    yaml.add_representer(OrderedDict, represent_dictionary_order)
+
+setup_yaml()
 def add_cell(cell_type,cell_string,cell_metadata):
     if cell_type=="Code":
         nb['cells'].append(nbf.v4.new_code_cell(cell_string,metadata=cell_metadata));
@@ -42,9 +50,19 @@ except IOError:
 
 
 campo_minato=data_instance['campo_minato']
-start_point=eval(data_instance['start_point'])
-target_point=eval(data_instance['target_point'])
-middle_point=eval(data_instance['middle_point'])
+tasks=data_instance['tasks']
+total_point=0
+n_task = 0
+for i in range (0,len(tasks)):
+        total_point+=tasks[i]['tot_points']
+        n_task += 1
+num_of_question=1
+
+#inizio istanza libera
+yaml_gen=OrderedDict()
+yaml_gen['name']=data_instance['name']
+yaml_gen['title']=data_instance['title']
+tasks_free_instance=[]
 
 # END instance specific data loading
 
@@ -55,30 +73,8 @@ n=len(data_instance['campo_minato'][0])
 
 # END instance specific data pre-elaboration
 
-# BEGIN instance representation in the notebook
-instance=f"campo_minato={data_instance['campo_minato']}"\
-            +f"\nstart_point={start_point}"\
-            +f"\ntarget_point={target_point}"\
-            +f"\nmiddle_point={middle_point}"\
-# END instance representation in the notebook
 
-# BEGIN dynamic programming table input in the notebook
-# First DP table:
-num_paths_to=f"num_paths_to=["
-for i in range (m+1):
-    num_paths_to=num_paths_to+"\n\t\t"+str([0]*(n+1))+","
-    if i > 0:
-        num_paths_to += "\t\t# " + str(campo_minato[i-1])  
-num_paths_to = num_paths_to + "\n]"
 
-# Second DP table:
-num_paths_from=f"num_paths_from=["
-for i in range (m+2):
-    num_paths_from=num_paths_from+"\n\t\t"+str([0]*(n+2))+","
-    if i > 0 and i <= m:
-        num_paths_from += "\t\t# " + str(campo_minato[i-1])
-num_paths_from = num_paths_from + "\n]"
-# END dynamic programming table input in the notebook
 
 # Handy Ctrl-C Ctrl-V stuff:
 #meta_init={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
@@ -109,7 +105,9 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 2:
 
 cell_type='Code'
-cell_string=instance+"\n"+"""m = len(campo_minato)
+cell_string=f"""
+campo_minato = {campo_minato}
+m = len(campo_minato)
 n = len(campo_minato[0])
 #mappa = [ [-1]*(n+1) ] + [ ([-1] + r) for r in campo_minatomappa = [ [-1]*(n+1) ] + [ ([-1] + r) for r in campo_minato#]
 mappa = [["*"]*(n+1)]
@@ -154,8 +152,6 @@ def evaluation_format(answ, pt_green,pt_red):
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
 
 def check_num_gems_to(mappa, num_gems_to, return_only_boolan=False):
-    """\
-    """
     if len(num_gems_to) != m+1:
         if return_only_boolan:
                 return False
@@ -261,8 +257,6 @@ def check_max_gems_to(mappa, max_gems_to, return_only_boolan=False):
                             return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
                                          
 def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
-    #verifica che la matrice num_gems_from sia conforme alla consegna.
-    
     if len(num_gems_from) != m+2:
         if return_only_boolan:
                 return False
@@ -302,6 +296,9 @@ def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
 
 
 def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
+    
+    
+    
     if len(max_gems_from) != m+2:
         if return_only_boolan:
                 return False
@@ -310,7 +307,7 @@ def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
         if return_only_boolan:
                 return False
         return evaluation_format("No", 0, 10)+f"Le righe della matrice $max\_gems\_from$ devono essere $m+2=${m+2}, non {len(max_gems_from)}."
-
+    
     for i in range (0,m+1):
         if max_gems_from[i][n+1]!=(0,0):
             if return_only_boolan:
@@ -321,11 +318,11 @@ def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
             if return_only_boolan:
                 return False
             return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $max\_gems\_from[${m}$][${j}$] = 0$"
-
+    
     max_gems_from_forgiving = copy.deepcopy(max_gems_from)
     max_gems_from_forgiving[m][n] = (0,1)
     for i in range(1,m):
-        for j in range (1,n):
+        for j in range (1,n):         
             if mappa[i][j]=="*" or (max_gems_from_forgiving[i][j+1] is None and max_gems_from_forgiving[i+1][j] is None):
                 if max_gems_from_forgiving[i][j] is not None:
                     if return_only_boolan:
@@ -335,8 +332,8 @@ def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
                 if max_gems_from_forgiving[i][j][0]!=max((max_gems_from_forgiving[i+1][j][0] if max_gems_from_forgiving[i+1][j] is not None else 0),(max_gems_from_forgiving[i][j+1][0] if max_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+str("Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$.")
-
+                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                
                 if max_gems_from_forgiving[i+1][j] is None:
                     if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i][j+1][1]:
                         if return_only_boolan:
@@ -362,10 +359,10 @@ def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
                         if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i][j+1][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."                
     if return_only_boolan:
                 return True
-    return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $max\_gems\_from$."
+    return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $max\_gems\_from$."     
 
 def Latex_type(string):
     return string.replace("_", "\_")
@@ -374,7 +371,7 @@ def visualizza_e_valuta(nome_matrice, matrice):
     display(Markdown(f"La tua versione attuale della matrice ${Latex_type(nome_matrice)}$ è la seguente:"))
     visualizza(matrice)
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
-    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)")))
+    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)"))) 
 """
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
@@ -444,10 +441,8 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 # ( CELL 6:
 cell_type='Markdown'
-cell_string="""\
-## Esercizio \[60 pts\]
-(campo minato con gemme) Ricerca di cammini in una griglia rettangolare con celle proibite e gemme da raccogliere.
-"""
+cell_string=f"## Esercizio \[{total_point} pts\]<br/>"\
++f"(campo minato con gemme) {data_instance['title']}."
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
@@ -513,96 +508,57 @@ cell_string="""__Richieste__:"""
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 11 -END)
-###############
-# ( CELL 12:
+for i in range(0,len(tasks)):
+    verificatore = ""
+    if tasks[i]['request']=="R1":
+      richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$. Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
+      tipo_risposta = "Code"
+      risposta = f"num_gems_to={'num_gems_to'}"
+      verificatore ="""visualizza_e_valuta('num_gems_to',num_gems_to)"""
+    elif tasks[i]['request']=='R2':
+        richiesta =f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)times(n+2)$," \
+                        +f" nella cui cella $num\_gems\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, " \
+                        +f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64+m)}{n}=({m},{n})$."
+        tipo_risposta="Code"
+        risposta = f"num_gems_from= {'num_gems_from'}"
+        verificatore = """visualizza_e_valuta('num_gems_from',num_gems_from)"""
+    elif tasks[i]['request'] == 'R3':
+        richiesta =f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $max\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, " \
+                   +f"sia riposto il numero di gemme raccolte dalla cella $A1=(1,1)$ e il numero di percorsi che assicurano di " \
+                   +f"raccogliere quel numero di gemme alla generica cella $(i,j)$."
+        tipo_risposta="Code"
+        risposta = f"max_gems_to= {'max_gems_to'}"
+        verificatore ="""visualizza_e_valuta('max_gems_to',max_gems_to)"""
 
-cell_type='Markdown'
-cell_string=f"1.\[10 pts\]__ A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$. Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    elif tasks[i]['request'] =='R4':
+        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice max_gems_from, di dimensione (m+2)times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
+                    +f" sia riposto il numero di gemme raccolte dalla generica cella (i,j) alla cella G9=(7,9) " \
+                    +f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme."
+        tipo_risposta ="Code"
+        risposta = f"max_gems_from= {'max_gems_from'}"
+        verificatore = """visualizza_e_valuta('max_gems_from',max_gems_from)"""
+    else:
+        assert False
 
-# CELL 12 -END)
-###############
-# ( CELL 13:
-cell_type="Code"
-cell_string=num_paths_to
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-# CELL 13 -END)
-###############
-# ( CELL 14:
+    cell_type='Markdown'
+    cell_string= richiesta
+    cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
+    add_cell(cell_type,cell_string,cell_metadata)
+    tasks_free_instance+=[{'tot_points' : tasks[i]['tot_points'],'ver_points': tasks[i]['ver_points'], 'description1':cell_string}]
 
-cell_type='Code'
-cell_string="""visualizza_e_valuta('num_paths_to',num_paths_to)"""
-cell_metadata=={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
+    cell_type = tipo_risposta
+    cell_string = risposta
+    cell_metadata = {"trusted": True, "deletable": False}
+    add_cell(cell_type, cell_string, cell_metadata)
 
-# CELL 14 -END)
-###############
-# ( CELL 15:
-cell_type='Markdown'
-cell_string=f"2.__\[10 pts\]__ Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)times(n+2)$," \
-    f" nella cui cella $num\_gems\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, " \
-    f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella $G9=(7,9)$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
+    if verificatore !="":
+        cell_type='Code'
+        cell_string=verificatore
+        cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "trusted": True}
+        add_cell(cell_type,cell_string,cell_metadata)
 
-# CELL 15 -END)
-###############
-# ( CELL 16:
+yaml_gen['tasks']=tasks_free_instance
+with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
+    documents = yaml.dump(yaml_gen, file, default_flow_style=False)
 
-cell_type="Code" 
-cell_string=num_paths_from
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 16 -END)
-###############
-# ( CELL 17:
-
-cell_type="Code"
-cell_string="""visualizza_e_valuta('num_paths_from',num_paths_from)"""
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 17 -END)
-###############
-# ( CELL 18:
-
-#Richiesta
-cell_type='Markdown'
-cell_string=f"3. __\[10 pts\]__ A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $max\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, " \
-    f"sia riposto il numero di gemme raccolte dalla cella $A1=(1,1)$ e il numero di percorsi che assicurano di " \
-    f"raccogliere quel numero di gemme alla generica cella $(i,j)$."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_type='Markdown'
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 18 -END)
-###############
-# ( CELL 19:
-
-#Richiesta
-
-cell_type='Markdown'
-cell_string=f"4.__\[10 pts\]__ Componi ora una matrice max_gems_from, di dimensione (m+2)times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
-    f" sia riposto il numero di gemme raccolte dalla generica cella (i,j) alla cella G9=(7,9) " \
-    f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-
-#Risposta
-cell_string="Inserisci la risposta"
-cell_metadata={"trusted": True, "deletable": False}
-add_cell(cell_type,cell_string,cell_metadata)
-
-# CELL 19 -END)
-###############
-
-nbf.write(nb, 'robot_gemme_bozza.ipynb')
+nbf.write(nb, 'robot_gemme.ipynb')

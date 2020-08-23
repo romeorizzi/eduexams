@@ -1,18 +1,43 @@
 ---
-
-
-
 #istanza
-campo_minato:
-   - [ "0" , "2" , "3" , "1" , "1" , "3" , "4" , "7" , "*" ]
-   - [ "2" , "1" , "*" , "2" , "*" , "*" , "7" , "1" , "2" ]
-   - [ "4" , "*" , "2" , "3" , "7" , "1" , "1" , "5" , "4" ]
-   - [ "5" , "1" , "*" , "4" , "5" , "*" , "9" , "3" , "6" ]
-   - [ "1" , "3" , "3" , "*" , "3" , "1" , "1" , "10" , "8" ]
-   - [ "1" , "4" , "*" , "5" , "*" , "3" , "1" , "8" , "9" ]
-   - [ "7" , "5" , "2" , "*" , "2" , "2" , "3" , "4" , "0" ]
+title: Ricerca di cammini in una griglia rettangolare con celle proibite e gemme da raccogliere.
+name: campo minato con gemme 
+campo_minato: 
+   - [ " " , " " , " " , " " , " " , " " , " " , " " , "*" ]
+   - [ " " , " " , " " , " " , "*" , "*" , " " , " " , " " ]
+   - [ " " , "*" , " " , "*" , " " , " " , " " , " " , " " ]
+   - [ " " , " " , " " , " " , " " , " " , " " , "*" , " " ]
+   - [ " " , " " , "*" , " " , "*" , " " , " " , " " , " " ]
+   - [ " " , " " , " " , " " , " " , " " , "*" , " " , " " ]
+   - [ " " , "*" , " " , " " , " " , " " , " " , " " , " " ]
+   - [ " " , " " , " " , " " , " " , " " , " " , " " , " " ]
 
 start_point: (2,3)
 target_point: (6,6)
 middle_point: (4,5)
+
+#qui è possibile configurare i tasks, se non si vogliono task è possibile commentarli oppure cancellarli da questo file
+#sono ammessi task con le stesse richieste ma parametri diversi
+#per eventuali parametri aggiuntivi vedere cosa è richiesto tra [] nelle richieste
+tasks:
+- {
+    request: "R1",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R2",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R3",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R4",
+    tot_points: 10,
+    ver_points: 10,
+  }
 ...
