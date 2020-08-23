@@ -145,9 +145,9 @@ def verifica_lower_bound(common_divisor, silent=False):
             if silent:
                 return False
             else:
-                display(Markdown(evaluation_format("No", 0, 12)+f"Il numero che hai proposto ({common_divisor}) non è un divisore del numero ${r}={r//common_divisor}+{r%common_divisor}$ che appartiene al gruppo dei numeri proposti."))
+                display(Markdown(evaluation_format("No", 0, 12)+f"Il numero che hai proposto ({common_divisor}) non è un divisore del numero {r} che appartiene all'insieme dei numeri proposti"))
                 return
-    display(Markdown(evaluation_format("Si", 1, 12)+"Posso confermarti che il numero inserito è un comun divisore. Mi hai convinto che il massimo comun divisore è grande almeno ${common_divisor}$. Non so dirti (nè sarei titolato a dirti) se ${common_divisor}$ sia massimo tra i divisori comuni."))
+    display(Markdown(evaluation_format("Si", 1, 12)+"Posso confermarti che il numero inserito è un comun divisore. Mi hai convinto che il massimo comun divisore è grande almeno il numero da te inserito. Non so dirti (nè sarei titolato a dirti) se  sia massimo tra i divisori comuni."))
         
 def verifica_upper_bound(coefficients, silent=False):
     if len(coefficients) != len(regoli):
@@ -220,17 +220,17 @@ add_cell(cell_type,cell_string,cell_metadata)
 # CELL 8 -END)
 ###############
 # ( CELL 9:
-print(len(possible_task))
-for i in range (0,len(possible_task)):
 
+for i in range (0,len(possible_task)):
+    continua = ""
     if possible_task[i]['request']=="R1":
-        request=f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
-        verif=f"verifica_lower_bound(common_divisor, silent=False)"
+        continua = ''
+        request = f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
+        verif=f"verifica_lower_bound(MCD{num_richiesta}, silent=False)"
     if possible_task[i]['request'] =="R2":
         request=f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
-        verif= "verifica_upper_bound(coeff, silent=False)"
-
-    # aggiungere altre possibili richieste e relativi verificatori
+        continua = "[]"
+        verif= f"verifica_upper_bound(MCD{num_richiesta}, silent=False)"
 
     # ( CELL request:
 
@@ -242,7 +242,7 @@ for i in range (0,len(possible_task)):
     # ( CELL answer:
 
     cell_type = 'Code'
-    cell_string = f"#Inserisci la risposta\nsubs{num_richiesta}=[]"
+    cell_string = f"#Inserisci la risposta\nMCD{num_richiesta}={continua}"
     cell_metadata = {"trusted": True, "deletable": False}
     add_cell(cell_type, cell_string, cell_metadata)
 

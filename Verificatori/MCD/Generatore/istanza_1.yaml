@@ -3,6 +3,10 @@
 name: dp_MCD
 title: Ricerca del più grande numero che divide tutti i numeri dati in input..
 s: [20, 90, 210, 150]
+#dictionary_of_request_string={
+#	"R1":"Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
+#       "R2":"Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
+#}
 tasks:
 - {
     request: "R1",
@@ -11,7 +15,6 @@ tasks:
   }
 - {
     request: "R2",
-    type: "SD",
     tot_points: 10,
     ver_points: 10,
   }
