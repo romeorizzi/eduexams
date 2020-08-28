@@ -250,7 +250,7 @@ for i in range (0,len(tasks)):
     cell_string= request
     cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
-    tasks+=[{'tot_points' : tasks[i]['tot_points'],'ver_points': tasks[i]['ver_points'], 'description1':cell_string}]
+    tasks_istanza_libera+=[{'tot_points' : tasks[i]['tot_points'],'ver_points': tasks[i]['ver_points'], 'description1':cell_string}]
     # ( CELL answer:
 
     cell_type = 'Code'
