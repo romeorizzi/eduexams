@@ -55,7 +55,7 @@ except IOError:
 #     raise OtherException(...).with_traceback(tb)
 
 ##MODIFICA
-nodes = eval(data_instance['nodes'])
+#nodes = eval(data_instance['nodes'])
 yaml_edges1=eval(data_instance['yaml_edges1'])
 yaml_edges2=eval(data_instance['yaml_edges2'])
 
@@ -158,7 +158,14 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Code'
 cell_string=f"""\
-nodes={nodes}
+nodes=[ 
+        (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5),
+        (1, 0), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
+        (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5),
+        (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5),
+        (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5),
+        (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5)
+        ]
 yaml_edges1={yaml_edges1}
 yaml_edges2={yaml_edges2}
 """
