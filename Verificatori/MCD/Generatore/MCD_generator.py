@@ -13,13 +13,15 @@ def setup_yaml():
     yaml.add_representer(OrderedDict, represent_dictionary_order)
 
 setup_yaml()
+
+
 def add_cell(cell_type,cell_string,cell_metadata):
     if cell_type=="Code":
-        nb['cells'].append(nbf.v4.new_code_cell(cell_string,metadata=cell_metadata));
+        nb['cells'].append(nbf.v4.new_code_cell(cell_string,metadata=cell_metadata))
     elif cell_type=="Markdown":
-        nb['cells'].append(nbf.v4.new_markdown_cell(cell_string,metadata=cell_metadata));
+        nb['cells'].append(nbf.v4.new_markdown_cell(cell_string,metadata=cell_metadata))
     elif cell_type=="Raw":
-        nb['cells'].append(nbf.v4.new_raw_cell(cell_string,metadata=cell_metadata));
+        nb['cells'].append(nbf.v4.new_raw_cell(cell_string,metadata=cell_metadata))
     #new_heading non esiste
     #elif cell_type=="Heading":  nb['cells'].append(nbf.v4.new_heading_cell(cell_string,metadata=cell_metadata));
     else:
@@ -47,22 +49,25 @@ except FileNotFoundError:
 except IOError:
     print("Error: can\'t read the file")
     exit(1)
+
+
+
+istanza = data_instance['s']
+tasks = data_instance['tasks']
+
+total_point=0
+n = 0
+for i in range (0,len(tasks)):
+        total_point+=tasks[i]['tot_points']
+        n += 1
+
+num_of_question=1
+
+
 yaml_gen=OrderedDict()
 yaml_gen['name']=data_instance['name']
 yaml_gen['title']=data_instance['title']
-tasks=[]
-
-istanza = data_instance['s']
-possible_task = data_instance['tasks']
-num_richiesta = 1
-total_point=0
-n = 0
-for i in range (0,len(possible_task)):
-        total_point+=possible_task[i]['tot_points']
-        n += 1
-tasks=[]
-
-
+tasks_istanza_libera=[]
 # NOTEBOOK DEFINITION:
 
 nb = nbf.v4.new_notebook()     
@@ -96,13 +101,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 # ( CELL 2:
 
 cell_type='Code'
-cell_string ="""\
+cell_string =f"""\
 from IPython.core.display import display, HTML, Markdown, Javascript
 from tabulate import tabulate
 import copy
 
 def start():
     display(Javascript("window.runCells()"))
+
+arr_point={str([-1] * n)}
 """
 cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
@@ -125,11 +132,15 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type = "Code"
 cell_string ="""\
-def evaluation_format(answ, pt_green,pt_red):
+def evaluation_format(answ, pt_green,pt_red, index_pt):
     pt_blue=0
     if pt_green!=0:
         pt_blue=pt_red-pt_green
         pt_red=0
+    arr_point[index_pt]=pt_green
+    file = open("points.txt", "w")
+    file.write(str(arr_point))
+    file.close()
     return f"{answ}. Totalizzeresti <span style='color:green'>[{pt_green} safe pt]</span>, \
                                     <span style='color:blue'>[{pt_blue} possible pt]</span>, \
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
@@ -139,23 +150,23 @@ def is_a_divisor(d,n):
     else:
         return True 
     
-def verifica_lower_bound(common_divisor, silent=False):
+def verifica_lower_bound(common_divisor,pt_green,pt_red, index_pt, silent=False):
     for r in regoli:
         if not is_a_divisor(common_divisor,r):
             if silent:
                 return False
             else:
-                display(Markdown(evaluation_format("No", 0, 12)+f"Il numero che hai proposto ({common_divisor}) non è un divisore del numero {r} che appartiene all'insieme dei numeri proposti"))
+                display(Markdown(evaluation_format("No", 0,pt_red, index_pt)+f"Il numero che hai proposto ({common_divisor}) non è un divisore del numero {r} che appartiene all'insieme dei numeri proposti"))
                 return
-    display(Markdown(evaluation_format("Si", 1, 12)+"Posso confermarti che il numero inserito è un comun divisore. Mi hai convinto che il massimo comun divisore è grande almeno il numero da te inserito. Non so dirti (nè sarei titolato a dirti) se  sia massimo tra i divisori comuni."))
+    display(Markdown(evaluation_format("Si", pt_green, pt_red, index_pt)+"Posso confermarti che il numero inserito è un comun divisore. Mi hai convinto che il massimo comun divisore è grande almeno il numero da te inserito. Non so dirti (nè sarei titolato a dirti) se sia massimo tra i divisori comuni."))
         
-def verifica_upper_bound(coefficients, silent=False):
+def verifica_upper_bound(coefficients,pt_green,pt_red, index_pt, silent=False):
     if len(coefficients) != len(regoli):
         if silent:
             return False
             
         else:
-            display(Markdown(evaluation_format("No", 0, 14)+f"Mi hai fornito ${len(coefficients)}$ coefficienti quando me ne aspettavo ${len(regoli)}$ (uno per ogni regolo fornito in input)."))
+            display(Markdown(evaluation_format("No", 0,pt_red, index_pt)+f"Mi hai fornito ${len(coefficients)}$ coefficienti quando me ne aspettavo ${len(regoli)}$ (uno per ogni regolo fornito in input)."))
             return
     ub = 0
     for c,x in zip(coefficients,regoli):
@@ -164,9 +175,9 @@ def verifica_upper_bound(coefficients, silent=False):
         if silent:
             return False
         else:
-            display(Markdown(evaluation_format("No", 0, 14)+f"La combinazione lineare dei regoli coi coefficienti interi che mi hai fornito genera il numero ${ub}$ che non è strettamente maggiore di zero come richiesto e quindi non costituisce un upper-bound valido sul valore del massimo comun divisore per i regoli assegnati. Mi hai fornito il seguente vettore di coefficienti ${coefficients}$."))
+            display(Markdown(evaluation_format("No", 0,pt_red, index_pt)+f"La combinazione lineare dei regoli coi coefficienti interi che mi hai fornito genera il numero ${ub}$ che non è strettamente maggiore di zero come richiesto e quindi non costituisce un upper-bound valido sul valore del massimo comun divisore per i regoli assegnati. Mi hai fornito il seguente vettore di coefficienti ${coefficients}$."))
             return
-    display(Markdown(evaluation_format("Si", 1, 14)+"La combinazione lineare dei regoli fornita vale "+str(ub)+" e mi convince che il massimo comun divisore dei regoli non potrà mai eccedere " +str(ub)+ " essendo chiamato ad esserne un divisore come di ogni altra combinazione a coefficienti interi e positiva di numeri che divide. Mi hai convinto che il massimo comun divisore è grande al massimo " +str(ub)+". Non so dirti (nè sarei titolato a dirti) se puoi generare combinazioni positive più piccole."))
+    display(Markdown(evaluation_format("Si", pt_green,pt_red, index_pt)+"La combinazione lineare dei regoli fornita vale "+str(ub)+" e mi convince che il massimo comun divisore dei regoli non potrà mai eccedere " +str(ub)+ " essendo chiamato ad esserne un divisore come di ogni altra combinazione a coefficienti interi e positiva di numeri che divide. Mi hai convinto che il massimo comun divisore è grande al massimo " +str(ub)+". Non so dirti (nè sarei titolato a dirti) se puoi generare combinazioni positive più piccole."))
 """\
 
 
@@ -221,28 +232,29 @@ add_cell(cell_type,cell_string,cell_metadata)
 ###############
 # ( CELL 9:
 
-for i in range (0,len(possible_task)):
+for i in range (0,len(tasks)):
     continua = ""
-    if possible_task[i]['request']=="R1":
+    if tasks[i]['request']=="R1":
         continua = ''
-        request = f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (GCD)."
-        verif=f"verifica_lower_bound(MCD{num_richiesta}, silent=False)"
-    if possible_task[i]['request'] =="R2":
-        request=f"{num_richiesta}. __[{possible_task[1]['tot_points']} pts]____Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^{len(istanza)}coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci iun upper-bound che sia il più piccolo possibile. "
+        request = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__Fornisci un numero naturale che divida ciascuno dei coefficienti. Idealmente vorresti fornircelo il più grande possibile, ossia quello che viene chiamato il massimo comun divisore (MCD)."
+        verif=f"verifica_lower_bound(MCD{num_of_question-1},pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1},silent=False)"
+    elif tasks[i]['request'] =="R2":
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__Fornisci un vettore di coefficienti interi (anche negativi, uno per ogni regolo) tale che $\sum_{0}^"+"{"+str(len(istanza))+"}"+"coeff[i]regoli[i]$ sia un numero positivo e pertanto esprima un upper bound sul valore del massimo comun divisore.  Idealmente vorresti fornirci un upper-bound che sia il più piccolo possibile. "
         continua = "[]"
-        verif= f"verifica_upper_bound(MCD{num_richiesta}, silent=False)"
-
+        verif= f"verifica_upper_bound(MCD{num_of_question-1},pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1}, silent=False)"
+    else:
+        assert False
     # ( CELL request:
 
     cell_type='Markdown'
     cell_string= request
     cell_metadata ={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
     add_cell(cell_type,cell_string,cell_metadata)
-    tasks+=[{'tot_points' : possible_task[i]['tot_points'],'ver_points': possible_task[i]['ver_points'], 'description1':cell_string}]
+    tasks+=[{'tot_points' : tasks[i]['tot_points'],'ver_points': tasks[i]['ver_points'], 'description1':cell_string}]
     # ( CELL answer:
 
     cell_type = 'Code'
-    cell_string = f"#Inserisci la risposta\nMCD{num_richiesta}={continua}"
+    cell_string = f"#Inserisci la risposta\nMCD{num_of_question-1}={continua}"
     cell_metadata = {"trusted": True, "deletable": False}
     add_cell(cell_type, cell_string, cell_metadata)
 
@@ -254,12 +266,12 @@ for i in range (0,len(possible_task)):
     cell_string = verif
     cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "trusted": True}
     add_cell(cell_type, cell_string, cell_metadata)
-    num_richiesta += 1
+    num_of_question += 1
 
     # CELL verifier -END)
 # CELL 10 -END)
 ###############
-yaml_gen['tasks']=tasks
+yaml_gen['tasks']=tasks_istanza_libera
 with open(argv[1].split(".")[0]+'_libera.yaml', 'w') as file:
     documents = yaml.dump(yaml_gen, file, default_flow_style=False)
 
