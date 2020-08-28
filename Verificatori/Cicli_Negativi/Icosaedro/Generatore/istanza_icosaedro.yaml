@@ -1,0 +1,98 @@
+#dictionary_of_request_string={
+#    "R1": "Determinare quale delle due pesature contiene un ciclo negativo.",
+#    "R2": "Determinare quale non contiene ciclo negativo e dare certificato con pesi nodi .",
+##aggiungere altre possibili richieste
+#}
+
+name: "Bellman-Ford"
+title: "Icosaedro"
+
+#istanza
+yaml_edges1: '
+            {"flip":0,"tail":0,"head":1,"w": -7},
+        {"flip":0,"tail":1,"head":2,"w": 1},
+        {"flip":0,"tail":2,"head":3,"w": 2},
+        {"flip":0,"tail":0,"head":4,"w": -5},
+        {"flip":0,"tail":4,"head":3,"w": 9},
+        {"flip":0,"tail":5,"head":0,"w": 3},
+        {"flip":0,"tail":1,"head":7,"w": 7},
+        {"flip":0,"tail":2,"head":9,"w": 5},
+        {"flip":0,"tail":11,"head":3,"w": -1},
+        {"flip":0,"tail":13,"head":4,"w": 11},
+        {"flip":0,"tail":14,"head":13,"w": 8},
+        {"flip":0,"tail":13,"head":12,"w": 6},
+        {"flip":0,"tail":11,"head":12,"w": -2},
+        {"flip":0,"tail":10,"head":11,"w": -7},
+        {"flip":0,"tail":9,"head":10,"w": -17},
+        {"flip":0,"tail":8,"head":9,"w": 12},
+        {"flip":0,"tail":8,"head":7,"w": 19},
+        {"flip":0,"tail":6,"head":7,"w": 3},
+        {"flip":0,"tail":14,"head":5,"w": -9},
+        {"flip":0,"tail":5,"head":6,"w": -1},
+        {"flip":0,"tail":6,"head":15,"w": -1},
+        {"flip":0,"tail":16,"head":8,"w": -1},
+        {"flip":0,"tail":2,"head":3,"w": 7},
+        {"flip":0,"tail":10,"head":17,"w": -5},
+        {"flip":0,"tail":12,"head":18,"w": 11},
+        {"flip":0,"tail":19,"head":14,"w": 18},
+        {"flip":0,"tail":17,"head":16,"w": -9},
+        {"flip":0,"tail":16,"head":15,"w": 10},
+        {"flip":0,"tail":19,"head":15,"w": 1},
+        {"flip":0,"tail":18,"head":19,"w": 19},
+        {"flip":0,"tail":18,"head":17,"w": -23}
+            '
+
+yaml_edges2: '
+            {"flip":1,"tail":0,"head":1,"w": -7},
+        {"flip":0,"tail":1,"head":2,"w": 1},
+        {"flip":0,"tail":2,"head":3,"w": 2},
+        {"flip":0,"tail":0,"head":4,"w": -5},
+        {"flip":0,"tail":4,"head":3,"w": 9},
+        {"flip":0,"tail":5,"head":0,"w": 3},
+        {"flip":0,"tail":1,"head":7,"w": 7},
+        {"flip":0,"tail":2,"head":9,"w": 5},
+        {"flip":0,"tail":11,"head":3,"w": -1},
+        {"flip":0,"tail":13,"head":4,"w": 11},
+        {"flip":0,"tail":14,"head":13,"w": 8},
+        {"flip":0,"tail":13,"head":12,"w": 6},
+        {"flip":0,"tail":11,"head":12,"w": -2},
+        {"flip":0,"tail":10,"head":11,"w": -7},
+        {"flip":0,"tail":9,"head":10,"w": -17},
+        {"flip":0,"tail":8,"head":9,"w": 120},
+        {"flip":0,"tail":8,"head":7,"w": 19},
+        {"flip":0,"tail":6,"head":7,"w": 3},
+        {"flip":0,"tail":14,"head":5,"w": -9},
+        {"flip":0,"tail":5,"head":6,"w": -1},
+        {"flip":0,"tail":6,"head":15,"w": -1},
+        {"flip":0,"tail":16,"head":8,"w": -1},
+        {"flip":0,"tail":2,"head":3,"w": 7},
+        {"flip":0,"tail":10,"head":17,"w": -5},
+        {"flip":0,"tail":12,"head":18,"w": 11},
+        {"flip":0,"tail":19,"head":14,"w": 18},
+        {"flip":0,"tail":17,"head":16,"w": -9},
+        {"flip":0,"tail":16,"head":15,"w": 10},
+        {"flip":0,"tail":19,"head":15,"w": 1},
+        {"flip":0,"tail":18,"head":19,"w": 19},
+        {"flip":0,"tail":18,"head":17,"w": -23}
+            '
+
+#qui è possibile configurare i parametri dei 2 possibili tasks
+tasks:
+   #distruggere tutti gli asteroidi sparando il minimo numero di raggi
+- {
+    request: "R1",
+    tot_points: 30,
+    ver_points: 30,
+  }
+    #individuare sottoinsieme asteroidi indipendenti
+- {
+    request: "R2",
+    tot_points: 30,
+    ver_points: 30,
+  }
+    
+
+
+
+
+...
