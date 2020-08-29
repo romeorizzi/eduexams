@@ -1,0 +1,13 @@
+name: Triangolo con numeri non negativi
+title: Triangolo
+description: "Siamo interessati ad analizzare i percorsi che partano dalla cima del\
+  \ triangolo e terminino da qualche parte sulla sua base.<br/> Ad ogni passo si pu\xF2\
+  \ procedere o in basso o diagonalmente verso destra."
+tasks:
+- description: "1. __[10 pts]__ Calcolare <b>la pi\xF9 grande somma di numeri</b>\
+    \ ottenibile seguendo un percorso che parta dalla cima del triangolo e termini\
+    \ da qualche parte sulla sua base.<br/>Fornire, in qualit\xE0 di certificato,\
+    \ il <b>percorso sotto forma sequenza di numeri</b> (array di interi) dalla cima\
+    \ alla base."
+  tot_points: 10
+  ver_points: 10
