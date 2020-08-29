@@ -8,155 +8,26 @@ name: "Bellman-Ford"
 title: "Cicli negativi"
 
 #istanza
-#i primi 6 blocchi sono riferiti alle colonne, mentre i restanti sono riferiti alle righe
-yaml_edges1: '
-            {"flip":0,"tail":(0,0),"head":(0,1),"w": -7},
-            {"flip":0,"tail":(0,1),"head":(0,2),"w": 1},
-            {"flip":1,"tail":(0,2),"head":(0,3),"w": 2},
-            {"flip":0,"tail":(0,3),"head":(0,4),"w": -5},
-            {"flip":0,"tail":(0,4),"head":(0,5),"w": 12},
 
-            {"flip":0,"tail":(1, 0),"head":(1, 1),"w": 9},
-            {"flip":0,"tail":(1, 1),"head":(1, 2),"w": 3},
-            {"flip":0,"tail":(1, 2),"head":(1, 3),"w": 7},
-            {"flip":0,"tail":(1, 3),"head":(1, 4),"w": 5},
-            {"flip":0,"tail":(1, 4),"head":(1, 5),"w": 5},
 
-            {"flip":0,"tail":(2, 0),"head":(2, 1),"w": 11},
-            {"flip":0,"tail":(2, 1),"head":(2, 2),"w": 8},
-            {"flip":0,"tail":(2, 2),"head":(2, 3),"w": 6},
-            {"flip":0,"tail":(2, 3),"head":(2, 4),"w": -2},
-            {"flip":0,"tail":(2, 4),"head":(2, 5),"w": 5},
+#le posizioni di pesi dalla 0 alla 29 indicano i pesi degli archi delle colonne della griglia
+#e la posizione i corrisponde all'arco tra (i,i+1)
+#mentre dalla posizione 30 alla 59 indicano i pesi delle righe partendo dal basso
+#le posizioni 30 a 34 si riferiscono agli archi dei nodi  (1,7),(7,13),(13,19),(19,25),(25,31)
+#le posizioni da 35 a 39 si riferiscono agli archi dei nodi (2,8) e così via fino a (26,32) 
+#da 40 a 44 si riferiscono agli archi dei nodi (3,9) e così via fino a (27,33) e così via 
 
-            {"flip":0,"tail":(3, 0),"head":(3, 1),"w": -17},
-            {"flip":0,"tail":(3, 1),"head":(3, 2),"w": 12},
-            {"flip":0,"tail":(3, 2),"head":(3, 3),"w": 19},
-            {"flip":1,"tail":(3, 3),"head":(3, 4),"w": 3},
-            {"flip":0,"tail":(3, 4),"head":(3, 5),"w": 12},
+pesi_1: [-7,1,2,-5,12,9,3,7,5,5,11,8,6,-2,5,-17,12,19,3,12,-1,-1,-1,7,10,19,3,-9,-1,-1,-1,-1,-1,7,-5,-1,-1,-1,7,-5,-1,-1,-1,7,-5,-1,-1,-1,7,-5,-1,-1,-1,7,-5,-1,-1,-1,7,-5]
 
-            {"flip":0,"tail":(4, 0),"head":(4, 1),"w": -1},
-            {"flip":0,"tail":(4, 1),"head":(4, 2),"w": -1},
-            {"flip":0,"tail":(4, 2),"head":(4, 3),"w": -1},
-            {"flip":0,"tail":(4, 3),"head":(4, 4),"w": 7},
-            {"flip":0,"tail":(4, 4),"head":(4, 5),"w": 10},
+# il metodo per capire a quali archi si riferiscono le posizioni di edges_direction è lo stesso di pesi
+#i valori di questo vettore indica quale è il verso dell'arco
+#per le colonne 0 significa dal basso all'alto mentre 1 dall'alto al basso
+#per le righe 0 è da sx a dx mentre 1 da dx a sx
 
-            {"flip":0,"tail":(5, 0),"head":(5, 1),"w": 19},
-            {"flip":0,"tail":(5, 1),"head":(5, 2),"w": 3},
-            {"flip":0,"tail":(5, 2),"head":(5, 3),"w": -9},
-            {"flip":0,"tail":(5, 3),"head":(5, 4),"w": -1},
-            {"flip":0,"tail":(5, 4),"head":(5, 5),"w": -1},
+edges_direction_1: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0]
 
-            {"flip":0,"tail":(0, 0),"head":(1, 0),"w": -1},
-            {"flip":0,"tail":(1, 0),"head":(2, 0),"w": -1},
-            {"flip":0,"tail":(2, 0),"head":(3, 0),"w": -1},
-            {"flip":0,"tail":(3, 0),"head":(4, 0),"w": 7},
-            {"flip":0,"tail":(4, 0),"head":(5, 0),"w": -5},
-
-            {"flip":0,"tail":(0, 1),"head":(1, 1),"w": -1},
-            {"flip":0,"tail":(1, 1),"head":(2, 1),"w": -1},
-            {"flip":0,"tail":(2, 1),"head":(3, 1),"w": -1},
-            {"flip":0,"tail":(3, 1),"head":(4, 1),"w": 7},
-            {"flip":0,"tail":(4, 1),"head":(5, 1),"w": -5},
-
-            {"flip":0,"tail":(0, 2),"head":(1, 2),"w": -1},
-            {"flip":0,"tail":(1, 2),"head":(2, 2),"w": -1},
-            {"flip":0,"tail":(2, 2),"head":(3, 2),"w": -1},
-            {"flip":0,"tail":(3, 2),"head":(4, 2),"w": 7},
-            {"flip":0,"tail":(4, 2),"head":(5, 2),"w": -5},
-
-            {"flip":1,"tail":(0, 3),"head":(1, 3),"w": -1},
-            {"flip":0,"tail":(1, 3),"head":(2, 3),"w": -1},
-            {"flip":1,"tail":(2, 3),"head":(3, 3),"w": -1},
-            {"flip":0,"tail":(3, 3),"head":(4, 3),"w": 7},
-            {"flip":0,"tail":(4, 3),"head":(5, 3),"w": -5},
-
-            {"flip":0,"tail":(0, 4),"head":(1, 4),"w": -1},
-            {"flip":0,"tail":(1, 4),"head":(2, 4),"w": -1},
-            {"flip":0,"tail":(2, 4),"head":(3, 4),"w": -1},
-            {"flip":0,"tail":(3, 4),"head":(4, 4),"w": 7},
-            {"flip":0,"tail":(4, 4),"head":(5, 4),"w": -5},
-
-            {"flip":0,"tail":(0, 5),"head":(1, 5),"w": -1},
-            {"flip":0,"tail":(1, 5),"head":(2, 5),"w": -1},
-            {"flip":0,"tail":(2, 5),"head":(3, 5),"w": -1},
-            {"flip":0,"tail":(3, 5),"head":(4, 5),"w": 7},
-            {"flip":0,"tail":(4, 5),"head":(5, 5),"w": -5},
-            '
-
-yaml_edges2: '
-            {"flip":0,"tail":(0,0),"head":(0,1),"w": 7},
-            {"flip":0,"tail":(0,1),"head":(0,2),"w": 1},
-            {"flip":1,"tail":(0,2),"head":(0,3),"w": 2},
-            {"flip":0,"tail":(0,3),"head":(0,4),"w": 5},
-            {"flip":0,"tail":(0,4),"head":(0,5),"w": 12},
-
-            {"flip":0,"tail":(1, 0),"head":(1, 1),"w": 9},
-            {"flip":0,"tail":(1, 1),"head":(1, 2),"w": 3},
-            {"flip":0,"tail":(1, 2),"head":(1, 3),"w": 7},
-            {"flip":0,"tail":(1, 3),"head":(1, 4),"w": 5},
-            {"flip":0,"tail":(1, 4),"head":(1, 5),"w": 5},
-
-            {"flip":0,"tail":(2, 0),"head":(2, 1),"w": 11},
-            {"flip":0,"tail":(2, 1),"head":(2, 2),"w": 8},
-            {"flip":0,"tail":(2, 2),"head":(2, 3),"w": 6},
-            {"flip":0,"tail":(2, 3),"head":(2, 4),"w": 2},
-            {"flip":0,"tail":(2, 4),"head":(2, 5),"w": 5},
-
-            {"flip":0,"tail":(3, 0),"head":(3, 1),"w": 17},
-            {"flip":0,"tail":(3, 1),"head":(3, 2),"w": 12},
-            {"flip":0,"tail":(3, 2),"head":(3, 3),"w": 19},
-            {"flip":1,"tail":(3, 3),"head":(3, 4),"w": 3},
-            {"flip":0,"tail":(3, 4),"head":(3, 5),"w": 12},
-
-            {"flip":0,"tail":(4, 0),"head":(4, 1),"w": 1},
-            {"flip":0,"tail":(4, 1),"head":(4, 2),"w": 1},
-            {"flip":0,"tail":(4, 2),"head":(4, 3),"w": 1},
-            {"flip":0,"tail":(4, 3),"head":(4, 4),"w": 7},
-            {"flip":0,"tail":(4, 4),"head":(4, 5),"w": 10},
-
-            {"flip":0,"tail":(5, 0),"head":(5, 1),"w": 19},
-            {"flip":0,"tail":(5, 1),"head":(5, 2),"w": 3},
-            {"flip":0,"tail":(5, 2),"head":(5, 3),"w": 9},
-            {"flip":0,"tail":(5, 3),"head":(5, 4),"w": 1},
-            {"flip":0,"tail":(5, 4),"head":(5, 5),"w": 1},
-
-            {"flip":0,"tail":(0, 0),"head":(1, 0),"w": 1},
-            {"flip":0,"tail":(1, 0),"head":(2, 0),"w": 1},
-            {"flip":0,"tail":(2, 0),"head":(3, 0),"w": 1},
-            {"flip":0,"tail":(3, 0),"head":(4, 0),"w": 7},
-            {"flip":0,"tail":(4, 0),"head":(5, 0),"w": 5},
-
-            {"flip":0,"tail":(0, 1),"head":(1, 1),"w": 1},
-            {"flip":0,"tail":(1, 1),"head":(2, 1),"w": 1},
-            {"flip":0,"tail":(2, 1),"head":(3, 1),"w": 1},
-            {"flip":0,"tail":(3, 1),"head":(4, 1),"w": 7},
-            {"flip":0,"tail":(4, 1),"head":(5, 1),"w": 5},
-
-            {"flip":0,"tail":(0, 2),"head":(1, 2),"w": -1},
-            {"flip":0,"tail":(1, 2),"head":(2, 2),"w": 1},
-            {"flip":0,"tail":(2, 2),"head":(3, 2),"w": 1},
-            {"flip":0,"tail":(3, 2),"head":(4, 2),"w": 7},
-            {"flip":0,"tail":(4, 2),"head":(5, 2),"w": 5},
-
-            {"flip":1,"tail":(0, 3),"head":(1, 3),"w": -1},
-            {"flip":0,"tail":(1, 3),"head":(2, 3),"w": 1},
-            {"flip":1,"tail":(2, 3),"head":(3, 3),"w": 1},
-            {"flip":0,"tail":(3, 3),"head":(4, 3),"w": 7},
-            {"flip":0,"tail":(4, 3),"head":(5, 3),"w": 5},
-
-            {"flip":0,"tail":(0, 4),"head":(1, 4),"w": 1},
-            {"flip":0,"tail":(1, 4),"head":(2, 4),"w": 1},
-            {"flip":0,"tail":(2, 4),"head":(3, 4),"w": 1},
-            {"flip":0,"tail":(3, 4),"head":(4, 4),"w": 7},
-            {"flip":0,"tail":(4, 4),"head":(5, 4),"w": 5},
-            
-            {"flip":0,"tail":(0, 5),"head":(1, 5),"w": 1},
-            {"flip":0,"tail":(1, 5),"head":(2, 5),"w": 1},
-            {"flip":0,"tail":(2, 5),"head":(3, 5),"w": 1},
-            {"flip":0,"tail":(3, 5),"head":(4, 5),"w": 7},
-            {"flip":0,"tail":(4, 5),"head":(5, 5),"w": 5},
-            '
-
+edges_direction_2: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+pesi_2: [7,1,2,5,12,9,3,7,5,5,11,8,6,2,5,17,12,19,3,12,1,1,1,7,10,19,3,9,1,1,1,1,1,7,5,-1,1,1,7,5,-1,1,1,7,5,1,1,1,7,5,1,1,1,7,5,1,1,1,7,5]
 #qui è possibile configurare i parametri dei 2 possibili tasks
 tasks:
    #distruggere tutti gli asteroidi sparando il minimo numero di raggi

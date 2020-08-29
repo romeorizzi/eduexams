@@ -56,9 +56,10 @@ except IOError:
 
 ##MODIFICA
 #nodes = eval(data_instance['nodes'])
-yaml_edges1=eval(data_instance['yaml_edges1'])
-yaml_edges2=eval(data_instance['yaml_edges2'])
-
+pesi_1=data_instance['pesi_1']
+edges_direction_1=data_instance['edges_direction_1']
+pesi_2=data_instance['pesi_2']
+edges_direction_2=data_instance['edges_direction_2']
 
 tasks=data_instance['tasks']
 total_point=0
@@ -166,8 +167,10 @@ nodes=[
         (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5),
         (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5)
         ]
-yaml_edges1={yaml_edges1}
-yaml_edges2={yaml_edges2}
+pesi_1={pesi_1}
+edges_direction_1={edges_direction_1}
+pesi_2={pesi_2}
+edges_direction_2={edges_direction_2}
 """
 cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
@@ -176,27 +179,56 @@ add_cell(cell_type,cell_string,cell_metadata)
 #CELL 4
 cell_type = "Code"
 cell_string ="""\
-edges1 = []
-for e in yaml_edges1:
-    if e["flip"] == 1:
-        edges1.append((e["head"],e["tail"],{"w":e["w"]}))
-    else:
-        edges1.append((e["tail"],e["head"],{"w":e["w"]}))
-
+edges = []
+h=0
+for i in range(0,6):
+    for j in range(1,6):
+        tail=(i,j-1)
+        head=(i,j)
+        if edges_direction_1[h] == 1:
+            edges.append((head,tail,{'w': pesi_1[h]}))
+        else:
+            edges.append((tail,head,{'w': pesi_1[h]}))
+        h+=1
+    #righe
+for i in range(0,6):
+    for j in range(1,6):
+        tail=(j-1,i)
+        head=(j,i)
+        if edges_direction_1[h] == 1:
+            edges.append((head,tail,{'w': pesi_1[h]}))
+        else:
+            edges.append((tail,head,{'w':pesi_1[h]}))
+        h+=1
 griglia1=nx.DiGraph()
 griglia1.add_nodes_from(nodes)
-griglia1.add_edges_from(edges1)
+griglia1.add_edges_from(edges)
 
-edges2 = []
-for e in yaml_edges2:
-    if e["flip"] == 1:
-        edges2.append((e["head"],e["tail"],{"w":e["w"]}))
-    else:
-        edges2.append((e["tail"],e["head"],{"w":e["w"]}))
+edges = []
+h=0
+for i in range(0,6):
+    for j in range(1,6):
+        tail=(i,j-1)
+        head=(i,j)
+        if edges_direction_2[h] == 1:
+            edges.append((head,tail,{'w': pesi_2[h]}))
+        else:
+            edges.append((tail,head,{'w': pesi_2[h]}))
+        h+=1
+    #righe
+for i in range(0,6):
+    for j in range(1,6):
+        tail=(j-1,i)
+        head=(j,i)
+        if edges_direction_2[h] == 1:
+            edges.append((head,tail,{'w': pesi_2[h]}))
+        else:
+            edges.append((tail,head,{'w':pesi_2[h]}))
+        h+=1
 
 griglia2=nx.DiGraph()
 griglia2.add_nodes_from(nodes)
-griglia2.add_edges_from(edges2)
+griglia2.add_edges_from(edges)
 """
 cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
