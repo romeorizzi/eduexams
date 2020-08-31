@@ -152,6 +152,9 @@ def evaluation_format(answ, pt_green,pt_red):
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
 
 def check_num_gems_to(mappa, num_gems_to, return_only_boolan=False):
+    """
+    verifica che la matrice num_gems_to sia conforme alla consegna (perdonando solamente eventuale anomalia su cella (1,1) ).
+    """
     if len(num_gems_to) != m+1:
         if return_only_boolan:
                 return False
@@ -191,6 +194,9 @@ def check_num_gems_to(mappa, num_gems_to, return_only_boolan=False):
                     return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_to$."
                 
 def check_max_gems_to(mappa, max_gems_to, return_only_boolan=False):
+    """
+    verifica che la matrice max_gems_to_with_opt sia conforme alla consegna.
+    """
     if len(max_gems_to) != m+1:
         if return_only_boolan:
                 return False
@@ -257,6 +263,9 @@ def check_max_gems_to(mappa, max_gems_to, return_only_boolan=False):
                             return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
                                          
 def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
+    """
+    verifica che la matrice num_gems_from sia conforme alla consegna.
+    """
     if len(num_gems_from) != m+2:
         if return_only_boolan:
                 return False
@@ -286,10 +295,9 @@ def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
                         return False
                     return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$."
             else:
-                if num_gems_from_forgiving[i][j]!=max((num_gems_from_forgiving[i+1][j] 
-                    if num_gems_from_forgiving[i+1][j] is not None else 0),(num_gems_from_forgiving[i][j+1] if num_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
-                        if return_only_boolan:
-                            return False
+                if num_gems_from_forgiving[i][j]!=max((num_gems_from_forgiving[i+1][j] if num_gems_from_forgiving[i+1][j] is not None else 0),(num_gems_from_forgiving[i][j+1] if num_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
+                    if return_only_boolan:
+                        return False
                     return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$." 
     if return_only_boolan:
         return True
@@ -297,9 +305,9 @@ def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
 
 
 def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
-    
-    
-    
+    """
+    verifica che la matrice max_gems_from_with_opt sia conforme alla consegna.
+    """
     if len(max_gems_from) != m+2:
         if return_only_boolan:
                 return False
@@ -372,72 +380,62 @@ def visualizza_e_valuta(nome_matrice, matrice):
     display(Markdown(f"La tua versione attuale della matrice ${Latex_type(nome_matrice)}$ è la seguente:"))
     visualizza(matrice)
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
-    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)"))) 
-"""
+    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)"))) """
 cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 3 -END)
 ##############
-
-# ( CELL 4:
-cell_type='Code'
-cell_string="""\
-#unit test
-num_gems_to=[
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                [0, 0, 2, 5, 6, 7, 10, 14, 21, None], 
-                [0, 2, 3, None, 8, None, None, 21, 22, 24], 
-                [0, 6, None, None, 11, 18, 19, 22, 27, 31], 
-                [0, 11, 12, None, 15, 23, None, 31, 34, 40], 
-                [0, 12, 15, 18, None, 26, 27, 32, 44, 52], 
-                [0, 13, 19, None, None, None, 30, 33, 52, 61], 
+num_gems_to="""num_gems_to =[
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 2, 5, 6, 7, 10, 14, 21, None],
+                [0, 2, 3, None, 8, None, None, 21, 22, 24],
+                [0, 6, None, None, 11, 18, 19, 22, 27, 31],
+                [0, 11, 12, None, 15, 23, None, 31, 34, 40],
+                [0, 12, 15, 18, None, 26, 27, 32, 44, 52],
+                [0, 13, 19, None, None, None, 30, 33, 52, 61],
                 [0, 20, 25, 27, None, None, 32, 36, 56, 61]
             ]
+            """
 
-num_gems_from=[
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                [0, 61, 61, 59, 56, 55, 54, 51, 43, None, 0], 
-                [0, 27, None, None, 53, None, None, 47, 36, 29, 0], 
-                [0, 25, None, 53, 51, 48, 41, 40, 35, 27, 0], 
-                [0, 21, 15, None, 41, 37, None, 39, 30, 23, 0], 
-                [0, 16, 14, None, None, 32, 29, 28, 27, 17, 0], 
-                [0, 15, 11, None, None, None, 21, 18, 17, 9, 0], 
-                [0, 14, 7, 2, None, 11, 9, 7, 4, 0, 0], 
+num_gems_from="""num_gems_from = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 61, 61, 59, 56, 55, 54, 51, 43, None, 0],
+                [0, 27, None, None, 53, None, None, 47, 36, 29, 0],
+                [0, 25, None, 53, 51, 48, 41, 40, 35, 27, 0],
+                [0, 21, 15, None, 41, 37, None, 39, 30, 23, 0],
+                [0, 16, 14, None, None, 32, 29, 28, 27, 17, 0],
+                [0, 15, 11, None, None, None, 21, 18, 17, 9, 0],
+                [0, 14, 7, 2, None, 11, 9, 7, 4, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                ]
+               """
 
-max_gems_to=[
-                [(0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0)], 
-                [(0, 0), (0, 0), (2, 1), (5, 1), (6, 1), (7, 1), (10, 1), (14, 1), (21, 1), None], 
-                [(0, 0), (2, 1), (3, 2), None, (8, 1), None, None, (21, 1), (22, 2), (24, 2)], 
-                [(0, 0), (6, 1), None, None, (11, 1), (18, 1), (19, 1), (22, 1), (27, 3), (31, 3)], 
-                [(0, 0), (11, 1), (12, 1), None, (15, 1), (23, 1), None, (31, 1), (34, 1), (40, 1)], 
-                [(0, 0), (12, 1), (15, 2), (18, 2), None, (26, 1), (27, 1), (32, 1), (44, 1), (52, 1)], 
-                [(0, 0), (13, 1), (19, 2), None, None, None, (30, 1), (33, 1), (52, 1), (61, 2)], 
+max_gems_to=""" max_gems_to =[
+                [(0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0)],
+                [(0, 0), (0, 0), (2, 1), (5, 1), (6, 1), (7, 1), (10, 1), (14, 1), (21, 1), None],
+                [(0, 0), (2, 1), (3, 2), None, (8, 1), None, None, (21, 1), (22, 2), (24, 2)],
+                [(0, 0), (6, 1), None, None, (11, 1), (18, 1), (19, 1), (22, 1), (27, 3), (31, 3)],
+                [(0, 0), (11, 1), (12, 1), None, (15, 1), (23, 1), None, (31, 1), (34, 1), (40, 1)],
+                [(0, 0), (12, 1), (15, 2), (18, 2), None, (26, 1), (27, 1), (32, 1), (44, 1), (52, 1)],
+                [(0, 0), (13, 1), (19, 2), None, None, None, (30, 1), (33, 1), (52, 1), (61, 2)],
                 [(0, 0), (20, 1), (25, 1), (27, 1), None, None, (32, 1), (36, 1), (56, 1), (61, 2)]
             ]
+            """
 
-max_gems_from=[
-                [(0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0)], 
-                [(0, 0), (61, 2), (61, 2), (59, 2), (56, 2), (55, 2), (54, 2), (51, 2), (43, 2), None, (0, 0)], 
-                [(0, 0), (27, 1), None, None, (53, 2), None, None, (47, 2), (36, 2), (29, 1), (0, 0)], 
-                [(0, 0), (25, 1), None, (53, 2), (51, 2), (48, 2), (41, 2), (40, 2), (35, 2), (27, 1), (0, 0)], 
-                [(0, 0), (21, 1), (15, 1), None, (41, 2), (37, 2), None, (39, 2), (30, 2), (23, 1), (0, 0)], 
-                [(0, 0), (16, 1), (14, 1), None, None, (32, 2), (29, 2), (28, 2), (27, 2), (17, 1), (0, 0)], 
-                [(0, 0), (15, 1), (11, 1), None, None, None, (21, 1), (18, 1), (17, 1), (9, 1), (0, 0)], 
-                [(0, 0), (14, 1), (7, 1), (2, 1), None, (11, 1), (9, 1), (7, 1), (4, 1), (0, 0), (0, 0)], 
+max_gems_from=""" max_gems_from = [
+                [(0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0)],
+                [(0, 0), (61, 2), (61, 2), (59, 2), (56, 2), (55, 2), (54, 2), (51, 2), (43, 2), None, (0, 0)],
+                [(0, 0), (27, 1), None, None, (53, 2), None, None, (47, 2), (36, 2), (29, 1), (0, 0)],
+                [(0, 0), (25, 1), None, (53, 2), (51, 2), (48, 2), (41, 2), (40, 2), (35, 2), (27, 1), (0, 0)],
+                [(0, 0), (21, 1), (15, 1), None, (41, 2), (37, 2), None, (39, 2), (30, 2), (23, 1), (0, 0)],
+                [(0, 0), (16, 1), (14, 1), None, None, (32, 2), (29, 2), (28, 2), (27, 2), (17, 1), (0, 0)],
+                [(0, 0), (15, 1), (11, 1), None, None, None, (21, 1), (18, 1), (17, 1), (9, 1), (0, 0)],
+                [(0, 0), (14, 1), (7, 1), (2, 1), None, (11, 1), (9, 1), (7, 1), (4, 1), (0, 0), (0, 0)],
                 [(0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0), (0, 0)]
                ]
+               """
 
-assert (check_num_gems_to(mappa, num_gems_to, return_only_boolan=True) == True)
-assert (check_num_gems_from(mappa, num_gems_from, return_only_boolan=True) == True)
-assert (check_max_gems_to(mappa, max_gems_to, return_only_boolan=True) == True)
-assert (check_max_gems_from(mappa, max_gems_from, return_only_boolan=True) == True)
-"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
-add_cell(cell_type,cell_string,cell_metadata)
-#cell 4 END
 ###############################################
 
 # ( CELL 6:
@@ -514,30 +512,30 @@ for i in range(0,len(tasks)):
     if tasks[i]['request']=="R1":
       richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$. Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
       tipo_risposta = "Code"
-      risposta = f"num_gems_to={'num_gems_to'}"
-      verificatore ="""visualizza_e_valuta('num_gems_to',num_gems_to)"""
+      risposta = num_gems_to
+      verificatore =f"visualizza_e_valuta('num_gems_to',num_gems_to, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"""
     elif tasks[i]['request']=='R2':
         richiesta =f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)times(n+2)$," \
                         +f" nella cui cella $num\_gems\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, " \
                         +f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64+m)}{n}=({m},{n})$."
         tipo_risposta="Code"
-        risposta = f"num_gems_from= {'num_gems_from'}"
-        verificatore = """visualizza_e_valuta('num_gems_from',num_gems_from)"""
-    elif tasks[i]['request'] == 'R3':
+        risposta = num_gems_from
+        verificatore = f"visualizza_e_valuta('num_gems_from',num_gems_from, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
+    elif tasks[i]['request'] == "R3":
         richiesta =f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $max\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, " \
                    +f"sia riposto il numero di gemme raccolte dalla cella $A1=(1,1)$ e il numero di percorsi che assicurano di " \
                    +f"raccogliere quel numero di gemme alla generica cella $(i,j)$."
         tipo_risposta="Code"
-        risposta = f"max_gems_to= {'max_gems_to'}"
-        verificatore ="""visualizza_e_valuta('max_gems_to',max_gems_to)"""
+        risposta = max_gems_to
+        verificatore =f"visualizza_e_valuta('max_gems_to',max_gems_to, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
 
     elif tasks[i]['request'] =='R4':
         richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice max_gems_from, di dimensione (m+2)times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
                     +f" sia riposto il numero di gemme raccolte dalla generica cella (i,j) alla cella G9=(7,9) " \
                     +f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme."
         tipo_risposta ="Code"
-        risposta = f"max_gems_from= {'max_gems_from'}"
-        verificatore = """visualizza_e_valuta('max_gems_from',max_gems_from)"""
+        risposta = max_gems_from
+        verificatore = f"visualizza_e_valuta('max_gems_from',max_gems_from, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
     else:
         assert False
 
