@@ -366,7 +366,7 @@ for i in range (0,len(tasks)):
         request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Calcolare <b>la più grande somma di numeri</b> ottenibile seguendo un percorso che parta dalla cima del triangolo e termini da qualche parte sulla sua base.<br/>Fornire, in qualità di certificato, il <b>percorso sotto forma sequenza di numeri</b> (array di interi) dalla cima alla base."
         verif=f"display(Markdown(verif_triangolo(somma{num_of_question-1}, percorso, triangolo, pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question-1})))"
     elif tasks[i]['request']=="R2":
-        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Altro...Da configuarare"
+        request=f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Provare a risolvere il problema in maniera ricorsiva per un'istanza del triangolo di dimensione generica.<br/>Scrivere, in maniera esplicita, la <b>ricorsione</b> utilizzata, chiarendo, anche a parole, come si è arrivati a tale formulazione e qual è stato il ragionamento condotto.<br/>Dopodichè si richiede di <b>abbozzare l'algoritmo</b> che, sfruttando tale ricorsione, permette di determinare qual è la somma massima ottenibile seguendo un percorso che parta dalla cima del triangolo e termini da qualche parte sulla sua base."
         verif=f"display(Markdown(verif_triangolo(somma{num_of_question-1}, percorso, triangolo, pt_green=1, pt_red={tasks[i]['tot_points']},index_pt={num_of_question-1})))"
     else:
         assert False
@@ -393,7 +393,14 @@ somma{num_of_question - 1}=
 """
         cell_metadata={"trusted": True, "deletable": False}
         add_cell(cell_type,cell_string,cell_metadata)
+    elif tasks[i]['request'] == "R2":
+        cell_type='Code'
+        cell_string="""\
+#Indicare la ricorsione utilizzata ed abbozzare l\'algoritmo ricorsivo: utilizza la cella (Code, Markdown, Raw) che meglio ritieni adatta a questo scopo.
 
+"""
+        cell_metadata={"trusted": True, "deletable": False}
+        add_cell(cell_type,cell_string,cell_metadata)
     else:
         cell_type='Code'
         cell_string=f"""\
@@ -406,12 +413,12 @@ somma{num_of_question - 1}=
     #CELL answer -END)
     ###############
     # ( CELL verifier:
-
-    cell_type='Code'
-    cell_string=verif
-    cell_metadata={"hide_input": False, "editable": False,  "deletable": False, "trusted": True}
-    add_cell(cell_type,cell_string,cell_metadata)
-    num_of_question += 1
+    if tasks[i]['request'] == "R1":
+        cell_type='Code'
+        cell_string=verif
+        cell_metadata={"hide_input": False, "editable": False,  "deletable": False, "trusted": True}
+        add_cell(cell_type,cell_string,cell_metadata)
+        num_of_question += 1
 
     # CELL verifier -END)
     ###############

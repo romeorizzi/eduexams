@@ -11,3 +11,12 @@ tasks:
     \ alla base."
   tot_points: 10
   ver_points: 10
+- description: "2. __[10 pts]__ Provare a risolvere il problema in maniera ricorsiva\
+    \ per un'istanza del triangolo di dimensione generica.<br/>Scrivere, in maniera\
+    \ esplicita, la <b>ricorsione</b> utilizzata, chiarendo, anche a parole, come\
+    \ si \xE8 arrivati a tale formulazione e qual \xE8 stato il ragionamento condotto.<br/>Dopodich\xE8\
+    \ si richiede di <b>abbozzare l'algoritmo</b> che, sfruttando tale ricorsione,\
+    \ permette di determinare qual \xE8 la somma massima ottenibile seguendo un percorso\
+    \ che parta dalla cima del triangolo e termini da qualche parte sulla sua base."
+  tot_points: 10
+  ver_points: 10
