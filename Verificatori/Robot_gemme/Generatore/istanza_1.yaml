@@ -1,4 +1,17 @@
 ---
+
+#possible_request={
+#    "R1": "A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)"
+#    "R2": "Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)times(n+2)$," \
+#                    + f"nella cui cella $num\_gems\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, " \
+#                    + f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$."
+#    "R3": "A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\times(n+1)"
+#    "R4": "Componi ora una matrice max_gems_from, di dimensione (m+2)times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
+#                    + f" sia riposto il numero di gemme raccolte dalla generica cella (i,j) alla cella G9=(7,9) " \
+#                    + f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme."
+##aggiungere altre possibili richieste
+#}
+
 #istanza
 
 title: "Ricerca di cammini in una griglia rettangolare con celle proibite e gemme da raccogliere."
