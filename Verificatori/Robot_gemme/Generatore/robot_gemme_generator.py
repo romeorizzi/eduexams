@@ -71,7 +71,14 @@ instance=f"campo_minato={data_instance['campo_minato']}"
 # END instance representation in the notebook
 
 # BEGIN dynamic programming table input in the notebook
-# First DP table:
+
+mappa = [["*"]*(n+1)]
+for r in campo_minato:
+    aux=["*"]
+    for elem in r:
+        aux.append("*") if elem=='-1' else aux.append(elem)
+    mappa.append(aux)
+
 num_gems_to=f"num_gems_to=["
 for i in range (m+1):
     num_gems_to=num_gems_to+"\n\t\t"+str([0]*(n+1))+","
@@ -79,27 +86,26 @@ for i in range (m+1):
         num_gems_to += "\t\t# " + str(campo_minato[i-1])
 num_paths_to = num_gems_to + "\n]"
 
-# Second DP table:
+
 num_gems_from=f"num_gems_from=["
 for i in range (m+2):
     num_gems_from=num_gems_from+"\n\t\t"+str([0]*(n+2))+","
     if i > 0 and i <= m:
-        num_gems_from += "\t\t# " + str(campo_minato[i-1])
+        num_gems_from += "\t\t# " + str(mappa[i-1])
 num_paths_from = num_gems_from + "\n]"
 
 max_gems_to=f"max_gems_to=["
 for i in range (m+1):
     max_gems_to=max_gems_to+"\n\t\t"+str([(0,0)]*(n+1))+","
     if i > 0:
-        max_gems_to += "\t\t# " + str(campo_minato[i-1])
+        max_gems_to += "\t\t# " + str(mappa[i-1])
 max_gems_to = max_gems_to + "\n]"
 
-# Second DP table:
 max_gems_from=f"num_gems_from=["
 for i in range (m+2):
     max_gems_from=max_gems_from+"\n\t\t"+str([(0,0)]*(n+2))+","
     if i > 0 and i <= m:
-        max_gems_from += "\t\t# " + str(campo_minato[i-1])
+        max_gems_from += "\t\t# " + str(mappa[i-1])
 max_gems_from = max_gems_from + "\n]"
 # END dynamic programming table input in the notebook
 
@@ -168,13 +174,8 @@ cell_string = f"""
 campo_minato = {campo_minato}
 m = len(campo_minato)
 n = len(campo_minato[0])
-#mappa = [ [-1]*(n+1) ] + [ ([-1] + r) for r in campo_minatomappa = [ [-1]*(n+1) ] + [ ([-1] + r) for r in campo_minato#]
-mappa = [["*"]*(n+1)]
-for r in campo_minato:
-    aux=["*"]
-    for elem in r:
-        aux.append("*") if elem==-1 else aux.append(elem)
-    mappa.append(aux)"""
+mappa ={mappa}
+"""
 cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 # CELL 2 -END)
@@ -509,29 +510,34 @@ add_cell(cell_type, cell_string, cell_metadata)
 for i in range(0, len(tasks)):
     verificatore = ""
     if tasks[i]['request'] == "R1":
-        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$. Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
+        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$.<br> Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
         tipo_risposta = "Code"
         risposta = num_gems_to
         verificatore = f"visualizza_e_valuta('num_gems_to',num_gems_to)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"""
     elif tasks[i]['request'] == 'R2':
         richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)times(n+2)$," \
                     + f" nella cui cella $num\_gems\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, " \
-                    + f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$."
+                    + f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$.<br>"\
+                    + f"Se non vi è alcun cammino dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$ poni allora $num\_gems\_to[i][j]$ a $None$."
         tipo_risposta = "Code"
         risposta = num_gems_from
         verificatore = f"visualizza_e_valuta('num_gems_from',num_gems_from)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
     elif tasks[i]['request'] == "R3":
         richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $max\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, " \
                     + f"sia riposto il numero di gemme raccolte dalla cella $A1=(1,1)$ e il numero di percorsi che assicurano di " \
-                    + f"raccogliere quel numero di gemme alla generica cella $(i,j)$."
+                    + f"raccogliere quel numero di gemme alla generica cella $(i,j)$.<br>"\
+                    + f"Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$.<br>"\
+                    + f"__Attenzione:__ La coppia che dovrai inserire nella risposta è (numero di gemme raccolte, numero di percorsi che mi fanno raccogliere quel numero di gemme)"
         tipo_risposta = "Code"
         risposta = max_gems_to
         verificatore = f"visualizza_e_valuta('max_gems_to',max_gems_to)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
 
     elif tasks[i]['request'] == 'R4':
         richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice max_gems_from, di dimensione (m+2)times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
-                    + f" sia riposto il numero di gemme raccolte dalla generica cella (i,j) alla cella G9=(7,9) " \
-                    + f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme."
+                    + f" sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$ " \
+                    + f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme.<br>"\
+                    + f"Se non vi è alcun cammino dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$ poni allora $num\_gems\_to[i][j]$ a $None$.<br>"\
+                    + f"__Attenzione:__ La coppia che dovrai inserire nella risposta è (numero di gemme raccolte, numero di percorsi che mi fanno raccogliere quel numero di gemme)"
         tipo_risposta = "Code"
         risposta = max_gems_from
         verificatore = f"visualizza_e_valuta('max_gems_from',max_gems_from)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
