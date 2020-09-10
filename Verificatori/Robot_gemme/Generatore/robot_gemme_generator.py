@@ -84,7 +84,7 @@ for i in range (m+1):
     num_gems_to=num_gems_to+"\n\t\t"+str([0]*(n+1))+","
     if i > 0:
         num_gems_to += "\t\t# " + str(campo_minato[i-1])
-num_paths_to = num_gems_to + "\n]"
+num_gems_to = num_gems_to + "\n]"
 
 
 num_gems_from=f"num_gems_from=["
@@ -92,7 +92,7 @@ for i in range (m+2):
     num_gems_from=num_gems_from+"\n\t\t"+str([0]*(n+2))+","
     if i > 0 and i <= m:
         num_gems_from += "\t\t# " + str(mappa[i-1])
-num_paths_from = num_gems_from + "\n]"
+num_gems_from = num_gems_from + "\n]"
 
 max_gems_to=f"max_gems_to=["
 for i in range (m+1):
@@ -174,7 +174,12 @@ cell_string = f"""
 campo_minato = {campo_minato}
 m = len(campo_minato)
 n = len(campo_minato[0])
-mappa ={mappa}
+mappa = [["*"]*(n+1)]
+for r in campo_minato:
+    aux=["*"]
+    for elem in r:
+        aux.append("*") if elem=='-1' else aux.append(int(elem))
+    mappa.append(aux)
 """
 cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
@@ -202,36 +207,40 @@ def visualizza(env):
     columns=[str(i) for i in range(1,n+1)]
     print(tabulate(aux, headers=columns, tablefmt='fancy_grid', showindex=index))
 
-def evaluation_format(answ, pt_green,pt_red):
+def evaluation_format(answ, pt_green,pt_red, index_pt):
     pt_blue=0
     if pt_green!=0:
         pt_blue=pt_red-pt_green
         pt_red=0
+    arr_point[index_pt]=pt_green
+    file = open("points.txt", "w")
+    file.write(str(arr_point))
+    file.close()
     return f"{answ}. Totalizzeresti <span style='color:green'>[{pt_green} safe pt]</span>, \
                                     <span style='color:blue'>[{pt_blue} possible pt]</span>, \
                                     <span style='color:red'>[{pt_red} out of reach pt]</span>.<br>"
 
-def check_num_gems_to(mappa, num_gems_to, return_only_boolan=False):
+def check_num_gems_to(mappa, num_gems_to,pt_green, pt_red, index_pt, return_only_boolan=False):
 
     if len(num_gems_to) != m+1:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $num\_gems\_to$ devono essere $m+1=${m+1}, non {len(num_gems_to)}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le righe della matrice $num\_gems\_to$ devono essere $m+1=${m+1}, non {len(num_gems_to)}."
     if len(num_gems_to[0]) != n+1:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le colonne della matrice $num\_gems\_to$ devono essere $n+1=${n+1}, non {len(num_gems_to[0])}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le colonne della matrice $num\_gems\_to$ devono essere $n+1=${n+1}, non {len(num_gems_to[0])}."
 
     for i in range (0,m):
         if num_gems_to[i][0]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $num\_gems\_to[${i}$][0] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $num\_gems\_to[${i}$][0] = 0$"
     for j in range (0,n):
         if num_gems_to[0][j]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $num\_gemss\_to[0][${j}$] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $num\_gemss\_to[0][${j}$] = 0$"
     num_gems_to_forgiving = copy.deepcopy(num_gems_to)
     num_gems_to_forgiving[1][1] = 0
     for i in range(m,0,-1):
@@ -239,39 +248,39 @@ def check_num_gems_to(mappa, num_gems_to, return_only_boolan=False):
             if i==1 and j==1:
                 if return_only_boolan:
                     return True
-                return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $num\_gems\_to$."
+                return  evaluation_format("Si", pt_green, pt_red, index_pt)+"Non riscontro particolari problemi della tua versione della matrice $num\_gems\_to$."
             if mappa[i][j]=="*" or (num_gems_to_forgiving[i][j-1] is None and num_gems_to_forgiving[i-1][j] is None):
                 if num_gems_to_forgiving[i][j] is not None:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_to$."
+                    return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_to$."
             else:
                 if num_gems_to_forgiving[i][j]!=max((num_gems_to_forgiving[i-1][j] if num_gems_to_forgiving[i-1][j] is not None else 0),(num_gems_to_forgiving[i][j-1] if num_gems_to_forgiving[i][j-1] is not None else 0)) + mappa[i][j]:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_to$."
+                    return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_to$."
 
-def check_max_gems_to(mappa, max_gems_to, return_only_boolan=False):
+def check_max_gems_to(mappa, max_gems_to,pt_green, pt_red, index_pt, return_only_boolan=False):
 
     if len(max_gems_to) != m+1:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $max\_gems\_to$ devono essere $m+1=${m+1}, non {len(max_gems_to)}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le righe della matrice $max\_gems\_to$ devono essere $m+1=${m+1}, non {len(max_gems_to)}."
     if len(max_gems_to[0]) != n+1:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le colonne della matrice $max\_gems\_to$ devono essere $n+1=${n+1}, non {len(max_gems_to[0])}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le colonne della matrice $max\_gems\_to$ devono essere $n+1=${n+1}, non {len(max_gems_to[0])}."
 
     for i in range (0,m):
         if max_gems_to[i][0][0]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $max\_gems\_to\_with\_opt[${i}$][0] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $max\_gems\_to\_with\_opt[${i}$][0] = 0$"
     for j in range (0,n):
         if max_gems_to[0][j][0]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $max\_gems\_to[0][${j}$] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $(1,1)$ e pertanto $max\_gems\_to[0][${j}$] = 0$"
     max_gems_to_forgiving = copy.deepcopy(max_gems_to)
     max_gems_to_forgiving[1][1] = (0,1)
     for i in range(m,0,-1):
@@ -279,66 +288,66 @@ def check_max_gems_to(mappa, max_gems_to, return_only_boolan=False):
             if i==1 and j==1:
                 if return_only_boolan:
                     return True
-                return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $max\_gems\_to$."
+                return  evaluation_format("Si", pt_green, pt_red, index_pt)+"Non riscontro particolari problemi della tua versione della matrice $max\_gems\_to$."
             if mappa[i][j]=="*" or (max_gems_to_forgiving[i][j-1] is None and max_gems_to_forgiving[i-1][j] is None):
                 if max_gems_to_forgiving[i][j] is not None:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                    return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
             else:
                 if max_gems_to_forgiving[i][j][0]!=max((max_gems_to_forgiving[i-1][j][0] if max_gems_to_forgiving[i-1][j] is not None else 0),(max_gems_to_forgiving[i][j-1][0] if max_gems_to_forgiving[i][j-1] is not None else 0)) + mappa[i][j]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                        return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
 
                 if max_gems_to_forgiving[i-1][j] is None:
                     if max_gems_to_forgiving[i][j][1]!=max_gems_to_forgiving[i][j-1][1]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                        return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
                 elif max_gems_to_forgiving[i][j-1] is None:
                     if max_gems_to_forgiving[i][j][1]!=max_gems_to_forgiving[i-1][j][1]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                        return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
                 else:
                     if max_gems_to_forgiving[i-1][j][0]==max_gems_to_forgiving[i][j-1][0]:
                         if max_gems_to_forgiving[i][j][1]!=max_gems_to_forgiving[i-1][j][1]+max_gems_to_forgiving[i][j-1][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                            return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
                     elif max_gems_to_forgiving[i-1][j][0]>max_gems_to_forgiving[i][j-1][0]:
                         if max_gems_to_forgiving[i][j][1]!=max_gems_to_forgiving[i-1][j][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                            return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
                     else:
                         if max_gems_to_forgiving[i][j][1]!=max_gems_to_forgiving[i][j-1][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
+                            return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_to$."
 
-def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
+def check_num_gems_from(mappa, num_gems_from,pt_green, pt_red, index_pt, return_only_boolan=False):
 
     if len(num_gems_from) != m+2:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $num\_gems\_from$ devono essere $m+2=${m+2}, non {len(num_gems_from)}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le righe della matrice $num\_gems\_from$ devono essere $m+2=${m+2}, non {len(num_gems_from)}."
     if len(num_gems_from[0]) != n+2:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le colonne della matrice $num\_gems\_from$ devono essere $n+2=${n+2}, non {len(num_gems_from[0])}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le colonne della matrice $num\_gems\_from$ devono essere $n+2=${n+2}, non {len(num_gems_from[0])}."
 
     for i in range (0,m+1):
         if num_gems_from[i][n+1]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $num\_gems\_from[${i}$][${n}$] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $num\_gems\_from[${i}$][${n}$] = 0$"
     for j in range (0,n+1):
         if num_gems_from[m+1][j]!=0:
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $num\_gems\_from[${m}$][${j}$] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $num\_gems\_from[${m}$][${j}$] = 0$"
     num_gems_from_forgiving = copy.deepcopy(num_gems_from)
     num_gems_from_forgiving[m][n] = 0
     for i in range(1,m):
@@ -347,38 +356,38 @@ def check_num_gems_from(mappa, num_gems_from, return_only_boolan=False):
                 if num_gems_from_forgiving[i][j] is not None:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$."
+                    return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$."
             else:
                 if num_gems_from_forgiving[i][j]!=max((num_gems_from_forgiving[i+1][j] if num_gems_from_forgiving[i+1][j] is not None else 0),(num_gems_from_forgiving[i][j+1] if num_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$." 
+                    return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $num\_gems\_from$." 
     if return_only_boolan:
         return True
-    return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $num\_gems\_from$."
+    return  evaluation_format("Si", pt_green, pt_red, index_pt)+"Non riscontro particolari problemi della tua versione della matrice $num\_gems\_from$."
 
 
-def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
+def check_max_gems_from(mappa, max_gems_from,pt_green, pt_red, index_pt, return_only_boolan=False):
 
     if len(max_gems_from) != m+2:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $max\_gems\_from$ devono essere $m+2=${m+2}, non {len(max_gems_from)}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le righe della matrice $max\_gems\_from$ devono essere $m+2=${m+2}, non {len(max_gems_from)}."
     if len(max_gems_from[0]) != n+2:
         if return_only_boolan:
                 return False
-        return evaluation_format("No", 0, 10)+f"Le righe della matrice $max\_gems\_from$ devono essere $m+2=${m+2}, non {len(max_gems_from)}."
+        return evaluation_format("No", 0, pt_red,index_pt)+f"Le righe della matrice $max\_gems\_from$ devono essere $m+2=${m+2}, non {len(max_gems_from)}."
 
     for i in range (0,m+1):
         if max_gems_from[i][n+1]!=(0,0):
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $max\_gems\_from[${i}$][${n}$] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $max\_gems\_from[${i}$][${n}$] = 0$"
     for j in range (0,n+1):
         if max_gems_from[m+1][j]!=(0,0):
             if return_only_boolan:
                 return False
-            return evaluation_format("No", 0, 10)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $max\_gems\_from[${m}$][${j}$] = 0$"
+            return evaluation_format("No", 0, pt_red,index_pt)+f"Attenzione, la raccolta delle gemme deve partire dalla cella $({m},{n})$ e pertanto $max\_gems\_from[${m}$][${j}$] = 0$"
 
     max_gems_from_forgiving = copy.deepcopy(max_gems_from)
     max_gems_from_forgiving[m][n] = (0,1)
@@ -388,51 +397,51 @@ def check_max_gems_from(mappa, max_gems_from, return_only_boolan=False):
                 if max_gems_from_forgiving[i][j] is not None:
                     if return_only_boolan:
                         return False
-                    return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                    return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
             else:
                 if max_gems_from_forgiving[i][j][0]!=max((max_gems_from_forgiving[i+1][j][0] if max_gems_from_forgiving[i+1][j] is not None else 0),(max_gems_from_forgiving[i][j+1][0] if max_gems_from_forgiving[i][j+1] is not None else 0)) + mappa[i][j]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                        return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
 
                 if max_gems_from_forgiving[i+1][j] is None:
                     if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i][j+1][1]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                        return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
                 elif max_gems_from_forgiving[i][j+1] is None:
                     if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i+1][j][1]:
                         if return_only_boolan:
                             return False
-                        return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                        return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
                 else:
                     if max_gems_from_forgiving[i+1][j][0]==max_gems_from_forgiving[i][j+1][0]:
                         if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i+1][j][1]+max_gems_from_forgiving[i][j+1][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                            return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
                     elif max_gems_from_forgiving[i+1][j][0]>max_gems_from_forgiving[i][j+1][0]:
                         if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i+1][j][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
+                            return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."
                     else:
                         if max_gems_from_forgiving[i][j][1]!=max_gems_from_forgiving[i][j+1][1]:
                             if return_only_boolan:
                                 return False
-                            return  evaluation_format("No", 0, 10)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."                
+                            return  evaluation_format("No", 0, pt_red,index_pt)+"Ti avviso: riscontro dei problemi nella tua versione della matrice $max\_gems\_from$."                
     if return_only_boolan:
                 return True
-    return  evaluation_format("Si", 10, 10)+"Non riscontro particolari problemi della tua versione della matrice $max\_gems\_from$."     
+    return  evaluation_format("Si", pt_green, pt_red, index_pt)+"Non riscontro particolari problemi della tua versione della matrice $max\_gems\_from$."     
 
 def Latex_type(string):
     return string.replace("_", "\_")
 
-def visualizza_e_valuta(nome_matrice, matrice):
+def visualizza_e_valuta(nome_matrice, matrice, pt_green, pt_red, index_pt):
     display(Markdown(f"La tua versione attuale della matrice ${Latex_type(nome_matrice)}$ è la seguente:"))
     visualizza(matrice)
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
-    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice)"))) """
+    display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice,pt_green, pt_red, index_pt)"))) """
 cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
@@ -510,37 +519,37 @@ add_cell(cell_type, cell_string, cell_metadata)
 for i in range(0, len(tasks)):
     verificatore = ""
     if tasks[i]['request'] == "R1":
-        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$.<br> Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
+        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $num\_gems\_to$ di dimensione $(m+1)\\times(n+1)$, nella cui cella $num\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, sia riposto il massimo numero di gemme incontrate da un cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$.<br> Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$."
         tipo_risposta = "Code"
         risposta = num_gems_to
-        verificatore = f"visualizza_e_valuta('num_gems_to',num_gems_to)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"""
+        verificatore = f"visualizza_e_valuta('num_gems_to',num_gems_to, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"""
     elif tasks[i]['request'] == 'R2':
-        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)times(n+2)$," \
+        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice $num\_gems\_from$, di dimensione $(m+2)\\times(n+2)$," \
                     + f" nella cui cella $num\_gems\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$, " \
                     + f"sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$.<br>"\
                     + f"Se non vi è alcun cammino dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$ poni allora $num\_gems\_to[i][j]$ a $None$."
         tipo_risposta = "Code"
         risposta = num_gems_from
-        verificatore = f"visualizza_e_valuta('num_gems_from',num_gems_from)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
+        verificatore = f"visualizza_e_valuta('num_gems_from',num_gems_from, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
     elif tasks[i]['request'] == "R3":
-        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\times(n+1)$, nella cui cella $max\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, " \
+        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__A mano o tramite un programma componi la matrice $max\_gems\_to$ di dimensione $(m+1)\\times(n+1)$, nella cui cella $max\_gems\_to[i][j]$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$, " \
                     + f"sia riposto il numero di gemme raccolte dalla cella $A1=(1,1)$ e il numero di percorsi che assicurano di " \
                     + f"raccogliere quel numero di gemme alla generica cella $(i,j)$.<br>"\
                     + f"Se non vi è alcun cammino dalla cella $A1=(1,1)$ alla generica cella $(i,j)$ poni allora $num\_gems\_to[i][j]$ a $None$.<br>"\
                     + f"__Attenzione:__ La coppia che dovrai inserire nella risposta è (numero di gemme raccolte, numero di percorsi che mi fanno raccogliere quel numero di gemme)"
         tipo_risposta = "Code"
         risposta = max_gems_to
-        verificatore = f"visualizza_e_valuta('max_gems_to',max_gems_to)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
+        verificatore = f"visualizza_e_valuta('max_gems_to',max_gems_to, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
 
     elif tasks[i]['request'] == 'R4':
-        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice max_gems_from, di dimensione (m+2)times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
+        richiesta = f"{num_of_question}. __[{tasks[i]['tot_points']} pts]__ Componi ora una matrice max_gems_from, di dimensione (m+2)\\times(n+2), nella cui cella max_gems_from[i][j], per ogni i=1,...,m+1 e j=1,...,n+1," \
                     + f" sia riposto il numero di gemme raccolte dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$ " \
                     + f"e il numero di percorsi che assicurano di raccogliere quel numero di gemme.<br>"\
                     + f"Se non vi è alcun cammino dalla generica cella $(i,j)$ alla cella ${chr(64 + m)}{n}=({m},{n})$ poni allora $num\_gems\_to[i][j]$ a $None$.<br>"\
                     + f"__Attenzione:__ La coppia che dovrai inserire nella risposta è (numero di gemme raccolte, numero di percorsi che mi fanno raccogliere quel numero di gemme)"
         tipo_risposta = "Code"
         risposta = max_gems_from
-        verificatore = f"visualizza_e_valuta('max_gems_from',max_gems_from)# pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
+        verificatore = f"visualizza_e_valuta('max_gems_from',max_gems_from, pt_green={tasks[i]['tot_points']}, pt_red={tasks[i]['tot_points']},index_pt={num_of_question - 1})"
     else:
         assert False
 
