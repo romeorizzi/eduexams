@@ -10,7 +10,7 @@ tasks:
   tot_points: 10
   ver_points: 10
 - description1: 2. __[10 pts]__ Fornire <b>il sottoinsieme degli elementi </b> tale
-    che massimizzi la somma dei valori degli elementi.
+    che massimizzi la somma dei valori.
   tot_points: 10
   ver_points: 10
 - description1: 3. __[10 pts]__ Trovare la somma massima dei valori degli elementi  <b>

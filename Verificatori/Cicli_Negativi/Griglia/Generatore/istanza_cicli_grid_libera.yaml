@@ -1,0 +1,14 @@
+name: Bellman-Ford
+title: Cicli negativi
+tasks:
+- description1: "1. __[30 pts]__ Individua quali tra le due pesature $w_1$ e $w_2$\
+    \ contiene un cilo negativo.Forniscimi una lista di vertici che formano un ciclo\
+    \ negativo (rispetta la direzione degli archi).\n        "
+  tot_points: 30
+  ver_points: 30
+- description1: "2. __[30 pts]__ Fornisci un certificato che nel grafo G non esista\
+    \ un ciclo negativo.  Per fare questo fornisci una lista con i pesi da dare ai\
+    \ nodi (da 0 a n-1) in modo che il grafo G' derivato dal grafo G applicando i\
+    \ pesi sui nodi dimostri la presenza di soli cicli positivi.\n        "
+  tot_points: 30
+  ver_points: 30
