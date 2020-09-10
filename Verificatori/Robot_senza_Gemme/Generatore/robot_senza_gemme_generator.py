@@ -149,7 +149,7 @@ def start():
     
 arr_point={str([-1] * n_task)}
 """
-cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False}
+cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "tags": ["noexport"], "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 2 -END)
@@ -161,7 +161,7 @@ cell_string="""\
 #seleziona la cella e premi ctrl-invio
 start()
 """
-cell_metadata={"trusted": True, "deletable": False}
+cell_metadata={"trusted": True, "tags": ["noexport"], "deletable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 3 -END)
@@ -174,7 +174,7 @@ m = len(campo_minato)
 n = len(campo_minato[0])
 mappa = [ ["*"]*(n+1) ] + [ (["*"] + r) for r in campo_minato]
 """
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 # CELL 4 -END)
 ##############
@@ -314,7 +314,7 @@ def visualizza_e_valuta(nome_matrice, matrice, pt_green, pt_red, index_pt):
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
     display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice,pt_green, pt_red, index_pt)")))    
 """
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 5 -END)
@@ -324,7 +324,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 cell_type='Markdown'
 cell_string=f"## Esercizio \[{total_point} pts\]<br/>"\
 +f"(campo minato) {data_instance['title']}."
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 6 -END)
@@ -337,7 +337,7 @@ Bimo cammina sulle celle di un campo minato dalla forma di una griglia rettangol
 Le mosse consentite portano Bimo dalla cella $(i,j)$ alla cella $(i+1,j)$ oppure $(i,j+1)$, sempre ove queste siano transitabili.
 Organizzati per calcolare quanti sono i cammini possibili tra due celle date e per rispondere ad altre domande di questo tipo.
 """
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted":True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted":True}
 add_cell(cell_type,cell_string,cell_metadata)
 # CELL 7 -END)
 ##############
@@ -352,7 +352,7 @@ In ogni caso, il feedback offerto dalle procedure di validazione rese disponibil
 Esso convalida la conformità delle tue risposte facendo anche presente a quanti dei punti previsti  le tue risposte possono ambire.
 Per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
 """
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 8 -END)
@@ -367,7 +367,7 @@ cell_string=f"Un robot, inizialmente situato nella cella ${chr(65)}{1}={(1,1)}$,
        + f" ed il passo verso il basso (ad esempio, come unica altra alternativa per il primo passo il robot "\
        + f"potrebbe portarsi quindi nella cella $B1$)."\
        + f"Quanti sono i possibili percorsi che può fare il robot per andare dalla cella ${chr(65)}{1}={(1,1)}$ alla cella ${chr(64+m)}{n}=({m},{n})$?"
-cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 9 -END)
@@ -376,7 +376,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Code'
 cell_string="""visualizza(mappa)"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 10 -END)
@@ -385,7 +385,7 @@ add_cell(cell_type,cell_string,cell_metadata)
 
 cell_type='Markdown'
 cell_string="""__Richieste__:"""
-cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 11 -END)

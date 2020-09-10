@@ -132,7 +132,7 @@ window.runCells = function runCells() {
     Jupyter.notebook.execute_cells(c);
 };
 """
-cell_metadata={"hide_input": True, "init_cell": True, "trusted": True, "deletable": False, "editable": False}
+cell_metadata={"hide_input": True, "init_cell": True, "trusted": True,"tags": ["noexport"], "deletable": False, "editable": False}
 add_cell(cell_type,cell_string,cell_metadata)
 
 # CELL 1 -END)
@@ -150,7 +150,7 @@ def start():
 
 arr_point={str([-1] * n_task)}
 """
-cell_metadata = {"hide_input": True, "init_cell": True, "trusted": True, "deletable": False}
+cell_metadata = {"hide_input": True, "init_cell": True, "trusted": True, "tags": ["noexport"], "deletable": False}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 2 -END)
@@ -162,7 +162,7 @@ cell_string = """\
 #seleziona la cella e premi ctrl-invio
 start()
 """
-cell_metadata = {"trusted": True, "deletable": False}
+cell_metadata = {"trusted": True,"tags": ["noexport"], "deletable": False}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 3 -END)
@@ -181,7 +181,7 @@ for r in campo_minato:
         aux.append("*") if elem=='-1' else aux.append(int(elem))
     mappa.append(aux)
 """
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 # CELL 2 -END)
 ##############
@@ -442,7 +442,7 @@ def visualizza_e_valuta(nome_matrice, matrice, pt_green, pt_red, index_pt):
     visualizza(matrice)
     display(Markdown(f"<b>Validazione della tua matrice ${Latex_type(nome_matrice)}$:</b>"))
     display(Markdown(eval(f"check_{nome_matrice}(mappa,matrice,pt_green, pt_red, index_pt)"))) """
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 3 -END)
@@ -451,7 +451,7 @@ add_cell(cell_type, cell_string, cell_metadata)
 cell_type = 'Markdown'
 cell_string = f"## Esercizio \[{total_point} pts\]<br/>" \
               + f"(campo minato con gemme) {data_instance['title']}."
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 6 -END)
@@ -466,7 +466,7 @@ sono tutte transitabili (il numero indica il numero di monete in quella cella).\
 Le mosse consentite portano Bimo dalla cella $(i,j)$ alla cella $(i+1,j)$ oppure $(i,j+1)$, sempre ove queste siano transitabili.\
 Organizzati per calcolare quante monete riesce a raccogliere Bimo tra due celle date e per rispondere ad altre domande di questo tipo.
 """
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 # CELL 7 -END)
 ##############
@@ -481,7 +481,7 @@ In ogni caso, il feedback offerto dalle procedure di validazione rese disponibil
 Esso convalida la conformità delle tue risposte facendo anche presente a quanti dei punti previsti  le tue risposte possono ambire.
 Per facilitare chi di voi volesse scrivere del codice a proprio supporto, abbiamo aggiunto alla mappa di $m$ righe ed $n$ colonne una riga e colonna iniziale (di indice zero), fatte interamente di mine, perchè non si crei confusione col fatto che gli indici di liste ed array in programmazione partono da zero.
 """
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 8 -END)
@@ -495,7 +495,7 @@ I movimenti base possibili sono il passo verso destra (ad esempio il primo passo
 Quante monete può raccogliere al massimo il robot in un percorso che vada dalla cella $A1$ alla cella $G9$?\
 E quanti sono i percorsi che gli consentono di raccogliere un tale numero di monete?
 """
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 9 -END)
@@ -504,7 +504,7 @@ add_cell(cell_type, cell_string, cell_metadata)
 
 cell_type = 'Code'
 cell_string = """visualizza(mappa)"""
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell", "noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
 # CELL 10 -END)
@@ -513,7 +513,7 @@ add_cell(cell_type, cell_string, cell_metadata)
 
 cell_type = 'Markdown'
 cell_string = """__Richieste__:"""
-cell_metadata = {"hide_input": True, "editable": False, "deletable": False, "tags": ["runcell"], "trusted": True}
+cell_metadata={"hide_input": True, "editable": False,  "deletable": False, "tags": ["runcell","noexport"], "trusted": True}
 add_cell(cell_type, cell_string, cell_metadata)
 
 for i in range (0,len(tasks)):
