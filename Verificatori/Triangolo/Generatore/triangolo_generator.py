@@ -277,22 +277,23 @@ def verif_triangolo(answer, path, triangle, pt_green, pt_red, index_pt):
     if sum(path)!=answer:
         my_str="Errore: incongruenza tra il percorso e la somma forniti."
         if answer<np.max(triangolo):
-            display(Markdown(evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è inferiore al numero massimo presente nel triangolo, ovvero {np.max(triangolo)}: se includi quest'ultimo hai già una somma maggiore !"))
+            str_to_print=evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è inferiore al numero massimo presente nel triangolo, ovvero {np.max(triangolo)}: se includi quest'ultimo hai già una somma maggiore !"
         elif answer>np.sum(triangolo):
-            display(Markdown(evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è superiore alla somma di TUTTI i numeri presenti triangolo, ovvero {np.sum(triangolo)}: certamente NON può esistere un percorso del genere !"))
+            str_to_print=evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è superiore alla somma di TUTTI i numeri presenti triangolo, ovvero {np.sum(triangolo)}: certamente NON può esistere un percorso del genere !"
         else:
-            display(Markdown(my_str))
+            str_to_print=my_str
     else:
         if (is_path(path, triangle)): 
-            display(Markdown(evaluation_format("Si", pt_green, pt_red, index_pt) + "Il percorso è ammissibile."))
+            str_to_print=evaluation_format("Si", pt_green, pt_red, index_pt) + "Il percorso è ammissibile."
         else:
             my_str="Il percorso non è ammissibile."
             if answer<np.max(triangolo):
-                display(Markdown(evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è inferiore al numero massimo presente nel triangolo, ovvero {np.max(triangolo)}: se includi quest'ultimo hai già una somma maggiore !"))
+                str_to_print=evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è inferiore al numero massimo presente nel triangolo, ovvero {np.max(triangolo)}: se includi quest'ultimo hai già una somma maggiore !"
             elif answer>np.sum(triangolo):
-                display(Markdown(evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è superiore alla somma di TUTTI i numeri presenti triangolo, ovvero {np.sum(triangolo)}: certamente NON può esistere un percorso del genere !"))
+                str_to_print=evaluation_format("No", 0, pt_red, index_pt) + my_str + f"Guarda che la somma fornita è superiore alla somma di TUTTI i numeri presenti triangolo, ovvero {np.sum(triangolo)}: certamente NON può esistere un percorso del genere !"
             else:
-                display(Markdown(evaluation_format("No", 0, pt_red, index_pt) + my_str))
+                str_to_print=evaluation_format("No", 0, pt_red, index_pt) + my_str
+    return str_to_print
 
 
 """
