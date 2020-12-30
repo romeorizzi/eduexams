@@ -1,0 +1,85 @@
+---
+# dictionary_of_types = {
+#      "SC": ("implemented", "<b>strettamente crescente</b>"),
+#      "ND": ("implemented", "<b>non-decrescente</b>"),
+#      "SD": ("implemented", "<b>strettamente decrescente</b>"),
+#      "NC": ("implemented", "<b>non-crescente</it>"),
+#       "V": ("implemented", "<b>a V</b> <it>(prima giù e poi sù)</it>"),
+#       "A": ("implemented", "<b>ad A</b> (prima sù e poi giù)</it>"),
+#      "SV": ("implemented", "<b>a V stretto</b> <it>(prima strettamente giù e poi strettamente sù)</it>"),
+#      "SA": ("implemented", "<b>ad A stetto</b> <it>(prima strettamente sù e poi strettamente giù)</it>"),
+#       "N": ("implemented", "<b>a N</b> (non-decrescente con al più un ripensamento)</it>"),
+#       "Z": ("implemented", "<b>a Z</b> <it>(non-crescente con al più un ripensamento)</it>"),
+#      "SN": ("implemented", "<b>a N stetto</b> <it>(strettamente crescente con al più un ripensamento)</it>"),
+#      "SZ": ("implemented", "<b>a Z stretto</b> <it>(strettamente decrescente con al più un ripensamento)</it>"),
+#  "ZigZag": ("implemented", "<b>a Zig-Zag</b> <it>(primo passo a crescere e poi alterna ad ogni passo)</it>"),
+#  "ZagZig": ("implemented", "<b>a Zag-Zig</b> <it>(primo passo a calare e poi alterna ad ogni passo)</it>"),
+#"ZigZagEQ": ("implemented", "<b>a Zig-Zag debole</b> <it>(primo passo a crescere e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>"),
+#"ZagZigEQ": ("implemented", "<b>a Zag-Zig debole</b> <it>(primo passo a calare e poi alterna ad ogni passo, con valori consecutivi che possono essere uguali)</it>"),
+#"132-free": ("not yet done", "<b>dal mondo delle permutazioni pattern free per un infinità di problemi in FPT</b>"),
+#     "...": ("not thought of yet", "<b>???</b>")
+#}
+
+#dictionary_of_request_string={
+#    "R1": "Trovare una sottosequenza $s1$ ['type'] di $s$ che sia la più lunga possibile.",
+#    "R2": "Trovare una sottosequenza $s2$ ['type'] di $s$ che sia la più lunga possibile che escluda gli elementi dalla posizione ['start_banned_interval'] alla posizione ['end_banned_interval'].",
+#    "R3": "Trovare la più lunga ['type'] che includa l'elemento in posizione ['forced_ele_pos']",
+#    "R4": "Una sequenza è detta ['type']. Trovare la più lunga sequenza di questo tipo che sia una sottosequenza della sequenza data.",
+#    "R5": "Qual è il minor numero possibile di colori _C_ per colorare gli elementi della sequenza in input in modo che, per ogni colore, la sottosequenza degli elementi di quel colore sia monotona ['type']?
+#           Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a _C_)",
+##aggiungere altre possibili richieste
+#}
+
+name: "dp_poldo"
+title: "Sottosequenze crescenti e decrescenti"
+
+
+#istanza
+s: [11, 24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 13, 33, 35, 21, 16, 39, 49, 60, 54, 23]
+
+
+#elementi aggiuntivi
+#forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
+#start_banned_interval : 1 #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
+#end_banned_interval : 4 #ultimo elemento non concesso
+
+#qui è possibile configurare i tasks, se non si vogliono task è possibile commentarli oppure cancellarli da questo file
+#sono ammessi task con le stesse richieste ma parametri diversi
+#per eventuali parametri aggiuntivi vedere cosa è richiesto tra [] nelle richieste
+tasks:
+- {
+    request: "R1",
+    type: "SC",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R2",
+    type: "SD",
+    tot_points: 10,
+    ver_points: 10,
+    start_banned_interval : 1, #posizione dalla quale non voglio elementi (dalla posizione n in poi fino a end_banner_interval non li considero)
+    end_banned_interval : 4, #ultimo elemento non concesso
+  }
+- {
+    request: "R3",
+    type: "SC",
+    tot_points: 10,
+    ver_points: 10,
+    forced_ele_pos: 18 #posizione dell'elemento che vuoi sia presente nella sottosequenza per rispondere alla domanda 3 (parti a contare da 1)
+  }
+- {
+    request: "R4",
+    type: "V",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R5",
+    type: "NC",
+    tot_points: 20,
+    ver_points: 20,
+  }
+
+...
+

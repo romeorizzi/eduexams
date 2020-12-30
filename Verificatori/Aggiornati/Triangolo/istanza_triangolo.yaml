@@ -1,0 +1,30 @@
+#dictionary_of_request_string = {
+#   "R1":  "Calcolare <b>la più grande somma di numeri</b> ottenibile seguendo un percorso che parta dalla cima del triangolo e termini da qualche parte sulla sua base.<br/>Fornire, in qualità di certificato, il <b>percorso sotto forma sequenza di numeri</b> (array di interi) dalla cima alla base.",
+#   "R2": "Provare a risolvere il problema in maniera ricorsiva.<br/>Scrivere, in maniera esplicita, la <b>ricorsione</b> utilizzata, chiarendo, anche a parole, come si è arrivati a tale formulazione e qual è stato il ragionamento condotto.<br/>Dopodichè si richiede di <b>abbozzare l'algoritmo</b> che, sfruttando tale ricorsione, permette di determinare qual è la somma massima ottenibile seguendo un percorso che parta dalla cima del triangolo e termini da qualche parte sulla sua base.",
+#   "R3": "Altro...Da configurare",
+#}
+
+name: "Triangolo con numeri non negativi"
+title: "Triangolo"
+#istanza
+
+triangolo: [[7, 0, 0, 0, 0],
+            [3, 8, 0, 0, 0],
+            [8, 1, 0, 0, 0],
+            [2, 7, 4, 4, 0],
+            [4, 5, 2, 6, 5]]
+
+
+#qui è possibile configurare i parametri dei possibili tasks
+tasks:
+- {
+    request: "R1",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R2",
+    tot_points: 10,
+    ver_points: 10,
+  }
+...

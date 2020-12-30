@@ -1,0 +1,31 @@
+name: campo minato
+title: Conteggio di cammini in una griglia rettangolare con celle proibite.
+tasks:
+- description1: 1. __[10 pts]__ A mano o tramite un programma componi la matrice $num\_paths\_to$
+    di dimensione $(m+1)\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia
+    riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$,
+    per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$.
+  tot_points: 10
+  ver_points: 10
+- description1: 2. __[10 pts]__ Componi ora una matrice $num\_paths\_from$ di dimensione
+    $(m+2)\times(n+2)$ e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,...,
+    m+1$ e $j = 1,..., n+1$, sia riposto il numero di cammini dalla generica cella
+    $(i,j)$ alla cella $H9=(8,9)$.
+  tot_points: 10
+  ver_points: 10
+- description1: 3. __[10 pts]__ Quanti sono i percorsi con partenza in $A1=(1,1)$
+    ed arrivo in $H9=(8,9)$.
+  tot_points: 10
+  ver_points: 10
+- description1: 4. __[10 pts]__ Quanti sono i percorsi con partenza in $B3=(2, 3)$
+    ed arrivo in $H9=(8,9)$.
+  tot_points: 10
+  ver_points: 10
+- description1: 5. __[10 pts]__ Quanti sono i percorsi con partenza in $A1=(1,1)$
+    ed arrivo in $F6=(6, 6)$?
+  tot_points: 10
+  ver_points: 10
+- description1: 6. __[10 pts]__ Quanti sono i percorsi che partono da $A1=(1,1)$,
+    passano da $D5=(4, 5)$, ed arrivano in $H9=(8,9)$?
+  tot_points: 10
+  ver_points: 10
