@@ -1,0 +1,54 @@
+#dictionary_of_request_string={
+#    "R1": "Trovare la massima sottosequenza comune tra le <b> due stringhe</b>:<br/>$s$={s}<br/>$t$={t}.",
+#    "R2": "Trovare la massima sottosequenza comune utilizzando: <br/><b>il prefisso</b>  $t'$= {tasks[1]['string_mod']} <br/>$s$={s}.",
+#    "R3": "Trovare la massima sottosequenza comune utilizzando:<br/><b>il suffisso </b> $s'$={tasks[2]['string_mod']} <br/>$t$={t}.",
+#    "R4": "Trovare la massima sottosequenza comune tale che <b>inizi con la lettera </b> __{tasks[3]['start']}__ utilizzando:<br/>$s$={s}<br/>$t$={t}.",
+#    "R5": "Trovare la massima sottosequenza comune tale che <b>finisca con la lettera </b> __{tasks[4]['end']}__ utilizzando:<br/>$s$={s} <br/>$t$={t}.",
+##aggiungere altre possibili richieste
+#}
+
+name: "LCS"
+title: "Massima sottosequenza comune"
+
+#istanza
+s: "CTGTGAGAATCGCTGTA"
+t: "GTACGACTGAAGCTAT"
+
+#qui è possibile configurare i parametri dei 5 possibili tasks
+tasks:
+    #esercizio sottostringa comune s e t
+- {
+    request: "R1",
+    tot_points: 10,
+    ver_points: 10,
+  }
+    #esercizio prefisso su t
+- {
+    request: "R2",
+    tot_points: 10,
+    ver_points: 10,
+    string_mod: "GTACGACTG"
+  }
+    #esercizio suffisso su s
+- {
+    request: "R3",
+    tot_points: 10,
+    ver_points: 10,
+    string_mod: "CTGTGAGA"
+  }
+    #esercizio inizia con...
+- {
+    request: "R4",
+    tot_points: 10,
+    ver_points: 10,
+    start: "C"
+  }
+    #esercizio termina con
+- {
+    request: "R5",
+    tot_points: 10,
+    ver_points: 10,
+    end: "C"
+  }
+
+...

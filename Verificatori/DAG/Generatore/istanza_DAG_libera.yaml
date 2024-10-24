@@ -1,0 +1,18 @@
+name: DAG
+title: DAG
+description: Consideriamo i seguenti due grafi chiamati GRAFO 1 (a sinistra) e GRAFO
+  2 (a destra):Uno dei due rappresenta un DAG, mentre l''altro no. Individuali e rispondi
+  alle seguenti domande.
+tasks:
+- description: 1. __[10 pts]__ Quale, tra i due grafi, rappresenta un DAG e quale
+    no?<br>Esprimi la tua scelta associando alla variabile GRAFO_CON_CICLO il numero
+    1 se si pensa che GRAFO 1 <b>NON</b> sia un DAG oppure il numero 2 se si pensa
+    che GRAFO 2 <b>NON</b> sia un DAG.
+  tot_points: 10
+  ver_points: 10
+- description: 2. __[10 pts]__ Quale, tra i due grafi, rappresenta un DAG e quale
+    no?<br>Esprimi la tua scelta associando alla variabile GRAFO_DAG il numero 1 se
+    si pensa che GRAFO 1 sia un DAG oppure il numero 2 se si pensa che GRAFO 2 sia
+    un DAG.
+  tot_points: 10
+  ver_points: 10

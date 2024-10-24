@@ -1,0 +1,31 @@
+name: dp_poldo
+title: Sottosequenze crescenti e decrescenti
+description1: Si consideri la seguente sequenza di numeri naturali:<br/><br/>[11,
+  24, 18, 12, 14, 31, 38, 58, 15, 36, 59, 19, 42, 29, 22, 56, 20, 17, 41, 13, 33,
+  35, 21, 16, 39, 49, 60, 54, 23]
+tasks:
+- description1: "1. __[10 pts]__ Trovare una sottosequenza $subs1$ <b>strettamente\
+    \ crescente</b> di $s$ che sia la pi\xF9 lunga possibile."
+  tot_points: 10
+  ver_points: 10
+- description1: "2. __[10 pts]__ Trovare una sottosequenza $subs2$  <b>strettamente\
+    \ decrescente</b> di $s$ che sia la pi\xF9 lunga possibile che escluda gli elementi\
+    \ dalla posizione 1 alla posizione 4."
+  tot_points: 10
+  ver_points: 10
+- description1: "3. __[10 pts]__ Trovare la pi\xF9 lunga <b>strettamente crescente</b>\
+    \ che includa l'elemento in posizione 18"
+  tot_points: 10
+  ver_points: 10
+- description1: "4. __[10 pts]__ Una sequenza \xE8 detta <b>una V-sequenza</b>, se\
+    \ cala fino ad un certo punto, e da l\xEC in poi cresce sempre. Trovare la pi\xF9\
+    \ lunga sequenza di questo tipo che sia una sottosequenza della sequenza data."
+  tot_points: 10
+  ver_points: 10
+- description1: "5. __[20 pts]__ Qual \xE8 il minor numero possibile di colori _C_\
+    \ per colorare gli elementi della sequenza in input in modo che, per ogni colore,\
+    \ la sottosequenza degli elementi di quel colore sia monotona <b>non-crescente</b>?\
+    \ Specificare per ogni elemento il colore (come colori, usare i numeri da 1 a\
+    \ _C_)"
+  tot_points: 20
+  ver_points: 20

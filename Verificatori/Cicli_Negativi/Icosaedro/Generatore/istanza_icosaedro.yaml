@@ -1,0 +1,45 @@
+#dictionary_of_request_string={
+#    "R1": "Determinare quale delle due pesature contiene un ciclo negativo.",
+#    "R2": "Determinare quale non contiene ciclo negativo e dare certificato con pesi nodi .",
+##aggiungere altre possibili richieste
+#}
+
+name: "Bellman-Ford"
+title: "Icosaedro"
+
+#istanza
+yaml_edges1: '[((0,1),-7),((1,2),1),((2,3),7),((4,3),9),((0,4),-5),
+     ((5,0),3),((1,7),7),((2,9),5),((11,3),-1),((13,4),11),
+    ((5,6),-1),((6,7),3),((8,7),19),((8,9),12),((9,10),-17),
+     ((10,11),-7),((11,12),-2),((13,12),6),((14,13),8),((14,5),-9),
+    ((16,15),10),((17,16),-9),((18,17),-23),((18,19),19),((19,15),1),
+     ((6,15),-1),((16,8),-1),((10,17),-5),((12,18),11),((19,14),18)]'
+
+yaml_edges2: '[((1,0),-7),((1,2),1),((2,3),7),((4,3),9),((0,4),-5),
+     ((5,0),3),((1,7),7),((2,9),5),((11,3),-1),((13,4),11),
+    ((5,6),-1),((6,7),3),((8,7),19),((8,9),120),((9,10),-17),
+     ((10,11),-7),((11,12),-2),((13,12),6),((14,13),8),((14,5),-9),
+    ((16,15),10),((17,16),-9),((18,17),-23),((18,19),19),((19,15),1),
+     ((6,15),-1),((16,8),-1),((10,17),-5),((12,18),11),((19,14),18)]
+            '
+
+#qui è possibile configurare i parametri dei 2 possibili tasks
+tasks:
+   #distruggere tutti gli asteroidi sparando il minimo numero di raggi
+- {
+    request: "R1",
+    tot_points: 30,
+    ver_points: 30,
+  }
+    #individuare sottoinsieme asteroidi indipendenti
+- {
+    request: "R2",
+    tot_points: 30,
+    ver_points: 30,
+  }
+    
+
+
+
+
+...

@@ -1,0 +1,37 @@
+#dictionary_of_request_string={
+#    "R1": "Trovare numero minimo di luci che rimangono accese.",
+#    "R2": "Trovare gruppo di matrici cattive che corrispondono in numero a quello minimo di luci .",
+##aggiungere altre possibili richieste
+#}
+
+name: "Pirellone"
+title: "Pirellone"
+
+#istanza
+p: [
+       [0, 0, 1, 0, 1, 1, 0, 1],
+       [0, 0, 1, 0, 0, 1, 1, 0],
+       [1, 1, 0, 1, 1, 0, 0, 0],
+       [1, 1, 0, 1, 0, 1, 1, 0],
+       [0, 0, 1, 0, 0, 1, 0, 1],
+       [1, 0, 1, 0, 1, 1, 0, 1]
+]
+
+#qui è possibile configurare i parametri dei 2 possibili tasks
+tasks:
+   #distruggere tutti gli asteroidi sparando il minimo numero di raggi
+- {
+    request: "R1",
+    tot_points: 30,
+    ver_points: 30,
+  }
+    #individuare sottoinsieme asteroidi indipendenti
+- {
+    request: "R2",
+    tot_points: 30,
+    ver_points: 30,
+  }
+    
+
+
+...

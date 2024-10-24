@@ -1,0 +1,70 @@
+---
+
+#possible_request={
+#    "R1": "A mano o tramite un programma componi la matrice $num\_paths\_to$ di dimensione $(m+1)\\times(n+1)$ e tale per cui in $num\_paths\_to[i][j]$ sia riposto il numero di cammini dalla cella $A1=(1,1)$ alla generica cella $(i,j)$, per ogni $i = 0,..., m+1$ e $j = 0,..., n+1$."
+#    "R2": "Componi ora una matrice $num\_paths\_from$ di dimensione $(m+2)\\times(n+2)$" \
+#                    +f" e tale per cui in $num\_paths\_from[i][j]$, per ogni $i = 1,..., m+1$ e $j = 1,..., n+1$," \
+#                    +f" sia riposto il numero di cammini dalla generica cella $(i,j)$ alla cella "\
+#                    +f"${chr(64+m)}{n}=({m},{n})$."
+#    "R3": "Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+#    "R4": "Quanti sono i percorsi con partenza in ['start_point'] ed arrivo in ${chr(64+m)}{n}=({m},{n})$."
+#    "R5": "Quanti sono i percorsi con partenza in $A1=(1,1)$ ed arrivo in ['target_point']?"
+#    "R6": "Quanti sono i percorsi che partono da $A1=(1,1)$, passano da ['middle_point'], ed arrivano in ${chr(64+m)}{n}=({m},{n})$?"
+##aggiungere altre possibili richieste
+#}
+
+name: "campo minato"
+title: "Conteggio di cammini in una griglia rettangolare con celle proibite."
+
+
+#istanza
+campo_minato: 
+   - [ " " , " " , " " , " " , " " , " " , " " , " " , "*" ]
+   - [ " " , " " , " " , " " , "*" , "*" , " " , " " , " " ]
+   - [ " " , "*" , " " , "*" , " " , " " , " " , " " , " " ]
+   - [ " " , " " , " " , " " , " " , " " , " " , "*" , " " ]
+   - [ " " , " " , "*" , " " , "*" , " " , " " , " " , " " ]
+   - [ " " , " " , " " , " " , " " , " " , "*" , " " , " " ]
+   - [ " " , "*" , " " , " " , " " , " " , " " , " " , " " ]
+   - [ " " , " " , " " , " " , " " , " " , " " , " " , " " ]
+
+
+#qui è possibile configurare i tasks, se non si vogliono task è possibile commentarli oppure cancellarli da questo file
+#sono ammessi task con le stesse richieste ma parametri diversi
+#per eventuali parametri aggiuntivi vedere cosa è richiesto tra [] nelle richieste
+tasks:
+- {
+    request: "R1",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R2",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R3",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R4",
+    tot_points: 10,
+    ver_points: 10,
+    start_point: '(2,3)',
+  }
+- {
+    request: "R5",
+    tot_points: 10,
+    ver_points: 10,
+    target_point: '(6,6)',
+  }
+- {
+    request: "R6",
+    tot_points: 10,
+    ver_points: 10,
+    middle_point: '(4,5)',
+  }
+...
+

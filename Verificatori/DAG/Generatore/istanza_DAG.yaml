@@ -1,0 +1,100 @@
+#dictionary_of_request_string = {
+#   "R1":  "Quale, tra i due grafi, rappresenta un DAG e quale no? Esprimi la tua scelta associando alla variabile GRAFO_CON_CICLO il numero 1 se si pensa che GRAFO 1 NON sia un DAG oppure il numero 2 se si pensa che GRAFO 2 NON sia un DAG.
+#Riesci a fornire una sequenza v_1,v_2,...,v_t di nodi che formino un ciclo in GRAFO_CON_CICLO? In pratica, all'interno di GRAFO_CON_CICLO, dovrà valere che:
+# da v_t parte un arco che punta a v_1
+# da v_i parte un arco che punta a v_{i+1} per ogni i = 1,2,...,t-1
+#   "R2": "Quale, tra i due grafi, rappresenta un DAG e quale no?<br>Esprimi la tua scelta associando alla variabile GRAFO_DAG il numero 1 se si pensa che GRAFO 1 sia un DAG oppure il numero 2 se si pensa che GRAFO 2 sia un DAG. Un grafo si dice DAG se e solo se è un grafo diretto e <b>presenta un ordinamento topologico</b>, ovvero una sequenza di nodi per cui ogni arco \"punta\" ad un nodo che si trova in una posizione successiva, all\'interno della sequenza, rispetto al nodo da cui tale arco parte.<br>Riesci a certificare il fatto che il grafo indicato sia effettivamente un DAG fornendo la sequenza di nodi appena descritta?<br>L\'immagine di seguito dovrebbe aiutarti a intuire il concetto di ordinamento topologico; se ancora fatichi a capire, prova a consultare: <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">info</a>",
+#   "R3": "Altro...Da configurare...Si potrebbe chiedere di determinare la sequenza con il minor numero di precedenze non rispettate nel caso di un GRAFO_CON_CICLO.",
+#}
+
+name: "DAG"
+title: "DAG"
+#istanza
+
+
+# commenta le righe relative agli archi dell'icosaedro che vuoi deletare. Usa flip per invertire la direzione degii archi
+edges: [
+        {"flip":0,"tail":0,"head":1,'w': -7},
+        {"flip":0,"tail":1,"head":2,'w': 1},
+        {"flip":0,"tail":2,"head":3,'w': 2},
+        {"flip":0,"tail":0,"head":4,'w': -5},
+        {"flip":0,"tail":4,"head":3,'w': 9},
+        {"flip":0,"tail":5,"head":0,'w': 3},
+        {"flip":0,"tail":1,"head":7,'w': 7},
+        {"flip":0,"tail":2,"head":9,'w': 5},
+        #{"flip":0,"tail":11,"head":3,'w': -1},
+        {"flip":0,"tail":13,"head":4,'w': 11},
+        {"flip":0,"tail":14,"head":13,'w': 8},
+        #{"flip":0,"tail":13,"head":12,'w': 6},
+        {"flip":0,"tail":11,"head":12,'w': -2},
+        {"flip":0,"tail":10,"head":11,'w': -7},
+        {"flip":0,"tail":9,"head":10,'w': -17},
+        {"flip":1,"tail":8,"head":9,'w': 12},
+        #{"flip":0,"tail":8,"head":7,'w': 19},
+        {"flip":0,"tail":6,"head":7,'w': 3},
+        {"flip":0,"tail":14,"head":5,'w': -9},
+        {"flip":0,"tail":5,"head":6,'w': -1},
+        #{"flip":0,"tail":6,"head":15,'w': -1},
+        {"flip":0,"tail":16,"head":8,'w': -1},
+        {"flip":0,"tail":2,"head":3,'w': 7},
+        {"flip":0,"tail":10,"head":17,'w': -5},
+        #{"flip":0,"tail":12,"head":18,'w': 11},
+        #{"flip":0,"tail":19,"head":14,'w': 18},
+        {"flip":0,"tail":17,"head":16,'w': -9},
+        {"flip":0,"tail":16,"head":15,'w': 10},
+        {"flip":0,"tail":19,"head":15,'w': 1},
+        #{"flip":0,"tail":18,"head":19,'w': 19},
+        {"flip":0,"tail":18,"head":17,'w': -23}
+        
+        ]
+
+
+# commenta le righe relative agli archi dell'icosaedro che vuoi deletare. Usa flip per invertire la direzione degii archi
+edges2: [
+        {"flip":0,"tail":0,"head":1,'w': -7},
+        {"flip":0,"tail":1,"head":2,'w': 1},
+        {"flip":0,"tail":2,"head":3,'w': 2},
+        {"flip":0,"tail":0,"head":4,'w': -5},
+        {"flip":0,"tail":4,"head":3,'w': 9},
+        {"flip":0,"tail":5,"head":0,'w': 3},
+        {"flip":0,"tail":1,"head":7,'w': 7},
+        {"flip":0,"tail":2,"head":9,'w': 5},
+        #{"flip":0,"tail":11,"head":3,'w': -1},
+        {"flip":0,"tail":13,"head":4,'w': 11},
+        {"flip":0,"tail":14,"head":13,'w': 8},
+        #{"flip":0,"tail":13,"head":12,'w': 6},
+        {"flip":0,"tail":11,"head":12,'w': -2},
+        {"flip":0,"tail":10,"head":11,'w': -7},
+        {"flip":0,"tail":9,"head":10,'w': -17},
+        {"flip":0,"tail":8,"head":9,'w': 12},
+        #{"flip":0,"tail":8,"head":7,'w': 19},
+        {"flip":0,"tail":6,"head":7,'w': 3},
+        {"flip":0,"tail":14,"head":5,'w': -9},
+        {"flip":0,"tail":5,"head":6,'w': -1},
+        #{"flip":0,"tail":6,"head":15,'w': -1},
+        {"flip":0,"tail":16,"head":8,'w': -1},
+        {"flip":0,"tail":2,"head":3,'w': 7},
+        {"flip":0,"tail":10,"head":17,'w': -5},
+        #{"flip":0,"tail":12,"head":18,'w': 11},
+        #{"flip":0,"tail":19,"head":14,'w': 18},
+        {"flip":0,"tail":17,"head":16,'w': -9},
+        {"flip":0,"tail":16,"head":15,'w': 10},
+        {"flip":0,"tail":19,"head":15,'w': 1},
+        #{"flip":0,"tail":18,"head":19,'w': 19},
+        {"flip":0,"tail":18,"head":17,'w': -23}
+        
+        ]
+
+#qui è possibile configurare i parametri dei possibili tasks
+tasks:
+- {
+    request: "R1",
+    tot_points: 10,
+    ver_points: 10,
+  }
+- {
+    request: "R2",
+    tot_points: 10,
+    ver_points: 10,
+  }
+...

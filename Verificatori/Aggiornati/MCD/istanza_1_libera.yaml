@@ -1,0 +1,17 @@
+name: dp_MCD
+title: "Ricerca del pi\xF9 grande numero che divide tutti i numeri dati in input.."
+description1: 'Data la seguente sequenza di numeri:<br/><br/> regoli=[45, 35, 30,
+  75, 35, 75, 60, 65, 25, 80]<br/> '
+tasks:
+- description1: "1. __[10 pts]__ Fornisci un numero naturale che divida ciascuno dei\
+    \ coefficienti tale che sia il pi\xF9 grande possibile, ossia quello che viene\
+    \ chiamato massimo comun divisore (MCD)."
+  tot_points: 10
+  ver_points: 10
+- description1: "2. __[10 pts]__ Fornisci un vettore di coefficienti interi (anche\
+    \ negativi, uno per ogni regolo) tale che $\\sum_0^{10}coeff[i]regoli[i]$ sia\
+    \ un numero positivo e pertanto esprima un upper bound sul valore del massimo\
+    \ comun divisore.  Idealmente vorresti fornirci un upper-bound che sia il pi\xF9\
+    \ piccolo possibile. "
+  tot_points: 10
+  ver_points: 10

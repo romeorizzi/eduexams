@@ -1,0 +1,16 @@
+name: Pirellone
+title: Pirellone
+tasks:
+- description1: "1. __[30 pts]__ Dopo aver sperimentato nella cella sopra, indica\
+    \ il numero minimo di luci che non possono essere spente.\n        "
+  tot_points: 30
+  ver_points: 30
+- description1: "2. __[30 pts]__ Fornisci il certificato che giustifica la prencedente\
+    \ risposta, cio\xE8 il gruppo di sottomatrici $2$x$2$ 'cattive'. Inserici la risposta\
+    \ in questo modo:\n\n        answer=[\n            [1,2,5,4],\n            [0,3,1,2]\n\
+    \        ]\n\nuna lista di array, dove nell'array sono presenti gli indici nella\
+    \ matrice di partenza che individuano la sottomatrice, i primi due numeri si riferiscono\
+    \ alle righe e i restanti alle colonne.\nQuindi il primo array indiviua la sottomatrice\
+    \ ottenuta intersecando le righe $1$,$2$ con le colonne $4$,$5$.\n        "
+  tot_points: 30
+  ver_points: 30
